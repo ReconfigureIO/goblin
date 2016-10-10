@@ -219,6 +219,8 @@ func DumpFields(fs *ast.FieldList, fset *token.FileSet) []map[string]interface{}
 	for i, v := range fs.List {
 		results[i] = DumpField(v, fset)
 	}
+
+	return results
 }
 
 func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
@@ -570,31 +572,27 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 }
 
 func main() {
-	// src is the input for which we want to inspect the AST.
-	src := `
-package p
-import "go/ast"
-type MyArray [16]int8
-const c = 1.0
-var X = f(3.14)*2 + c
-
-func blah(meh int8) int8 {
-    x := 0
-    return x
-}
-`
 
 	// Create the AST by parsing src.
 	fset := token.NewFileSet() // positions are relative to fset
-	f, err := parser.ParseFile(fset, "src.go", src, 0)
-	if err != nil {
-		panic(err)
+
+	if os.Args[1] == "--expr" {
+		f, err := parser.ParseExpr(os.Args[2])
+		if err != nil {
+			panic(err)
+		}
+
+		val, _ := json.Marshal(DumpExpr(f, fset))
+		os.Stdout.Write(val)
+	} else {
+		f, err := parser.ParseFile(fset, "main.go", nil, 0)
+		if err != nil {
+			panic(err)
+		}
+
+		// Inspect the AST and print all identifiers and literals.
+		val, _ := DumpFile(f, fset)
+		os.Stdout.Write(val)
 	}
-
-	// Inspect the AST and print all identifiers and literals.
-	val, _ := DumpFile(f, fset)
-	os.Stdout.Write(val)
-
-	// ast.Print(fset, f)
 
 }
