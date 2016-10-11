@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"os"
 	"strings"
+	"reflect"
 )
 
 // this file is like a paean to the problems with imperative languages
@@ -15,18 +16,18 @@ type ASTDump interface {
 	Dump(interface{}, *token.FileSet) ([]byte, error)
 }
 
-func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]string {
+func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	if i == nil {
 		return nil
 	}
 
-	return map[string]string {
+	return map[string]interface{} {
 		"kind": "ident",
 		"value": i.Name,
 	}
 }
 
-func DumpArray(a *ast.ArrayType, fset *token.FileSet) interface{} {
+func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{} {
 		"kind": "array-type",
 		"length": DumpExpr(a.Len, fset),
@@ -34,7 +35,7 @@ func DumpArray(a *ast.ArrayType, fset *token.FileSet) interface{} {
 	}
 }
 
-func DumpExpr(e ast.Expr, fset *token.FileSet) interface{} {
+func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	if e == nil {
 		return nil
 	}
@@ -153,7 +154,13 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) interface{} {
 		}
 	}
 
-	return nil
+	if n, ok := e.(*ast.BadExpr); ok {
+		pos := fset.PositionFor(n.From, true).String()
+		panic("Encountered BadExpr at " + pos + "; bailing out")
+	}
+
+	typ := reflect.TypeOf(e).String()
+	panic("Encountered unexpected " + typ + " node while processing an expression; bailing out")
 }
 
 func DumpExprs(exprs []ast.Expr, fset *token.FileSet) []interface{} {
@@ -174,12 +181,12 @@ func DumpBinaryExpr(b *ast.BinaryExpr, fset *token.FileSet) map[string]interface
 	}
 }
 
-func DumpBasicLit(l *ast.BasicLit, fset *token.FileSet) map[string]string {
+func DumpBasicLit(l *ast.BasicLit, fset *token.FileSet) map[string]interface{} {
 	if l == nil {
 		return nil
 	}
 
-	return map[string]string {
+	return map[string]interface{} {
 		"kind": "literal",
 		"token-kind": l.Kind.String(),
 		"value": l.Value,
@@ -322,7 +329,7 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	}
 }
 
-func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
+func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) []map[string]interface{} {
 	results := make([]map[string]interface{}, len(decl.Specs))
 	switch decl.Tok {
 	case token.IMPORT:
@@ -344,8 +351,11 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
 		for i, v := range decl.Specs {
 			results[i] = DumpValue("var", v.(*ast.ValueSpec), fset)
 		}
-
+	default:
+		pos := fset.PositionFor(decl.Pos(), true).String()
+		panic("Unrecognized token " + decl.Tok.String() + " in GenDecl at " + pos)
 	}
+
 
 	return results
 }
@@ -515,7 +525,15 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 		}
 	}
 
-	return nil
+	if n, ok := s.(*ast.BadStmt); ok {
+		pos := fset.PositionFor(n.From, true).String()
+		panic("Encountered BadStmt at " + pos + "; bailing out")
+	}
+
+	typ := reflect.TypeOf(s).String()
+	pos := fset.PositionFor(s.Pos(), true).String()
+	panic("Encountered unexpected " + typ + " node at " +
+		pos + "while processing an statement; bailing out")
 }
 
 func DumpBlock(b *ast.BlockStmt, fset *token.FileSet) []interface{} {
@@ -547,7 +565,15 @@ func DumpDecl(n ast.Decl, fset *token.FileSet) interface{} {
 		return DumpFuncDecl(decl, fset)
 	}
 
-	return nil
+	if decl, ok := n.(*ast.BadDecl); ok {
+		pos := fset.PositionFor(decl.From, true).String()
+		panic("Encountered BadDecl at " + pos + "; bailing out")
+	}
+
+	typ := reflect.TypeOf(n).String()
+	pos := fset.PositionFor(n.Pos(), true).String()
+	panic("Encountered unexpected " + typ + " node at " +
+		pos + "while processing an expression; bailing out")
 }
 
 func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
@@ -558,10 +584,6 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 			decls[i] = DumpDecl(v, fset)
 		}
 	}
-
-	// if f.Unresolved != nil {
-	// 	os.Stderr.Write([]byte("Warning: unresolved identifiers present in file"))
-	// }
 
 	return json.Marshal(map[string]interface{} {
 		"kind": "file",
@@ -576,6 +598,11 @@ func main() {
 	// Create the AST by parsing src.
 	fset := token.NewFileSet() // positions are relative to fset
 
+	if len(os.Args) != 3 {
+		println("Usage: ./goblin [--expr EXPR] [--file FILE]")
+		return
+	}
+
 	if os.Args[1] == "--expr" {
 		f, err := parser.ParseExpr(os.Args[2])
 		if err != nil {
@@ -584,8 +611,8 @@ func main() {
 
 		val, _ := json.Marshal(DumpExpr(f, fset))
 		os.Stdout.Write(val)
-	} else {
-		f, err := parser.ParseFile(fset, "main.go", nil, 0)
+	} else if os.Args[1] == "--file" {
+		f, err := parser.ParseFile(fset, os.Args[2], nil, 0)
 		if err != nil {
 			panic(err)
 		}
