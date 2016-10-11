@@ -1,4 +1,4 @@
-package main
+package goblin
 
 import (
 	"go/ast"
@@ -593,6 +593,15 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 	})
 }
 
+func TestExpr(s string) map[string]interface{} {
+	fset := token.NewFileSet() // positions are relative to fset
+
+	f, _ := parser.ParseExpr(s)
+
+	// Inspect the AST and print all identifiers and literals.
+	return DumpExpr(f, fset)
+}
+
 func main() {
 
 	// Create the AST by parsing src.
@@ -604,12 +613,7 @@ func main() {
 	}
 
 	if os.Args[1] == "--expr" {
-		f, err := parser.ParseExpr(os.Args[2])
-		if err != nil {
-			panic(err)
-		}
-
-		val, _ := json.Marshal(DumpExpr(f, fset))
+		val, _ := json.Marshal(TestExpr(os.Args[2]))
 		os.Stdout.Write(val)
 	} else if os.Args[1] == "--file" {
 		f, err := parser.ParseFile(fset, os.Args[2], nil, 0)
