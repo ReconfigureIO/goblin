@@ -5,7 +5,6 @@ import (
 	"go/parser"
 	"go/token"
 	"encoding/json"
-	"os"
 	"strings"
 	"reflect"
 )
