@@ -20,6 +20,26 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 		return nil
 	}
 
+	asLiteral := map[string]interface{} {
+		"kind": "literal",
+		"token-kind": "BOOL",
+	}
+
+	switch i.Name {
+	case "true":
+		asLiteral["value"]      = "true"
+		return asLiteral
+
+	case "false":
+		asLiteral["value"]      = "false"
+		return asLiteral
+
+	case "iota":
+		asLiteral["token-kind"] = "IOTA"
+		return asLiteral
+
+	}
+
 	return map[string]interface{} {
 		"kind": "ident",
 		"value": i.Name,
@@ -595,7 +615,10 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 func TestExpr(s string) map[string]interface{} {
 	fset := token.NewFileSet() // positions are relative to fset
 
-	f, _ := parser.ParseExpr(s)
+	f, err := parser.ParseExpr(s)
+	if (err != nil) {
+		panic(err.Error())
+	}
 
 	// Inspect the AST and print all identifiers and literals.
 	return DumpExpr(f, fset)

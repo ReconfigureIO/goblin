@@ -8,6 +8,10 @@ import ("goblin"
 	"strconv"
 )
 
+// TODO: install github.com/stretchr/testify
+// and make these unit tests use something other than just ==
+
+
 func TestRoundTripFloat(t *testing.T) {
 	f := func(flt float64) bool {
 		flt = math.Abs(flt)
@@ -21,6 +25,29 @@ func TestRoundTripFloat(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestIota(t *testing.T) {
+	gotten := goblin.TestExpr("iota")
+	if gotten["token-kind"] != "IOTA" {
+		t.Error("Didn't parse iota as a literal")
+	}
+
+}
+
+func TestTrue(t *testing.T) {
+	gotten := goblin.TestExpr("true")
+	if gotten["token-kind"] != "BOOL" || gotten["value"] != "true" {
+		t.Error("Didn't parse 'true' as true")
+	}
+}
+
+func TestFalse(t *testing.T) {
+	gotten := goblin.TestExpr("false")
+	if gotten["token-kind"] != "BOOL" || gotten["value"] != "false" {
+		t.Error("Didn't parse 'false' as false")
+	}
+}
+
 
 func TestProvidedFloat(t *testing.T) {
 	gotten := goblin.TestExpr("3.14")
