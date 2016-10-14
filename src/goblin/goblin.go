@@ -118,6 +118,10 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		}
 	}
 
+	if n, ok := e.(*ast.CallExpr); ok {
+		return DumpCall(n, fset)
+	}
+
 	if n, ok := e.(*ast.ParenExpr); ok {
 		return map[string]interface{} {
 			"kind": "expression",

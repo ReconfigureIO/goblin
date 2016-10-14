@@ -56,6 +56,13 @@ func TestProvidedFloat(t *testing.T) {
 	}
 }
 
+func TestCall(t *testing.T) {
+	gotten := goblin.TestExpr("foo(bar)")
+	if gotten["type"].(string) != "call" {
+		t.Error("Function calls not parsing correctly")
+	}
+}
+
 
 func TestRoundTripUInt(t *testing.T) {
 	f := func(int uint64) bool {
