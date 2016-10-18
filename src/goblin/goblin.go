@@ -48,9 +48,37 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 
 func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{} {
-		"kind": "array-type",
+		"kind": "array",
 		"length": DumpExpr(a.Len, fset),
-		"element": DumpExpr(a.Elt, fset),
+		"element": DumpExprAsType(a.Elt, fset),
+	}
+}
+
+// This is a weird hack to work around the fact that CompositeLits have an Expr
+// rather than a Type as their associated, well, type
+func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
+	var contained interface{} = nil
+	var typ string = ""
+	
+	if n, ok := e.(*ast.Ident); ok {
+		contained = DumpIdent(n, fset)
+		typ = "type-name"
+	}
+
+	if n, ok := e.(*ast.ArrayType); ok {
+		contained = DumpArray(n, fset)
+		typ = "array"
+	}
+
+	if typ == "" {
+		pos := fset.PositionFor(e.Pos(), true).String()
+		panic("Unrecognized Type in expr-as-type at " + pos)
+	}
+
+	return map[string]interface{} {
+		"kind": "type",
+		"type": typ,
+		"contained": contained,
 	}
 }
 
@@ -59,19 +87,19 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return nil
 	}
 
+	if n, ok := e.(*ast.Ident); ok {
+		return map[string]interface{} {
+			"kind": "expression",
+			"type": "identifier",
+			"value": DumpIdent(n, fset),
+		}
+	}
+
 	if n, ok := e.(*ast.Ellipsis); ok {
 		return map[string]interface{} {
 			"kind": "ellipsis",
 			"value": DumpExpr(n.Elt, fset),
 		}
-	}
-
-	if n, ok := e.(*ast.Ident); ok {
-		return DumpIdent(n, fset)
-	}
-
-	if n, ok := e.(*ast.ArrayType); ok {
-		return DumpArray(n, fset)
 	}
 
 	// is this the right place??
@@ -92,7 +120,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return map[string]interface{} {
 			"kind": "literal",
 			"type": "composite",
-			"declared": DumpExpr(n.Type, fset),
+			"declared": DumpExprAsType(n.Type, fset),
 			"values": DumpExprs(n.Elts, fset),
 		}
 	}
@@ -119,6 +147,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.CallExpr); ok {
+		
 		return DumpCall(n, fset)
 	}
 
@@ -144,7 +173,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"kind": "expression",
 			"type": "type-assert",
 			"target": DumpExpr(n.X, fset),
-			"asserted": DumpExpr(n.Type, fset),
+			"asserted": DumpExprAsType(n.Type, fset),
 		}
 	}
 
@@ -268,16 +297,20 @@ func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 
 func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	var contained interface{} = nil
+	var typ string = ""
 
 	if res, ok := t.Type.(*ast.Ident); ok {
+		typ = "type-name"
 		contained = DumpIdent(res, fset)
 	}
 
 	if res, ok := t.Type.(*ast.ArrayType); ok {
+		typ = "array"
 		contained = DumpArray(res, fset)
 	}
 
 	if res, ok := t.Type.(*ast.MapType); ok {
+		typ = "map"
 		contained = map[string]interface{} {
 			"key": DumpExpr(res.Key, fset),
 			"value": DumpExpr(res.Value, fset),
@@ -285,6 +318,7 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if res, ok := t.Type.(*ast.InterfaceType); ok {
+		typ = "interface"
 		contained = map[string]interface{} {
 			"methods": DumpFields(res.Methods, fset),
 			"incomplete": res.Incomplete,
@@ -292,21 +326,30 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if res, ok := t.Type.(*ast.ChanType); ok {
+		typ = "chan"
 		contained = map[string]interface{} {
 			"direction": res.Dir,
 			"value": DumpExpr(res.Value, fset),
 		}
 	}
 
+	if typ == "" {
+		pos := fset.PositionFor(t.Pos(), true).String()
+		panic("Unrecognized Type " + t.Name.Name + " in Type at " + pos)
+	}
+
 	return map[string]interface{} {
 		"kind": "type",
+		"type": typ,
 		"name": DumpIdent(t.Name, fset),
-		"contained": contained,
+		"value": contained,
 		"comments": DumpCommentGroup(t.Comment, fset),
 	}
 }
 
 func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
+	// TODO: Special checks for new() and make() here, and heuristics for casts
+	
 	return map[string]interface{} {
 		"kind": "expression",
 		"type": "call",
