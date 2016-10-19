@@ -390,6 +390,16 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 	// TODO: Special checks for new() and make() here, and heuristics for casts
 
+	if callee, ok := c.Fun.(*ast.Ident); ok {
+		if callee.Name == "new" {
+			return map[string]interface{} {
+				"kind": "expression",
+				"type": "new",
+				"argument": DumpExprAsType(c.Args[0], fset),
+			}
+		}
+	}
+
 	return map[string]interface{} {
 		"kind": "expression",
 		"type": "call",
