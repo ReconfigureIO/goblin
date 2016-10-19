@@ -28,7 +28,8 @@ func TestRoundTripFloat(t *testing.T) {
 
 func TestIota(t *testing.T) {
 	gotten := goblin.TestExpr("iota")
-	if gotten["token-kind"] != "IOTA" {
+	val := gotten["value"].(map[string]interface{})
+	if val["type"] != "IOTA" {
 		t.Error("Didn't parse iota as a literal")
 	}
 
@@ -36,14 +37,16 @@ func TestIota(t *testing.T) {
 
 func TestTrue(t *testing.T) {
 	gotten := goblin.TestExpr("true")
-	if gotten["token-kind"] != "BOOL" || gotten["value"] != "true" {
+	val := gotten["value"].(map[string]interface{})
+	if val["type"] != "BOOL" || val["value"] != "true" {
 		t.Error("Didn't parse 'true' as true")
 	}
 }
 
 func TestFalse(t *testing.T) {
 	gotten := goblin.TestExpr("false")
-	if gotten["token-kind"] != "BOOL" || gotten["value"] != "false" {
+	val := gotten["value"].(map[string]interface{})
+	if val["type"] != "BOOL" || val["value"] != "false" {
 		t.Error("Didn't parse 'false' as false")
 	}
 }

@@ -11,10 +11,6 @@ import (
 
 // this file is like a paean to the problems with imperative languages
 
-type ASTDump interface {
-	Dump(interface{}, *token.FileSet) ([]byte, error)
-}
-
 func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	if i == nil {
 		return nil
@@ -22,20 +18,20 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 
 	asLiteral := map[string]interface{} {
 		"kind": "literal",
-		"token-kind": "BOOL",
+		"type": "BOOL",
 	}
 
 	switch i.Name {
 	case "true":
-		asLiteral["value"]      = "true"
+		asLiteral["value"] = "true"
 		return asLiteral
 
 	case "false":
-		asLiteral["value"]      = "false"
+		asLiteral["value"] = "false"
 		return asLiteral
 
 	case "iota":
-		asLiteral["token-kind"] = "IOTA"
+		asLiteral["type"] = "IOTA"
 		return asLiteral
 
 	}
@@ -48,10 +44,84 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 
 func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{} {
-		"kind": "array-type",
+		"kind": "array",
 		"length": DumpExpr(a.Len, fset),
-		"element": DumpExpr(a.Elt, fset),
+		"element": DumpExprAsType(a.Elt, fset),
 	}
+}
+
+// This is a weird hack to work around the fact that a ton of Type nodes have an Expr
+// rather than a Type as their associated, well, type
+func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
+	var contained interface{} = nil
+	var typ string = ""
+
+	if e == nil {
+		return nil
+	}
+
+	if n, ok := e.(*ast.Ident); ok {
+		contained = DumpIdent(n, fset)
+		typ = "type-name"
+	}
+
+	if n, ok := e.(*ast.ArrayType); ok {
+		contained = DumpArray(n, fset)
+		typ = "array"
+	}
+
+	if n, ok := e.(*ast.StarExpr); ok {
+		contained = DumpExprAsType(n.X, fset)
+		typ = "pointer"
+	}
+
+	if n, ok := e.(*ast.MapType); ok {
+		contained = map[string]interface{} {
+			"key": DumpExprAsType(n.Key, fset),
+			"value": DumpExprAsType(n.Value, fset),
+		}
+		typ = "map"
+	}
+
+	if n, ok := e.(*ast.ChanType); ok {
+		contained = map[string]interface{} {
+			"direction": DumpChanDir(n.Dir),
+			"value": DumpExprAsType(n.Value, fset),
+		}
+		typ = "chan"
+	}
+
+	if n, ok := e.(*ast.StructType); ok {
+		contained = DumpFields(n.Fields, fset)
+		typ = "struct"
+	}
+
+	if typ == "" {
+		gotten := reflect.TypeOf(e).String()
+		pos := fset.PositionFor(e.Pos(), true).String()
+		panic("Unrecognized type " + gotten + " in expr-as-type at " + pos)
+	}
+
+	return map[string]interface{} {
+		"kind": "type",
+		"type": typ,
+		"contained": contained,
+	}
+}
+
+func DumpChanDir(d ast.ChanDir) string {
+	switch d {
+	case ast.SEND:
+		return "send"
+
+	case ast.RECV:
+		return "recv"
+
+	case ast.SEND | ast.RECV:
+		return "both"
+	}
+
+	panic("Unrecognized ChanDir value " + string(d))
 }
 
 func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
@@ -59,19 +129,23 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return nil
 	}
 
+	if _, ok := e.(*ast.ArrayType); ok {
+		return DumpExprAsType(e, fset)
+	}
+
+	if n, ok := e.(*ast.Ident); ok {
+		return map[string]interface{} {
+			"kind": "expression",
+			"type": "identifier",
+			"value": DumpIdent(n, fset),
+		}
+	}
+
 	if n, ok := e.(*ast.Ellipsis); ok {
 		return map[string]interface{} {
 			"kind": "ellipsis",
 			"value": DumpExpr(n.Elt, fset),
 		}
-	}
-
-	if n, ok := e.(*ast.Ident); ok {
-		return DumpIdent(n, fset)
-	}
-
-	if n, ok := e.(*ast.ArrayType); ok {
-		return DumpArray(n, fset)
 	}
 
 	// is this the right place??
@@ -92,7 +166,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return map[string]interface{} {
 			"kind": "literal",
 			"type": "composite",
-			"declared": DumpExpr(n.Type, fset),
+			"declared": DumpExprAsType(n.Type, fset),
 			"values": DumpExprs(n.Elts, fset),
 		}
 	}
@@ -119,6 +193,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.CallExpr); ok {
+
 		return DumpCall(n, fset)
 	}
 
@@ -144,14 +219,13 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"kind": "expression",
 			"type": "type-assert",
 			"target": DumpExpr(n.X, fset),
-			"asserted": DumpExpr(n.Type, fset),
+			"asserted": DumpExprAsType(n.Type, fset),
 		}
 	}
 
 	if n, ok := e.(*ast.UnaryExpr); ok {
 		return map[string]interface{} {
-			"kind": "expression",
-			"type": "unary",
+			"kind": "unary",
 			"target": DumpExpr(n.X, fset),
 			"operator": n.Op.String(),
 		}
@@ -161,6 +235,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return map[string]interface{} {
 			"kind": "expression",
 			"type": "slice",
+			"target": DumpExpr(n.X, fset),
 			"low": DumpExpr(n.Low, fset),
 			"high": DumpExpr(n.High, fset),
 			"max": DumpExpr(n.Max, fset),
@@ -200,7 +275,7 @@ func DumpBinaryExpr(b *ast.BinaryExpr, fset *token.FileSet) map[string]interface
 		"kind": "binary",
 		"left": DumpExpr(b.X, fset),
 		"right": DumpExpr(b.Y, fset),
-		"operation": b.Op.String(),
+		"operator": b.Op.String(),
 	}
 }
 
@@ -211,7 +286,7 @@ func DumpBasicLit(l *ast.BasicLit, fset *token.FileSet) map[string]interface{} {
 
 	return map[string]interface{} {
 		"kind": "literal",
-		"token-kind": l.Kind.String(),
+		"type": l.Kind.String(),
 		"value": l.Value,
 	}
 }
@@ -268,16 +343,20 @@ func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 
 func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	var contained interface{} = nil
+	var typ string = ""
 
 	if res, ok := t.Type.(*ast.Ident); ok {
+		typ = "type-name"
 		contained = DumpIdent(res, fset)
 	}
 
 	if res, ok := t.Type.(*ast.ArrayType); ok {
+		typ = "array"
 		contained = DumpArray(res, fset)
 	}
 
 	if res, ok := t.Type.(*ast.MapType); ok {
+		typ = "map"
 		contained = map[string]interface{} {
 			"key": DumpExpr(res.Key, fset),
 			"value": DumpExpr(res.Value, fset),
@@ -285,6 +364,7 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if res, ok := t.Type.(*ast.InterfaceType); ok {
+		typ = "interface"
 		contained = map[string]interface{} {
 			"methods": DumpFields(res.Methods, fset),
 			"incomplete": res.Incomplete,
@@ -292,25 +372,62 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if res, ok := t.Type.(*ast.ChanType); ok {
+		typ = "chan"
 		contained = map[string]interface{} {
 			"direction": res.Dir,
 			"value": DumpExpr(res.Value, fset),
 		}
 	}
 
+	if typ == "" {
+		pos := fset.PositionFor(t.Pos(), true).String()
+		panic("Unrecognized Type " + t.Name.Name + " in Type at " + pos)
+	}
+
 	return map[string]interface{} {
 		"kind": "type",
+		"type": typ,
 		"name": DumpIdent(t.Name, fset),
-		"contained": contained,
+		"value": contained,
 		"comments": DumpCommentGroup(t.Comment, fset),
 	}
 }
 
 func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
+	if callee, ok := c.Fun.(*ast.Ident); ok {
+		if callee.Name == "new" {
+			return map[string]interface{} {
+				"kind": "expression",
+				"type": "new",
+				"argument": DumpExprAsType(c.Args[0], fset),
+			}
+		}
+
+		if callee.Name == "make" {
+			return map[string]interface{} {
+				"kind": "expression",
+				"type": "make",
+				"argument": DumpExprAsType(c.Args[0], fset),
+				"rest": DumpExprs(c.Args[1:], fset),
+			}
+		}
+	}
+
+	callee := DumpExpr(c.Fun, fset)
+
+	if callee["kind"].(string) == "type" {
+		return map[string]interface{} {
+			"kind": "expression",
+			"type": "cast",
+			"target": DumpExpr(c.Args[0], fset),
+			"coerced-to": callee,
+		}
+	}
+
 	return map[string]interface{} {
 		"kind": "expression",
 		"type": "call",
-		"function": DumpExpr(c.Fun, fset),
+		"function": callee,
 		"arguments": DumpExprs(c.Args, fset),
 		"ellipsis": c.Ellipsis != token.NoPos,
 	}
@@ -346,7 +463,7 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	return map[string]interface{} {
 		"kind": kind,
 		"names": processedNames,
-		"type": DumpExpr(spec.Type, fset),
+		"type": DumpExprAsType(spec.Type, fset),
 		"values": processedValues,
 		"comments": DumpCommentGroup(spec.Doc, fset),
 	}
@@ -626,4 +743,22 @@ func TestExpr(s string) map[string]interface{} {
 
 	// Inspect the AST and print all identifiers and literals.
 	return DumpExpr(f, fset)
+}
+
+func TestStmt(s string) []byte {
+	fset := token.NewFileSet() // positions are relative to fset
+
+	f, err := parser.ParseFile(fset, "stdin", "package p; func blah() { " + s + "}", 0)
+	if (err != nil) {
+		panic(err.Error())
+	}
+
+	// Inspect the AST and print all identifiers and literals.
+	res, err := DumpFile(f, fset)
+
+	if (err != nil) {
+		panic(err.Error())
+	}
+
+	return res
 }
