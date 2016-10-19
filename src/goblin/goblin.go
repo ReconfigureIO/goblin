@@ -60,6 +60,10 @@ func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	var contained interface{} = nil
 	var typ string = ""
 
+	if e == nil {
+		return nil
+	}
+
 	if n, ok := e.(*ast.Ident); ok {
 		contained = DumpIdent(n, fset)
 		typ = "type-name"
@@ -91,9 +95,15 @@ func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		typ = "chan"
 	}
 
+	if n, ok := e.(*ast.StructType); ok {
+		contained = DumpFields(n.Fields, fset)
+		typ = "struct"
+	}
+
 	if typ == "" {
+		gotten := reflect.TypeOf(e).String()
 		pos := fset.PositionFor(e.Pos(), true).String()
-		panic("Unrecognized Type in expr-as-type at " + pos)
+		panic("Unrecognized type " + gotten + " in expr-as-type at " + pos)
 	}
 
 	return map[string]interface{} {
@@ -388,8 +398,6 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 }
 
 func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
-	// TODO: Special checks for new() and make() here, and heuristics for casts
-
 	if callee, ok := c.Fun.(*ast.Ident); ok {
 		if callee.Name == "new" {
 			return map[string]interface{} {
@@ -459,7 +467,7 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	return map[string]interface{} {
 		"kind": kind,
 		"names": processedNames,
-		"type": DumpExpr(spec.Type, fset),
+		"type": DumpExprAsType(spec.Type, fset),
 		"values": processedValues,
 		"comments": DumpCommentGroup(spec.Doc, fset),
 	}
@@ -739,4 +747,22 @@ func TestExpr(s string) map[string]interface{} {
 
 	// Inspect the AST and print all identifiers and literals.
 	return DumpExpr(f, fset)
+}
+
+func TestStmt(s string) []byte {
+	fset := token.NewFileSet() // positions are relative to fset
+
+	f, err := parser.ParseFile(fset, "stdin", "package p; func blah() { " + s + "}", 0)
+	if (err != nil) {
+		panic(err.Error())
+	}
+
+	// Inspect the AST and print all identifiers and literals.
+	res, err := DumpFile(f, fset)
+
+	if (err != nil) {
+		panic(err.Error())
+	}
+
+	return res
 }

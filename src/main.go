@@ -19,6 +19,9 @@ func main() {
 	if os.Args[1] == "--expr" {
 		val, _ := json.Marshal(goblin.TestExpr(os.Args[2]))
 		os.Stdout.Write(val)
+	} else if os.Args[1] == "--stmt" {
+		val := goblin.TestStmt(os.Args[2])
+		os.Stdout.Write(val)
 	} else if os.Args[1] == "--file" {
 		f, err := parser.ParseFile(fset, os.Args[2], nil, 0)
 		if err != nil {
