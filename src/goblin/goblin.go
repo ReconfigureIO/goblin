@@ -11,10 +11,6 @@ import (
 
 // this file is like a paean to the problems with imperative languages
 
-type ASTDump interface {
-	Dump(interface{}, *token.FileSet) ([]byte, error)
-}
-
 func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	if i == nil {
 		return nil
@@ -22,20 +18,20 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 
 	asLiteral := map[string]interface{} {
 		"kind": "literal",
-		"token-kind": "BOOL",
+		"type": "BOOL",
 	}
 
 	switch i.Name {
 	case "true":
-		asLiteral["value"]      = "true"
+		asLiteral["value"] = "true"
 		return asLiteral
 
 	case "false":
-		asLiteral["value"]      = "false"
+		asLiteral["value"] = "false"
 		return asLiteral
 
 	case "iota":
-		asLiteral["token-kind"] = "IOTA"
+		asLiteral["type"] = "IOTA"
 		return asLiteral
 
 	}
@@ -290,7 +286,7 @@ func DumpBasicLit(l *ast.BasicLit, fset *token.FileSet) map[string]interface{} {
 
 	return map[string]interface{} {
 		"kind": "literal",
-		"token-kind": l.Kind.String(),
+		"type": l.Kind.String(),
 		"value": l.Value,
 	}
 }
