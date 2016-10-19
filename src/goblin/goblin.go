@@ -219,8 +219,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 
 	if n, ok := e.(*ast.UnaryExpr); ok {
 		return map[string]interface{} {
-			"kind": "expression",
-			"type": "unary",
+			"kind": "unary",
 			"target": DumpExpr(n.X, fset),
 			"operator": n.Op.String(),
 		}
@@ -230,6 +229,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return map[string]interface{} {
 			"kind": "expression",
 			"type": "slice",
+			"target": DumpExpr(n.X, fset),
 			"low": DumpExpr(n.Low, fset),
 			"high": DumpExpr(n.High, fset),
 			"max": DumpExpr(n.Max, fset),
@@ -269,7 +269,7 @@ func DumpBinaryExpr(b *ast.BinaryExpr, fset *token.FileSet) map[string]interface
 		"kind": "binary",
 		"left": DumpExpr(b.X, fset),
 		"right": DumpExpr(b.Y, fset),
-		"operation": b.Op.String(),
+		"operator": b.Op.String(),
 	}
 }
 
@@ -398,12 +398,32 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 				"argument": DumpExprAsType(c.Args[0], fset),
 			}
 		}
+
+		if callee.Name == "make" {
+			return map[string]interface{} {
+				"kind": "expression",
+				"type": "make",
+				"argument": DumpExprAsType(c.Args[0], fset),
+				"rest": DumpExprs(c.Args[1:], fset),
+			}
+		}
+	}
+
+	callee := DumpExpr(c.Fun, fset)
+
+	if callee["kind"].(string) == "type" {
+		return map[string]interface{} {
+			"kind": "expression",
+			"type": "cast",
+			"target": DumpExpr(c.Args[0], fset),
+			"coerced-to": callee,
+		}
 	}
 
 	return map[string]interface{} {
 		"kind": "expression",
 		"type": "call",
-		"function": DumpExpr(c.Fun, fset),
+		"function": callee,
 		"arguments": DumpExprs(c.Args, fset),
 		"ellipsis": c.Ellipsis != token.NoPos,
 	}
