@@ -54,12 +54,12 @@ func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	}
 }
 
-// This is a weird hack to work around the fact that CompositeLits have an Expr
+// This is a weird hack to work around the fact that a ton of Type nodes have an Expr
 // rather than a Type as their associated, well, type
 func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	var contained interface{} = nil
 	var typ string = ""
-	
+
 	if n, ok := e.(*ast.Ident); ok {
 		contained = DumpIdent(n, fset)
 		typ = "type-name"
@@ -68,6 +68,27 @@ func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	if n, ok := e.(*ast.ArrayType); ok {
 		contained = DumpArray(n, fset)
 		typ = "array"
+	}
+
+	if n, ok := e.(*ast.StarExpr); ok {
+		contained = DumpExprAsType(n.X, fset)
+		typ = "pointer"
+	}
+
+	if n, ok := e.(*ast.MapType); ok {
+		contained = map[string]interface{} {
+			"key": DumpExprAsType(n.Key, fset),
+			"value": DumpExprAsType(n.Value, fset),
+		}
+		typ = "map"
+	}
+
+	if n, ok := e.(*ast.ChanType); ok {
+		contained = map[string]interface{} {
+			"direction": DumpChanDir(n.Dir),
+			"value": DumpExprAsType(n.Value, fset),
+		}
+		typ = "chan"
 	}
 
 	if typ == "" {
@@ -82,9 +103,28 @@ func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 }
 
+func DumpChanDir(d ast.ChanDir) string {
+	switch d {
+	case ast.SEND:
+		return "send"
+
+	case ast.RECV:
+		return "recv"
+
+	case ast.SEND | ast.RECV:
+		return "both"
+	}
+
+	panic("Unrecognized ChanDir value " + string(d))
+}
+
 func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	if e == nil {
 		return nil
+	}
+
+	if _, ok := e.(*ast.ArrayType); ok {
+		return DumpExprAsType(e, fset)
 	}
 
 	if n, ok := e.(*ast.Ident); ok {
@@ -147,7 +187,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.CallExpr); ok {
-		
+
 		return DumpCall(n, fset)
 	}
 
@@ -349,7 +389,7 @@ func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 
 func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 	// TODO: Special checks for new() and make() here, and heuristics for casts
-	
+
 	return map[string]interface{} {
 		"kind": "expression",
 		"type": "call",
