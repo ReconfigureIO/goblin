@@ -507,58 +507,94 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 
 	if n, ok := s.(*ast.ReturnStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "return",
+			"kind": "statement",
+			"type": "return",
 			"values": DumpExprs(n.Results, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.AssignStmt); ok {
-		return map[string]interface{} {
-			"type": "statement",
-			"kind": "assign",
-			"left": DumpExprs(n.Lhs, fset),
-			"right": DumpExprs(n.Rhs, fset),
+		if n.Tok == token.ASSIGN {
+			return map[string]interface{} {
+				"kind": "statement",
+				"type": "assign",
+				"left": DumpExprs(n.Lhs, fset),
+				"right": DumpExprs(n.Rhs, fset),
+			}
+
+		} else if n.Tok == token.DEFINE {
+			return map[string]interface{} {
+				"kind": "statement",
+				"type": "define",
+				"left": DumpExprs(n.Lhs, fset),
+				"right": DumpExprs(n.Rhs, fset),
+			}
+	        }  else {
+			tok := n.Tok.String()
+			return map[string]interface{} {
+				"kind": "statement",
+				"type": "assign-operator",
+				"operator": tok[0:len(tok)-1],
+				"left": DumpExprs(n.Lhs, fset),
+				"right": DumpExprs(n.Rhs, fset),
+			}
 		}
+
 	}
 
 	if _, ok := s.(*ast.EmptyStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "empty",
+			"kind": "statement",
+			"type": "empty",
 		}
 	}
 
 	if n, ok := s.(*ast.ExprStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "expression",
+			"kind": "statement",
+			"type": "expression",
 			"value": DumpExpr(n.X, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.LabeledStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "labeled",
+			"kind": "statement",
+			"type": "labeled",
 			"label": DumpIdent(n.Label, fset),
 			"statement": DumpStmt(n.Stmt, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.BranchStmt); ok {
-		return map[string]interface{} {
-			"type": "statement",
-			"kind": "branch",
-			"name": DumpIdent(n.Label, fset),
-			"token": n.Tok.String(),
+		result := map[string]interface{} {
+			"kind": "statement",
 		}
+
+		switch n.Tok {
+		case token.BREAK:
+			result["type"] = "break"
+			result["label"] = DumpIdent(n.Label, fset)
+
+		case token.CONTINUE:
+			result["type"] = "continue"
+			result["label"] = DumpIdent(n.Label, fset)
+
+		case token.GOTO:
+			result["type"] = "goto"
+			result["label"] = DumpIdent(n.Label, fset)
+
+		case token.FALLTHROUGH:
+			result["type"] = "fallthrough"
+
+		}
+		return result
 	}
 
 	if n, ok := s.(*ast.RangeStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "range",
+			"kind": "statement",
+			"type": "range",
 			"key": DumpExpr(n.Key, fset),
 			"value": DumpExpr(n.Value, fset),
 			"target": DumpExpr(n.X, fset),
@@ -568,24 +604,24 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 
 	if n, ok := s.(*ast.DeclStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "declaration",
+			"kind": "statement",
+			"type": "declaration",
 			"target": DumpDecl(n.Decl, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.DeferStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "defer",
+			"kind": "statement",
+			"type": "defer",
 			"target": DumpCall(n.Call, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.IfStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "if",
+			"kind": "statement",
+			"type": "if",
 			"init": DumpStmt(n.Init, fset),
 			"condition": DumpExpr(n.Cond, fset),
 			"body": DumpBlock(n.Body, fset),
@@ -599,8 +635,8 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 
 	if n, ok := s.(*ast.ForStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "for",
+			"kind": "statement",
+			"type": "for",
 			"init": DumpStmt(n.Init, fset),
 			"condition": DumpExpr(n.Cond, fset),
 			"post": DumpStmt(n.Post, fset),
@@ -610,32 +646,33 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 
 	if n, ok := s.(*ast.GoStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "go",
+			"kind": "statement",
+			"type": "go",
 			"target": DumpCall(n.Call, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.SendStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "send",
+			"kind": "statement",
+			"type": "send",
+			"channel": DumpExpr(n.Chan, fset),
 			"value": DumpExpr(n.Value, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.SelectStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "select",
+			"kind": "statement",
+			"type": "select",
 			"body": DumpBlock(n.Body, fset),
 		}
 	}
 
 	if n, ok := s.(*ast.IncDecStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "crement",
+			"kind": "statement",
+			"type": "crement",
 			"target": DumpExpr(n.X, fset),
 			"operation": n.Tok.String(),
 		}
@@ -643,8 +680,8 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 
 	if n, ok := s.(*ast.TypeSwitchStmt); ok {
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "type-switch",
+			"kind": "statement",
+			"type": "type-switch",
 			"init": DumpStmt(n.Init, fset),
 			"assign": DumpStmt(n.Assign, fset),
 			"body": DumpBlock(n.Body, fset),
@@ -658,8 +695,8 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 		}
 
 		return map[string]interface{} {
-			"type": "statement",
-			"kind": "case-clause",
+			"kind": "statement",
+			"type": "case-clause",
 			"expressions": DumpExprs(n.List, fset),
 			"body": exprs,
 		}
