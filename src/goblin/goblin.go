@@ -9,7 +9,16 @@ import (
 	"reflect"
 )
 
-// this file is like a paean to the problems with imperative languages
+/* TODO: add something like this to catch nils:
+
+func NilNotAllowed(f interface {}) interface {
+    if (f == nil) panic();
+    return nil
+}
+
+and perhaps a corresponding NilAllowed? mumble mumble million-dollar mistake mumble
+
+*/
 
 func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	if i == nil {
@@ -786,16 +795,15 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 	decls := []interface{} {}
 	imps  := []interface{} {}
 	if f.Decls != nil {
-		importCount := 0
-		for ii := 0; ii < len(f.Decls); ii++ {
-			importCount = ii
-			if !IsImport(f.Decls[importCount]) {
+		var ii int
+		for ii = 0; ii < len(f.Decls); ii++ {
+			if !IsImport(f.Decls[ii]) {
 				break
 			}
 		}
 
-		imports := f.Decls[0:importCount]
-		actualDecls := f.Decls[importCount:len(f.Decls)]
+		imports := f.Decls[0:ii]
+		actualDecls := f.Decls[ii:len(f.Decls)]
 
 		decls = make([]interface{}, len(actualDecls))
 		for i, v := range actualDecls {
