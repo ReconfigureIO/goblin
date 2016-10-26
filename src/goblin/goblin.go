@@ -155,6 +155,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"type": "function",
 			"params": DumpFields(n.Type.Params, fset),
 			"results": DumpFields(n.Type.Results, fset),
+			"body": DumpBlock(n.Body, fset),
 		}
 	}
 
@@ -461,9 +462,10 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	}
 
 	return map[string]interface{} {
-		"kind": kind,
+		"kind": "decl",
+		"type": kind,
 		"names": processedNames,
-		"type": DumpExprAsType(spec.Type, fset),
+		"declared-type": DumpExprAsType(spec.Type, fset),
 		"values": processedValues,
 		"comments": DumpCommentGroup(spec.Doc, fset),
 	}
@@ -598,10 +600,10 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"key": DumpExpr(n.Key, fset),
 			"value": DumpExpr(n.Value, fset),
 			"target": DumpExpr(n.X, fset),
+			"is-assign": n.Tok == token.DEFINE,
 			"body": DumpBlock(n.Body, fset),
 		}
 	}
-
 	if n, ok := s.(*ast.DeclStmt); ok {
 		return map[string]interface{} {
 			"kind": "statement",
@@ -630,7 +632,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 	}
 
 	if n, ok := s.(*ast.BlockStmt); ok {
-		return DumpBlock(n, fset)
+		return DumpBlockAsStmt(n, fset)
 	}
 
 	if n, ok := s.(*ast.ForStmt); ok {
@@ -678,6 +680,16 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 		}
 	}
 
+	if n, ok := s.(*ast.SwitchStmt); ok {
+		return map[string]interface{} {
+			"kind": "statement",
+			"type": "switch",
+			"init": DumpStmt(n.Init, fset),
+			"condition": DumpExpr(n.Tag, fset),
+			"body": DumpBlock(n.Body, fset),
+		}
+	}
+
 	if n, ok := s.(*ast.TypeSwitchStmt); ok {
 		return map[string]interface{} {
 			"kind": "statement",
@@ -722,6 +734,14 @@ func DumpBlock(b *ast.BlockStmt, fset *token.FileSet) []interface{} {
 	return results
 }
 
+func DumpBlockAsStmt(b *ast.BlockStmt, fset *token.FileSet) map[string]interface{} {
+	return map[string]interface{} {
+		"kind": "statement",
+		"type": "block",
+		"body": DumpBlock(b, fset),
+	}
+}
+
 func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{} {
 		"kind": "decl",
@@ -753,12 +773,38 @@ func DumpDecl(n ast.Decl, fset *token.FileSet) interface{} {
 		pos + "while processing an expression; bailing out")
 }
 
+func IsImport(d ast.Decl) bool {
+	print("is import?")
+	if decl, ok := d.(*ast.GenDecl); ok {
+		return decl.Tok == token.IMPORT
+	}
+
+	return false
+}
+
 func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 	decls := []interface{} {}
+	imps  := []interface{} {}
 	if f.Decls != nil {
-		decls = make([]interface{}, len(f.Decls))
-		for i, v := range f.Decls {
+		importCount := 0
+		for ii := 0; ii < len(f.Decls); ii++ {
+			importCount = ii
+			if !IsImport(f.Decls[importCount]) {
+				break
+			}
+		}
+
+		imports := f.Decls[0:importCount]
+		actualDecls := f.Decls[importCount:len(f.Decls)]
+
+		decls = make([]interface{}, len(actualDecls))
+		for i, v := range actualDecls {
 			decls[i] = DumpDecl(v, fset)
+		}
+
+		imps = make([]interface{}, len(imports))
+		for i, v := range imports {
+			imps[i] = DumpDecl(v, fset)
 		}
 	}
 
@@ -767,6 +813,7 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 		"name": DumpIdent(f.Name, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
 		"declarations": decls,
+		"imports": imps,
 	})
 }
 
@@ -785,7 +832,7 @@ func TestExpr(s string) map[string]interface{} {
 func TestStmt(s string) []byte {
 	fset := token.NewFileSet() // positions are relative to fset
 
-	f, err := parser.ParseFile(fset, "stdin", "package p; func blah() { " + s + "}", 0)
+	f, err := parser.ParseFile(fset, "stdin", "package p; func blah(foo int, bar float64) string { " + s + "}", 0)
 	if (err != nil) {
 		panic(err.Error())
 	}
