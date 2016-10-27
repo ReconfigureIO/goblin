@@ -21,13 +21,7 @@ test:
 PACKAGES := $(shell find ./* -type d | grep -v vendor)
 
 coverage:
-	@echo "mode: set" > cover.out
-	@for package in $(PACKAGES); do \
-		if ls $${package}/*.go &> /dev/null; then  \
-		go test -coverprofile=$${package}/profile.out $${package}; fi; \
-		if test -f $${package}/profile.out; then \
-		cat $${package}/profile.out | grep -v "mode: set" >> cover.out; fi; \
-	done
+	@go test -coverprofile=cover.out
 	@-go tool cover -html=cover.out -o cover.html
 
 benchmark:

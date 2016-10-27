@@ -1,7 +1,7 @@
 Goblin
 ======
 
-`goblin` ~~is~~ will be the first stage in the eTeak pipeline: it takes a Go expression or file, converts its AST into JSON, and emits it to stdout for consumption at a later time. 
+`goblin` is an executable that uses Go's `ast`, `parser`, and `token` modules to dump a Go expression, statement, or file to JSON. It is small, fast, self-contained, and incurs no dependencies.
 
 ## Usage
 
@@ -22,14 +22,24 @@ I apologize for the semantic overlap associated with the vagueness of the words 
 
 **Why not use the `ast.Visitor` interface instead of recursing manually into every node?** Because `Visitor` is inherently side-effectual: it declares no return type, so it is not possible to use it to express an algebra (which is all this program really is).
 
+## Licensing
+
+`goblin` is open-source software © Reconfigure.io, released to the public under the terms of the Apache 2.0 license. A copy can be found under the LICENSE file in the project root.
+
+## Contributing
+
+Pull requests are enthusiastically accepted! 
+
+By participating in this project you agree to follow the [Contributor Code of Conduct][coc].
+
 ## TODO
 
 * Emit all AST nodes.
 * Ensure every node conforms to the above format.
 * Pull in github.com/stretchr/testify for assertions and glog for logging.
-* Reorganize the directory structure so that it works with `go get`.
-* Add a Makefile so I don't tear my hair out.
 
 ## Known Bugs
 
 * The built-in `make` and `new` functions can be shadowed. Since goblin expects `make` and `new` to take types as arguments, it will reject a shadowing as a syntax error. The chances of this happening in real code are pretty low, all things considered.
+
+[coc]: http://contributor-covenant.org/version/1/4/

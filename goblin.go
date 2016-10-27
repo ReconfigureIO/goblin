@@ -784,7 +784,6 @@ func DumpDecl(n ast.Decl, fset *token.FileSet) interface{} {
 }
 
 func IsImport(d ast.Decl) bool {
-	print("is import?")
 	if decl, ok := d.(*ast.GenDecl); ok {
 		return decl.Tok == token.IMPORT
 	}
