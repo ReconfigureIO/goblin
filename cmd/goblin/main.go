@@ -1,6 +1,6 @@
 package main
 
-import ("goblin"
+import ("github.com/Nerabus/goblin"
         "go/token"
 	"go/parser"
         "encoding/json"
