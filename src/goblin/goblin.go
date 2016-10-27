@@ -152,7 +152,8 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 
 	if n, ok := e.(*ast.Ellipsis); ok {
 		return map[string]interface{} {
-			"kind": "ellipsis",
+			"type": "ellipsis",
+			"kind": "type",
 			"value": DumpExpr(n.Elt, fset),
 		}
 	}
