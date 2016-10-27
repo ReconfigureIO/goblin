@@ -34,12 +34,11 @@ By participating in this project you agree to follow the [Contributor Code of Co
 
 ## TODO
 
-* Emit all AST nodes.
-* Ensure every node conforms to the above format.
+* Use JSON Schema to ensure well-formedness of the AST.
 * Pull in github.com/stretchr/testify for assertions and glog for logging.
 
-## Known Bugs
+## Known Issues
 
-* The built-in `make` and `new` functions can be shadowed. Since goblin expects `make` and `new` to take types as arguments, it will reject a shadowing as a syntax error. The chances of this happening in real code are pretty low, all things considered.
+* The built-in `make` and `new` functions can be shadowed. Since goblin expects `make` and `new` to take types as arguments, it will reject a shadowing as a syntax error. The chances of this happening in real code are pretty low, as shadowing built-in functions is discouraged in real-world code.
 
 [coc]: http://contributor-covenant.org/version/1/4/

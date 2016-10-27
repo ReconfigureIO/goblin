@@ -59,63 +59,86 @@ func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	}
 }
 
-// This is a weird hack to work around the fact that a ton of Type nodes have an Expr
-// rather than a Type as their associated, well, type
-func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
-	var contained interface{} = nil
-	var typ string = ""
 
+// This is a weird hack to work around the fact that a ton of Type nodes have an Expr
+// rather than a Type as their associated, well, type.
+func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	if e == nil {
 		return nil
 	}
 
 	if n, ok := e.(*ast.Ident); ok {
-		contained = DumpIdent(n, fset)
-		typ = "type-name"
+		return map[string]interface{} {
+			"kind": "type",
+			"type": "identifier",
+			"value": DumpIdent(n, fset),
+		}
 	}
 
 	if n, ok := e.(*ast.ArrayType); ok {
-		contained = DumpArray(n, fset)
-		typ = "array"
+		if n.Len == nil {
+			return map[string]interface{} {
+				"kind": "type",
+				"type": "slice",
+				"element": DumpExprAsType(n.Elt, fset),
+			}
+		} else {
+			return map[string]interface{} {
+				"kind": "type",
+				"type": "array",
+				"element": DumpExprAsType(n.Elt, fset),
+				"length": DumpExpr(n.Len, fset),
+			}
+		}
 	}
 
 	if n, ok := e.(*ast.StarExpr); ok {
-		contained = DumpExprAsType(n.X, fset)
-		typ = "pointer"
+		return map[string]interface{} {
+			"kind": "type",
+			"type": "pointer",
+			"contained": DumpExprAsType(n.X, fset),
+		}
 	}
 
 	if n, ok := e.(*ast.MapType); ok {
-		contained = map[string]interface{} {
+		return map[string]interface{} {
+			"kind": "type",
+			"type": "map",
 			"key": DumpExprAsType(n.Key, fset),
 			"value": DumpExprAsType(n.Value, fset),
 		}
-		typ = "map"
 	}
 
 	if n, ok := e.(*ast.ChanType); ok {
-		contained = map[string]interface{} {
+		return map[string]interface{} {
+			"kind": "type",
+			"type": "chan",
 			"direction": DumpChanDir(n.Dir),
 			"value": DumpExprAsType(n.Value, fset),
 		}
-		typ = "chan"
 	}
 
 	if n, ok := e.(*ast.StructType); ok {
-		contained = DumpFields(n.Fields, fset)
-		typ = "struct"
+		return map[string]interface{} {
+			"kind": "type",
+			"type": "struct",
+			"fields": DumpFields(n.Fields, fset),
+		}
 	}
 
-	if typ == "" {
-		gotten := reflect.TypeOf(e).String()
-		pos := fset.PositionFor(e.Pos(), true).String()
-		panic("Unrecognized type " + gotten + " in expr-as-type at " + pos)
+	if n, ok := e.(*ast.FuncType); ok {
+		return map[string]interface{} {
+			"kind": "type",
+			"type": "function",
+			"params": DumpFields(n.Params, fset),
+			"results": DumpFields(n.Results, fset),
+		}
 	}
 
-	return map[string]interface{} {
-		"kind": "type",
-		"type": typ,
-		"contained": contained,
-	}
+	// bail out
+	gotten := reflect.TypeOf(e).String()
+	pos := fset.PositionFor(e.Pos(), true).String()
+	panic("Unrecognized type " + gotten + " in expr-as-type at " + pos)
 }
 
 func DumpChanDir(d ast.ChanDir) string {
@@ -481,7 +504,7 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	}
 }
 
-func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) []map[string]interface{} {
+func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
 	results := make([]map[string]interface{}, len(decl.Specs))
 	switch decl.Tok {
 	case token.IMPORT:
@@ -509,6 +532,11 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) []map[string]interface{
 	}
 
 
+	// HIGHLY MORALLY DUBIOUS HACK: we seem to be getting spurious arrays in top-level var
+	// declarations. until I can track these down, this hack has to persist
+	if len(results) == 1 {
+		return results[0]
+	}
 	return results
 }
 
