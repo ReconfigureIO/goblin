@@ -50,6 +50,12 @@ func TestFalse(t *testing.T) {
 	}
 }
 
+func TestProvidedImag(t *testing.T) {
+	gotten := TestExpr("1.414i")
+	if gotten["type"] != "IMAG" || gotten["value"] != "1.414i" {
+		t.Error("Imaginary numbers not parsing correctly")
+	}
+}
 
 func TestProvidedFloat(t *testing.T) {
 	gotten := TestExpr("3.14")
