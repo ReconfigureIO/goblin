@@ -16,7 +16,7 @@ LDFLAGS := -X 'main.version=$(VERSION)' \
 
 # development tasks
 test:
-	go test $$(go list ./... | grep -v /vendor/ | grep -v /cmd/)
+	go test -v $$(go list ./... | grep -v /vendor/ | grep -v /cmd/)
 
 PACKAGES := $(shell find ./* -type d | grep -v vendor)
 
