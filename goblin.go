@@ -865,6 +865,25 @@ func TestExpr(s string) map[string]interface{} {
 	return DumpExpr(f, fset)
 }
 
+func TestFile(p string) []byte {
+	fset := token.NewFileSet()
+
+	f, err := parser.ParseFile(fset, p, nil, 0)
+
+	if (err != nil) {
+		panic(err.Error())
+	}
+
+	// Inspect the AST and print all identifiers and literals.
+	res, err := DumpFile(f, fset)
+
+	if (err != nil) {
+		panic(err.Error())
+	}
+
+	return res
+}
+
 func TestStmt(s string) []byte {
 	fset := token.NewFileSet() // positions are relative to fset
 
