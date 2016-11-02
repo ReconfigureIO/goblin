@@ -1,0 +1,20 @@
+{
+    "kind": "expression",
+    "type": "selector",
+    "target": {
+        "kind": "expression",
+        "type": "identifier",
+        "qualifier": {
+            "kind": "ident",
+            "value": "foo"
+        },
+        "value": {
+            "kind": "ident",
+            "value": "bar"
+        }
+    },
+    "field": {
+        "kind": "ident",
+        "value": "baz"
+    }
+}

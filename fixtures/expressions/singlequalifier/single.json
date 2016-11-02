@@ -1,0 +1,12 @@
+{
+    "kind": "expression",
+    "type": "identifier",
+    "qualifier": {
+        "kind": "ident",
+        "value": "foo"
+    },
+    "value": {
+        "kind": "ident",
+        "value": "bar"
+    }
+}
