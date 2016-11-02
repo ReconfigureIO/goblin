@@ -2,8 +2,11 @@ package goblin
 
 import ("testing"
         "testing/quick"
+	"encoding/json"
+	"io/ioutil"
 	"fmt"
 	"math"
+	"reflect"
 	"strconv"
 )
 
@@ -22,6 +25,73 @@ func TestRoundTripFloat(t *testing.T) {
 
 	if err := quick.Check(f, nil); err != nil {
 		t.Error(err)
+	}
+}
+
+type Fixture struct {
+	name string
+	goPath string
+	jsonPath string
+}
+
+func TestPackageFixtures(t *testing.T) {
+	fixtures := []Fixture {
+		Fixture{"helloworld",
+			"fixtures/packages/helloworld/helloworld.go",
+			"fixtures/packages/helloworld/helloworld.json",
+		},
+	}
+
+	for _, fix := range fixtures {
+		gotten := TestFile(fix.goPath)
+		needed, _ := ioutil.ReadFile(fix.jsonPath)
+
+		var gottenJ, neededJ interface{}
+
+		err := json.Unmarshal(gotten, &gottenJ)
+		if err != nil {
+			panic("error reading " + fix.goPath + ": " + err.Error())
+		}
+
+		err = json.Unmarshal(needed, &neededJ)
+		if err != nil {
+			panic("error reading " + fix.jsonPath + ": " + err.Error())
+		}
+
+		t.Run(fix.name, func(tt *testing.T) {
+			if !reflect.DeepEqual(gottenJ, neededJ) {
+				t.Error("equality comparison failed!")
+			}
+		})
+	}
+}
+
+func TestExpressionFixtures(t *testing.T) {
+	fixtures := []Fixture {
+		Fixture{
+			"map literal",
+			"fixtures/expressions/mapliteral/map.go.txt",
+			"fixtures/expressions/mapliteral/map.json",
+		},
+	}
+
+	for _, fix := range fixtures {
+		gottenText, _ := ioutil.ReadFile(fix.goPath)
+		gotten := TestExpr(string(gottenText))
+		needed, _ := ioutil.ReadFile(fix.jsonPath)
+
+		var neededJ interface{}
+
+		err := json.Unmarshal(needed, &neededJ)
+		if err != nil {
+			panic("error reading " + fix.jsonPath + ": " + err.Error())
+		}
+
+		t.Run(fix.name, func(tt *testing.T) {
+			if !reflect.DeepEqual(gotten, neededJ) {
+				t.Error("equality comparison failed!")
+			}
+		})
 	}
 }
 

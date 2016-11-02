@@ -1,0 +1,5 @@
+map[string]int8 {
+	"Bleach": 1989,
+	"Nevermind": 1991,
+	"In Utero": 1993,
+}
