@@ -1,18 +1,18 @@
 package goblin
 
-import ("testing"
-        "testing/quick"
+import (
 	"encoding/json"
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"math"
 	"reflect"
 	"strconv"
+	"testing"
+	"testing/quick"
 )
 
 // TODO: install github.com/stretchr/testify
 // and make these unit tests use something other than just ==
-
 
 func TestRoundTripFloat(t *testing.T) {
 	f := func(flt float64) bool {
@@ -29,13 +29,13 @@ func TestRoundTripFloat(t *testing.T) {
 }
 
 type Fixture struct {
-	name string
-	goPath string
+	name     string
+	goPath   string
 	jsonPath string
 }
 
 func TestPackageFixtures(t *testing.T) {
-	fixtures := []Fixture {
+	fixtures := []Fixture{
 		Fixture{"helloworld",
 			"fixtures/packages/helloworld/helloworld.go",
 			"fixtures/packages/helloworld/helloworld.json",
@@ -67,11 +67,21 @@ func TestPackageFixtures(t *testing.T) {
 }
 
 func TestExpressionFixtures(t *testing.T) {
-	fixtures := []Fixture {
+	fixtures := []Fixture{
 		Fixture{
 			"map literal",
 			"fixtures/expressions/mapliteral/map.go.txt",
 			"fixtures/expressions/mapliteral/map.json",
+		},
+		Fixture{
+			"single qualifier",
+			"fixtures/expressions/singlequalifier/single.go.txt",
+			"fixtures/expressions/singlequalifier/single.json",
+		},
+		Fixture{
+			"double qualifier",
+			"fixtures/expressions/doublequalifier/double.go.txt",
+			"fixtures/expressions/doublequalifier/double.json",
 		},
 	}
 
@@ -140,7 +150,6 @@ func TestCall(t *testing.T) {
 		t.Error("Function calls not parsing correctly")
 	}
 }
-
 
 func TestRoundTripUInt(t *testing.T) {
 	f := func(int uint64) bool {
