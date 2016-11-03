@@ -59,9 +59,7 @@ func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	}
 }
 
-// This is a weird hack to work around the fact that a ton of Type nodes have an Expr
-// rather than a Type as their associated, well, type.
-func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
+func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	if e == nil {
 		return nil
 	}
@@ -132,6 +130,16 @@ func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"params":  DumpFields(n.Params, fset),
 			"results": DumpFields(n.Results, fset),
 		}
+	}
+
+	return nil
+}
+
+func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
+	result := AttemptExprAsType(e, fset)
+
+	if result != nil {
+		return result
 	}
 
 	// bail out
@@ -355,7 +363,7 @@ func DumpField(f *ast.Field, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{}{
 		"kind":          "field",
 		"names":         names,
-		"declared-type": DumpExpr(f.Type, fset),
+		"declared-type": DumpExprAsType(f.Type, fset),
 		"tag":           DumpBasicLit(f.Tag, fset),
 	}
 }
@@ -458,9 +466,15 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 		}
 	}
 
-	callee := DumpExpr(c.Fun, fset)
+	// try to parse the LHS as a type. if it succeeds and is *not* an identifier name,
+	// it's a cast. currently, we don't have any heuristics for determining whether an
+	// identifier is a typename (we don't even do the obvious cases like int8, float64
+	// et cetera). such heuristics can't be perfectly accurate due to cross-module type
+	// declarations, so it's probably more morally-correct, if less helpful, to treat them
+	// as function calls and disambiguate them at a further stage.
+	callee := AttemptExprAsType(c.Fun, fset)
 
-	if callee["kind"].(string) == "type" {
+	if callee != nil && callee["type"] != "identifier" {
 		return map[string]interface{}{
 			"kind":       "expression",
 			"type":       "cast",
@@ -468,6 +482,8 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 			"coerced-to": callee,
 		}
 	}
+
+	callee = DumpExpr(c.Fun, fset)
 
 	return map[string]interface{}{
 		"kind":      "expression",

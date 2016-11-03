@@ -1,0 +1,25 @@
+{
+    "type": "cast",
+    "kind": "expression",
+    "coerced-to": {
+        "kind": "type",
+        "type": "chan",
+        "direction": "both",
+        "value": {
+            "kind": "type",
+            "type": "identifier",
+            "value": {
+                "kind": "ident",
+                "value": "int"
+            }
+        }
+    },
+    "target": {
+        "kind": "expression",
+        "type": "identifier",
+        "value": {
+            "kind": "ident",
+            "value": "foo"
+        }
+    }
+}
