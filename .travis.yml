@@ -1,7 +1,42 @@
 language: go
-go: 
- - 1.7.1
+
+env:
+  global:
+    - PROJECT_NAME=goblin
+    - TARGET=x86_64-unknown-linux-gnu
+
+go:
+  - 1.7.1
 
 script:
- - make test
+  - make test
+  - make ${PROJECT_NAME}
 
+before_deploy:
+  - make ${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "kiKUlXXIOm7T4tetRg82vSzM6E9BSJ+BzTiNsqQkRQoNweykb5vM6xMVK66owlm4Luiap8GahTZ3Eb47s/r3/o6z/Dkw9AwxxIBBT94lmaaxb1Nu+olznNPDOMTUCoh5r3+xo9aFR4uwPhozaQKn0aVENrniCztSQMrg0C+HYxAqQdh5DXB2fG5Oc6w9/NMoLdI4y/zslgoWEF0NfS7fLz9KsGGkizYQ2eb/4MHA4+G2+dQr/o9NuLNYNIijSGliaQDLJsWjVulJTHEIhkyTwEbANph6Buw4OHMb2BCb+G+L4x+SMlI+hKsmhbHSlFPvXM3oliF3EbWsSNhMXD4kjebGMKxHvytTcAZKNVIgZBb2bC5hOwPsmGev0HcFw6a3L7NuNY4sf5E+c6Wb7frxyMdWEFSNWoseZXvlq+14JvIOKFEIOm79FzDHk/K7hBJ+/XXSRNP1XT/5wbxMj2R47V7OHGr1x0tz+MYe0Lsk6Q+G9Luv7T1x/CH0FeshCgLSg6Q/8T7d6eQS80g6wyEy40/L2UPQfIDNyZ9olXNAn1g9icTDqqL+7RZOsZpqhv29/t2sD+VwTgp6fYJADu6wKeWg3Vk2knzBTZKxYI55LNHCymeIoPfRajS4vG/IxzrjwSP0JUCQcDYEUPEhFCd+T185KVbxD58kAMS+EMErmD8="
+  file_glob: true
+  file: ${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz
+  # don't delete the artifacts from previous phases
+  skip_cleanup: true
+  # deploy when a new tag is pushed
+  on:
+    tags: true
+
+branches:
+  only:
+    # Pushes and PR to the master branch
+    - master
+    # IMPORTANT Ruby regex to match tags. Required, or travis won't trigger deploys when a new tag
+    # is pushed. This regex matches semantic versions like v1.2.3-rc4+2016.02.22
+    - /^v\d+\.\d+\.\d+.*$/
+
+notifications:
+  email:
+    on_success: never
+  slack:
+    secure: Ex/fJiLTku6vuVpQMXXZLSc975Q8Idawpj7lHknvVtJkatKLWmgwrhCGBM++C+XbIQ4R/fq753azBxspciUZu82OTm5yPUT8TRu4uwPRpjooHCmqpcuZdffNPL+O9KrhdoWd51X8MJ4MX1awaSNxY/qlKS6g/lCxMyNOvqpNwi/S7iGjZrKyxAIzs6PGfN1/pZr9ntd5uZR6hHXU3jdyAhjxEbzEZuqCbSh4i3ZPJPPt/ndJm3CACl3w+V4GVwtbMP5m5eHQ0VpbZd5AnTge7bRnEjN49obYJGUqSqfs5rW5Qa5VCj4cpOl5GmT9XNJaTD7TFnKjA20tb9MLTywr2GLgdqkdpxbF/hQ4IaY6A//SZ4GDL9VtjFA2RF0qRaCueEFWPooHkMWpGLHcSZm2K0Z3XW5SBIZHaWx0dbIcdsAYoJx/xlY61XpOVfF+iekqFKjSmE+yYVuzWDi/yWgSa4zKdztA7tBFUzVJpdIshUa6c5Ws/1IJCGT9VvgM1X/fr9dj+trt4YJVO3pGBtmEgEE16CyhTSpzzGZ4+uL2Xc2ZIczFG9HJ4Q+bQu8YirugUFQZFpHPxF40fxysXcETD3NgiOFP+Y34BIbCHfOWS5IV1jmhaCtZ3tRsI474UgMURWlJv4PCE/k9fjks5Su7+ffXw88lMEXJH0TeyJBLNi0=

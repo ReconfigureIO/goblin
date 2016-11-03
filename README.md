@@ -1,12 +1,14 @@
 Goblin
 ======
 
+[![Build Status](https://travis-ci.org/ReconfigureIO/goblin.svg?branch=master)](https://travis-ci.org/ReconfigureIO/goblin)
+
 `goblin` is an executable that uses Go's `ast`, `parser`, and `token` modules to dump a Go expression, statement, or file to JSON. It is small, fast, self-contained, and incurs no dependencies.
 
 ## Usage
 
-`goblin --file [FILENAME]` dumps a given file.  
-`goblin --expr EXPR` dumps an expression.  
+`goblin --file [FILENAME]` dumps a given file.
+`goblin --expr EXPR` dumps an expression.
 `goblin --stmt STMT` dumps a statement—due to a quirk in the Go AST API, this statement will be surrounded by a dummy function.
 
 ## Format
@@ -28,7 +30,7 @@ I apologize for the semantic overlap associated with the vagueness of the words 
 
 ## Contributing
 
-Pull requests are enthusiastically accepted! 
+Pull requests are enthusiastically accepted!
 
 By participating in this project you agree to follow the [Contributor Code of Conduct][coc].
 
