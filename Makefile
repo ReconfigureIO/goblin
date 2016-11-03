@@ -33,3 +33,6 @@ TARGETS := $(patsubst cmd/%/main.go,%,$(CMD_SOURCES))
 
 %: cmd/%/main.go
 	go build -ldflags "$(LDFLAGS)" -o $@ $<
+
+%-${TRAVIS_TAG}-${TARGET}.tar.gz: %
+	tar czf $@ $<
