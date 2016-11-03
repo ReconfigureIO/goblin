@@ -83,6 +83,11 @@ func TestExpressionFixtures(t *testing.T) {
 			"fixtures/expressions/doublequalifier/double.go.txt",
 			"fixtures/expressions/doublequalifier/double.json",
 		},
+		Fixture{
+			"cast to chan",
+			"fixtures/expressions/chancast/chan.go.txt",
+			"fixtures/expressions/chancast/chan.json",
+		},
 	}
 
 	for _, fix := range fixtures {
