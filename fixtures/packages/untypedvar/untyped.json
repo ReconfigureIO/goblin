@@ -1,0 +1,30 @@
+{
+    "comments": null,
+    "kind": "file",
+    "name": {
+        "kind": "ident",
+        "value": "p"
+    },
+    "imports": [],
+    "declarations": [
+        {
+            "comments": null,
+            "declared-type": null,
+            "kind": "decl",
+            "names": [
+                {
+                    "kind": "ident",
+                    "value": "a"
+                }
+            ],
+            "type": "var",
+            "values": [
+                {
+                    "kind": "literal",
+                    "type": "INT",
+                    "value": "1"
+                }
+            ]
+        }
+    ]
+}
