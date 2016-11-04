@@ -394,54 +394,12 @@ func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 	return result
 }
 
-func DumpType(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
-	var contained interface{} = nil
-	var typ string = ""
-
-	if res, ok := t.Type.(*ast.Ident); ok {
-		typ = "type-name"
-		contained = DumpIdent(res, fset)
-	}
-
-	if res, ok := t.Type.(*ast.ArrayType); ok {
-		typ = "array"
-		contained = DumpArray(res, fset)
-	}
-
-	if res, ok := t.Type.(*ast.MapType); ok {
-		typ = "map"
-		contained = map[string]interface{}{
-			"key":   DumpExpr(res.Key, fset),
-			"value": DumpExpr(res.Value, fset),
-		}
-	}
-
-	if res, ok := t.Type.(*ast.InterfaceType); ok {
-		typ = "interface"
-		contained = map[string]interface{}{
-			"methods":    DumpFields(res.Methods, fset),
-			"incomplete": res.Incomplete,
-		}
-	}
-
-	if res, ok := t.Type.(*ast.ChanType); ok {
-		typ = "chan"
-		contained = map[string]interface{}{
-			"direction": res.Dir,
-			"value":     DumpExpr(res.Value, fset),
-		}
-	}
-
-	if typ == "" {
-		pos := fset.PositionFor(t.Pos(), true).String()
-		panic("Unrecognized Type " + t.Name.Name + " in Type at " + pos)
-	}
-
+func DumpTypeAlias(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{}{
-		"kind":     "type",
-		"type":     typ,
+		"kind":     "decl",
+		"type":     "type-alias",
 		"name":     DumpIdent(t.Name, fset),
-		"value":    contained,
+		"value":    DumpExprAsType(t.Type, fset),
 		"comments": DumpCommentGroup(t.Comment, fset),
 	}
 }
@@ -541,7 +499,7 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
 
 	case token.TYPE:
 		for i, v := range decl.Specs {
-			results[i] = DumpType(v.(*ast.TypeSpec), fset)
+			results[i] = DumpTypeAlias(v.(*ast.TypeSpec), fset)
 		}
 
 	case token.CONST:

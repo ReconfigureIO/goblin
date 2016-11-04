@@ -40,6 +40,10 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/helloworld/helloworld.go",
 			"fixtures/packages/helloworld/helloworld.json",
 		},
+		Fixture{"simple type alias",
+			"fixtures/packages/simpletypealias/simpletypealias.go",
+			"fixtures/packages/simpletypealias/simpletypealias.json",
+		},
 	}
 
 	for _, fix := range fixtures {
