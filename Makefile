@@ -8,7 +8,7 @@ BUILDTIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 BUILDDATE := $(shell date -u +"%B %d, %Y")
 BUILDER := $(shell echo "`git config user.name` <`git config user.email`>")
 PKG_RELEASE ?= 1
-PROJECT_URL := "https://github.com/mrtazz/$(NAME)"
+PROJECT_URL := "https://github.com/ReconfigueIO/$(NAME)"
 LDFLAGS := -X 'main.version=$(VERSION)' \
            -X 'main.buildTime=$(BUILDTIME)' \
            -X 'main.builder=$(BUILDER)' \
