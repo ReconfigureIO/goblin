@@ -44,6 +44,10 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/simpletypealias/simpletypealias.go",
 			"fixtures/packages/simpletypealias/simpletypealias.json",
 		},
+		Fixture{"untyped top-level variable",
+			"fixtures/packages/untypedvar/untyped.go",
+			"fixtures/packages/untypedvar/untyped.json",
+		},
 	}
 
 	for _, fix := range fixtures {

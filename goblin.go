@@ -483,7 +483,7 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 		"kind":          "decl",
 		"type":          kind,
 		"names":         processedNames,
-		"declared-type": DumpExprAsType(spec.Type, fset),
+		"declared-type": AttemptExprAsType(spec.Type, fset),
 		"values":        processedValues,
 		"comments":      DumpCommentGroup(spec.Doc, fset),
 	}
@@ -516,11 +516,18 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
 		panic("Unrecognized token " + decl.Tok.String() + " in GenDecl at " + pos)
 	}
 
-	// HIGHLY MORALLY DUBIOUS HACK: we seem to be getting spurious arrays in top-level var
-	// declarations. until I can track these down, this hack has to persist
-	if len(results) == 1 {
-		return results[0]
+	// Imports are the only GenDecl that contains multiple specs. In all other cases,
+	// there will be only one item contained, so for ease of parsing we just return the
+	// bare item.
+	if decl.Tok != token.IMPORT {
+		if len(results) == 1 {
+			return results[0]
+		} else {
+			pos := fset.PositionFor(decl.Pos(), true).String()
+			panic("Unexpected multiple results in GenDecl node at " + pos)
+		}
 	}
+
 	return results
 }
 
