@@ -129,16 +129,14 @@ func TestIota(t *testing.T) {
 
 func TestTrue(t *testing.T) {
 	gotten := TestExpr("true")
-	val := gotten["value"].(map[string]interface{})
-	if val["type"] != "BOOL" || val["value"] != "true" {
+	if gotten["type"] != "BOOL" || gotten["value"] != "true" {
 		t.Error("Didn't parse 'true' as true")
 	}
 }
 
 func TestFalse(t *testing.T) {
 	gotten := TestExpr("false")
-	val := gotten["value"].(map[string]interface{})
-	if val["type"] != "BOOL" || val["value"] != "false" {
+	if gotten["type"] != "BOOL" || gotten["value"] != "false" {
 		t.Error("Didn't parse 'false' as false")
 	}
 }

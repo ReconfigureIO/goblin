@@ -173,10 +173,17 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.Ident); ok {
+
+		val := DumpIdent(n, fset)
+
+		if val["type"] == "BOOL" {
+			return val
+		}
+
 		return map[string]interface{}{
 			"kind":  "expression",
 			"type":  "identifier",
-			"value": DumpIdent(n, fset),
+			"value": val,
 		}
 	}
 
