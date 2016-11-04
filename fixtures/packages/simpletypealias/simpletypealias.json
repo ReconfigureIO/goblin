@@ -1,0 +1,48 @@
+{
+    "comments": null,
+    "declarations": [
+        {
+            "comments": null,
+            "kind": "decl",
+            "name": {
+                "kind": "ident",
+                "value": "MyArray"
+            },
+            "type": "type-alias",
+            "value": {
+                "element": {
+                    "kind": "type",
+                    "type": "identifier",
+                    "value": {
+                        "kind": "ident",
+                        "value": "int"
+                    }
+                },
+                "kind": "type",
+                "length": {
+                    "kind": "literal",
+                    "type": "INT",
+                    "value": "100"
+                },
+                "type": "array"
+            }
+        },
+        {
+            "body": [],
+            "kind": "decl",
+            "name": {
+                "kind": "ident",
+                "value": "main"
+            },
+            "params": [],
+            "results": null,
+            "type": "function"
+        }
+    ],
+    "imports": [],
+    "kind": "file",
+    "name": {
+        "kind": "ident",
+        "value": "main"
+    }
+}
