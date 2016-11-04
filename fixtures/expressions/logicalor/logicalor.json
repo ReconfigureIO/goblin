@@ -1,0 +1,14 @@
+{
+    "kind": "binary",
+    "left": {
+        "kind": "literal",
+        "type": "BOOL",
+        "value": "false"
+    },
+    "operator": "||",
+    "right": {
+        "kind": "literal",
+        "type": "BOOL",
+        "value": "true"
+    }
+}
