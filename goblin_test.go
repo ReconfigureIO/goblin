@@ -52,6 +52,10 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/qualifiedtype/qualified.go.txt",
 			"fixtures/packages/qualifiedtype/qualified.json",
 		},
+		Fixture{"infinite for-loop",
+			"fixtures/packages/emptyfor/empty.go",
+			"fixtures/packages/emptyfor/empty.json",
+		},
 	}
 
 	for _, fix := range fixtures {

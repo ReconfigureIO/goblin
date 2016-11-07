@@ -1,0 +1,37 @@
+{
+    "kind": "file",
+    "name": {
+        "kind": "ident",
+        "value": "main"
+    },
+    "comments": null,
+    "imports": [],
+    "declarations": [
+        {
+            "body": [
+                {
+                    "body": [],
+                    "condition": null,
+                    "init": {
+                        "kind": "statement",
+                        "type": "empty"
+                    },
+                    "kind": "statement",
+                    "post": {
+                        "kind": "statement",
+                        "type": "empty"
+                    },
+                    "type": "for"
+                }
+            ],
+            "kind": "decl",
+            "name": {
+                "kind": "ident",
+                "value": "main"
+            },
+            "params": [],
+            "results": null,
+            "type": "function"
+        }
+    ]
+}
