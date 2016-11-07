@@ -553,7 +553,10 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
 
 func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 	if s == nil {
-		return nil
+		return map[string]interface{}{
+			"kind": "statement",
+			"type": "empty",
+		}
 	}
 
 	if n, ok := s.(*ast.ReturnStmt); ok {
