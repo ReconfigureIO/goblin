@@ -1,0 +1,44 @@
+{
+    "comments": null,
+    "declarations": [
+        {
+            "body": [
+                {
+                    "body": [
+                        {
+                            "body": [
+                                {
+                                    "kind": "statement",
+                                    "type": "return",
+                                    "values": []
+                                }
+                            ],
+                            "kind": "statement",
+                            "statement": {
+                                "kind": "statement",
+                                "type": "empty"
+                            },
+                            "type": "select-clause"
+                        }
+                    ],
+                    "kind": "statement",
+                    "type": "select"
+                }
+            ],
+            "kind": "decl",
+            "name": {
+                "kind": "ident",
+                "value": "main"
+            },
+            "params": [],
+            "results": null,
+            "type": "function"
+        }
+    ],
+    "imports": [],
+    "kind": "file",
+    "name": {
+        "kind": "ident",
+        "value": "main"
+    }
+}

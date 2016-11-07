@@ -56,6 +56,11 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/emptyfor/empty.go",
 			"fixtures/packages/emptyfor/empty.json",
 		},
+		Fixture{
+			"select statement",
+			"fixtures/packages/select/select.go",
+			"fixtures/packages/select/select.json",
+		},
 	}
 
 	for _, fix := range fixtures {
