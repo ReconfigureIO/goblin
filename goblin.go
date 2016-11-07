@@ -72,6 +72,19 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		}
 	}
 
+	if n, ok := e.(*ast.SelectorExpr); ok {
+		lhs := DumpExpr(n.X, fset)
+
+		if lhs["type"] == "identifier" && lhs["qualifier"] == nil {
+			return map[string]interface{}{
+				"kind":      "type",
+				"type":      "identifier",
+				"qualifier": lhs["value"],
+				"value":     DumpIdent(n.Sel, fset),
+			}
+		}
+	}
+
 	if n, ok := e.(*ast.ArrayType); ok {
 		if n.Len == nil {
 			return map[string]interface{}{

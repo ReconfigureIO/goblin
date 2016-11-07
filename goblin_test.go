@@ -48,6 +48,10 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/untypedvar/untyped.go",
 			"fixtures/packages/untypedvar/untyped.json",
 		},
+		Fixture{"qualified type in function argument",
+			"fixtures/packages/qualifiedtype/qualified.go.txt",
+			"fixtures/packages/qualifiedtype/qualified.json",
+		},
 	}
 
 	for _, fix := range fixtures {
