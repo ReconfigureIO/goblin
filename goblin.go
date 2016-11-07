@@ -752,6 +752,21 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 		}
 	}
 
+	if n, ok := s.(*ast.CommClause); ok {
+		stmts := make([]interface{}, len(n.Body))
+		for i, v := range n.Body {
+			stmts[i] = DumpStmt(v, fset)
+		}
+
+		return map[string]interface{}{
+			"kind":      "statement",
+			"type":      "select-clause",
+			"statement": DumpStmt(n.Comm, fset),
+			"body":      stmts,
+		}
+
+	}
+
 	if n, ok := s.(*ast.CaseClause); ok {
 		exprs := make([]interface{}, len(n.Body))
 		for i, v := range n.Body {
