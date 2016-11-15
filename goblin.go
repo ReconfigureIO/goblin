@@ -403,7 +403,7 @@ func DumpFields(fs *ast.FieldList, fset *token.FileSet) []map[string]interface{}
 
 func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 	if g == nil {
-		return nil
+		return []string{}
 	}
 
 	result := make([]string, len(g.List))
@@ -800,12 +800,12 @@ func DumpBlockAsStmt(b *ast.BlockStmt, fset *token.FileSet) map[string]interface
 
 func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
 	return []interface{}{map[string]interface{}{
-		"kind":    "decl",
-		"type":    "function",
-		"name":    DumpIdent(f.Name, fset),
-		"body":    DumpBlock(f.Body, fset),
-		"params":  DumpFields(f.Type.Params, fset),
-		"results": DumpFields(f.Type.Results, fset),
+		"kind":     "decl",
+		"type":     "function",
+		"name":     DumpIdent(f.Name, fset),
+		"body":     DumpBlock(f.Body, fset),
+		"params":   DumpFields(f.Type.Params, fset),
+		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
 	}}
 }

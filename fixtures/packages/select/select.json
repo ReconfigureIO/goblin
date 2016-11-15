@@ -1,44 +1,48 @@
 {
-    "comments": null,
-    "declarations": [
-        {
+  "all-comments": [],
+  "comments": [],
+  "declarations": [
+    [
+      {
+        "body": [
+          {
             "body": [
-                {
-                    "body": [
-                        {
-                            "body": [
-                                {
-                                    "kind": "statement",
-                                    "type": "return",
-                                    "values": []
-                                }
-                            ],
-                            "kind": "statement",
-                            "statement": {
-                                "kind": "statement",
-                                "type": "empty"
-                            },
-                            "type": "select-clause"
-                        }
-                    ],
+              {
+                "body": [
+                  {
                     "kind": "statement",
-                    "type": "select"
-                }
+                    "type": "return",
+                    "values": []
+                  }
+                ],
+                "kind": "statement",
+                "statement": {
+                  "kind": "statement",
+                  "type": "empty"
+                },
+                "type": "select-clause"
+              }
             ],
-            "kind": "decl",
-            "name": {
-                "kind": "ident",
-                "value": "main"
-            },
-            "params": [],
-            "results": null,
-            "type": "function"
-        }
-    ],
-    "imports": [],
-    "kind": "file",
-    "name": {
-        "kind": "ident",
-        "value": "main"
-    }
+            "kind": "statement",
+            "type": "select"
+          }
+        ],
+        "comments": [],
+        "kind": "decl",
+        "name": {
+          "kind": "ident",
+          "value": "main"
+        },
+        "params": [],
+        "results": null,
+        "type": "function"
+      }
+    ]
+  ],
+  "imports": [],
+  "kind": "file",
+  "name": {
+    "kind": "ident",
+    "value": "main"
+  }
 }
