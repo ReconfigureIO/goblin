@@ -475,7 +475,8 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 func DumpImport(spec *ast.ImportSpec, fset *token.FileSet) map[string]interface{} {
 	res := map[string]interface{}{
 		"type":     "import",
-		"comments": DumpCommentGroup(spec.Doc, fset),
+		"doc":      DumpCommentGroup(spec.Doc, fset),
+		"comments": DumpCommentGroup(spec.Comment, fset),
 		"name":     DumpIdent(spec.Name, fset),
 		"path":     strings.Trim(spec.Path.Value, "\""),
 	}
@@ -505,7 +506,7 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 		"names":         processedNames,
 		"declared-type": AttemptExprAsType(spec.Type, fset),
 		"values":        processedValues,
-		"comments":      DumpCommentGroup(spec.Doc, fset),
+		"comments":      DumpCommentGroup(spec.Comment, fset),
 	}
 }
 
@@ -805,6 +806,7 @@ func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
 		"body":    DumpBlock(f.Body, fset),
 		"params":  DumpFields(f.Type.Params, fset),
 		"results": DumpFields(f.Type.Results, fset),
+		"comments": DumpCommentGroup(f.Doc, fset),
 	}}
 }
 
@@ -861,10 +863,16 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 		}
 	}
 
+	allComments := make([][]string, len(f.Comments))
+	for i, v := range f.Comments {
+		allComments[i] = DumpCommentGroup(v, fset)
+	}
+
 	return json.Marshal(map[string]interface{}{
 		"kind":         "file",
 		"name":         DumpIdent(f.Name, fset),
 		"comments":     DumpCommentGroup(f.Doc, fset),
+		"all-comments": allComments,
 		"declarations": decls,
 		"imports":      imps,
 	})
