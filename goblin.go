@@ -403,7 +403,7 @@ func DumpFields(fs *ast.FieldList, fset *token.FileSet) []map[string]interface{}
 
 func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 	if g == nil {
-		return nil
+		return []string{}
 	}
 
 	result := make([]string, len(g.List))
@@ -475,7 +475,8 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 func DumpImport(spec *ast.ImportSpec, fset *token.FileSet) map[string]interface{} {
 	res := map[string]interface{}{
 		"type":     "import",
-		"comments": DumpCommentGroup(spec.Doc, fset),
+		"doc":      DumpCommentGroup(spec.Doc, fset),
+		"comments": DumpCommentGroup(spec.Comment, fset),
 		"name":     DumpIdent(spec.Name, fset),
 		"path":     strings.Trim(spec.Path.Value, "\""),
 	}
@@ -505,12 +506,12 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 		"names":         processedNames,
 		"declared-type": AttemptExprAsType(spec.Type, fset),
 		"values":        processedValues,
-		"comments":      DumpCommentGroup(spec.Doc, fset),
+		"comments":      DumpCommentGroup(spec.Comment, fset),
 	}
 }
 
-func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
-	results := make([]map[string]interface{}, len(decl.Specs))
+func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) []interface{} {
+	results := make([]interface{}, len(decl.Specs))
 	switch decl.Tok {
 	case token.IMPORT:
 		for i, v := range decl.Specs {
@@ -534,18 +535,6 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) interface{} {
 	default:
 		pos := fset.PositionFor(decl.Pos(), true).String()
 		panic("Unrecognized token " + decl.Tok.String() + " in GenDecl at " + pos)
-	}
-
-	// Imports are the only GenDecl that contains multiple specs. In all other cases,
-	// there will be only one item contained, so for ease of parsing we just return the
-	// bare item.
-	if decl.Tok != token.IMPORT {
-		if len(results) == 1 {
-			return results[0]
-		} else {
-			pos := fset.PositionFor(decl.Pos(), true).String()
-			panic("Unexpected multiple results in GenDecl node at " + pos)
-		}
 	}
 
 	return results
@@ -660,7 +649,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 		return map[string]interface{}{
 			"kind":   "statement",
 			"type":   "declaration",
-			"target": DumpDecl(n.Decl, fset),
+			"target": DumpDecl(n.Decl, fset)[0],
 		}
 	}
 
@@ -809,18 +798,19 @@ func DumpBlockAsStmt(b *ast.BlockStmt, fset *token.FileSet) map[string]interface
 	}
 }
 
-func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{} {
-	return map[string]interface{}{
-		"kind":    "decl",
-		"type":    "function",
-		"name":    DumpIdent(f.Name, fset),
-		"body":    DumpBlock(f.Body, fset),
-		"params":  DumpFields(f.Type.Params, fset),
-		"results": DumpFields(f.Type.Results, fset),
-	}
+func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
+	return []interface{}{map[string]interface{}{
+		"kind":     "decl",
+		"type":     "function",
+		"name":     DumpIdent(f.Name, fset),
+		"body":     DumpBlock(f.Body, fset),
+		"params":   DumpFields(f.Type.Params, fset),
+		"results":  DumpFields(f.Type.Results, fset),
+		"comments": DumpCommentGroup(f.Doc, fset),
+	}}
 }
 
-func DumpDecl(n ast.Decl, fset *token.FileSet) interface{} {
+func DumpDecl(n ast.Decl, fset *token.FileSet) []interface{} {
 	if decl, ok := n.(*ast.GenDecl); ok {
 		return DumpGenDecl(decl, fset)
 	}
@@ -873,10 +863,16 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 		}
 	}
 
+	allComments := make([][]string, len(f.Comments))
+	for i, v := range f.Comments {
+		allComments[i] = DumpCommentGroup(v, fset)
+	}
+
 	return json.Marshal(map[string]interface{}{
 		"kind":         "file",
 		"name":         DumpIdent(f.Name, fset),
 		"comments":     DumpCommentGroup(f.Doc, fset),
+		"all-comments": allComments,
 		"declarations": decls,
 		"imports":      imps,
 	})

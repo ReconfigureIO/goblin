@@ -1,47 +1,51 @@
 {
-    "comments": null,
+    "all-comments": [],
+    "comments": [],
     "declarations": [
-        {
-            "body": [
-                {
-                    "kind": "statement",
-                    "type": "expression",
-                    "value": {
-                        "arguments": [
-                            {
-                                "kind": "literal",
-                                "type": "STRING",
-                                "value": "\"Hello, world!\""
-                            }
-                        ],
-                        "ellipsis": false,
-                        "function": {
-                            "kind": "expression",
-                            "type": "identifier",
-                            "value": {
-                                "kind": "ident",
-                                "value": "println"
-                            }
-                        },
-                        "kind": "expression",
-                        "type": "call"
-                    }
-                }
-            ],
-            "kind": "decl",
-            "name": {
-                "kind": "ident",
-                "value": "main"
-            },
-            "params": [],
-            "results": null,
-            "type": "function"
-        }
+	[
+	    {
+		"body": [
+		    {
+			"kind": "statement",
+			"type": "expression",
+			"value": {
+			    "arguments": [
+				{
+				    "kind": "literal",
+				    "type": "STRING",
+				    "value": "\"Hello, world!\""
+				}
+			    ],
+			    "ellipsis": false,
+			    "function": {
+				"kind": "expression",
+				"type": "identifier",
+				"value": {
+				    "kind": "ident",
+				    "value": "println"
+				}
+			    },
+			    "kind": "expression",
+			    "type": "call"
+			}
+		    }
+		],
+		"comments": [],
+		"kind": "decl",
+		"name": {
+		    "kind": "ident",
+		    "value": "main"
+		},
+		"params": [],
+		"results": null,
+		"type": "function"
+	    }
+	]
     ],
     "imports": [],
     "kind": "file",
     "name": {
-        "kind": "ident",
-        "value": "main"
+	"kind": "ident",
+	"value": "main"
     }
 }

@@ -25,7 +25,7 @@ func main() {
 		println(version)
 		return
 	} else if *fileFlag != "" {
-		f, err := parser.ParseFile(fset, *fileFlag, nil, 0)
+		f, err := parser.ParseFile(fset, *fileFlag, nil, parser.ParseComments)
 		if err != nil {
 			panic(err)
 		}
@@ -35,10 +35,10 @@ func main() {
 		os.Stdout.Write(val)
 	} else if *exprFlag != "" {
 		val, _ := json.Marshal(goblin.TestExpr(*exprFlag))
-		os.Stdout.Write(val)		
+		os.Stdout.Write(val)
 	} else if *stmtFlag != "" {
 		val := goblin.TestStmt(*stmtFlag)
-		os.Stdout.Write(val)		
+		os.Stdout.Write(val)
 	} else {
 		flag.PrintDefaults()
 	}
