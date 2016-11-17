@@ -61,6 +61,11 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/select/select.go",
 			"fixtures/packages/select/select.json",
 		},
+		Fixture{
+			"struct alias",
+			"fixtures/packages/struct/struct.go",
+			"fixtures/packages/struct/struct.json",
+		},
 	}
 
 	for _, fix := range fixtures {

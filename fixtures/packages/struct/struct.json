@@ -1,0 +1,160 @@
+{
+    "all-comments": [],
+    "comments": [],
+    "declarations": [
+        [
+            {
+                "comments": [],
+                "kind": "decl",
+                "name": {
+                    "kind": "ident",
+                    "value": "MyStruct"
+                },
+                "type": "type-alias",
+                "value": {
+                    "fields": [
+                        {
+                            "declared-type": {
+                                "contained": {
+                                    "kind": "type",
+                                    "type": "identifier",
+                                    "value": {
+                                        "kind": "ident",
+                                        "value": "int8"
+                                    }
+                                },
+                                "kind": "type",
+                                "type": "pointer"
+                            },
+                            "kind": "field",
+                            "names": [
+                                {
+                                    "kind": "ident",
+                                    "value": "aPointer"
+                                }
+                            ],
+                            "tag": null
+                        },
+                        {
+                            "declared-type": {
+                                "element": {
+                                    "kind": "type",
+                                    "type": "identifier",
+                                    "value": {
+                                        "kind": "ident",
+                                        "value": "string"
+                                    }
+                                },
+                                "kind": "type",
+                                "type": "slice"
+                            },
+                            "kind": "field",
+                            "names": [
+                                {
+                                    "kind": "ident",
+                                    "value": "aSlice"
+                                }
+                            ],
+                            "tag": null
+                        },
+                        {
+                            "declared-type": {
+                                "element": {
+                                    "kind": "type",
+                                    "type": "identifier",
+                                    "value": {
+                                        "kind": "ident",
+                                        "value": "float64"
+                                    }
+                                },
+                                "kind": "type",
+                                "length": {
+                                    "kind": "literal",
+                                    "type": "INT",
+                                    "value": "4"
+                                },
+                                "type": "array"
+                            },
+                            "kind": "field",
+                            "names": [
+                                {
+                                    "kind": "ident",
+                                    "value": "anArray"
+                                }
+                            ],
+                            "tag": null
+                        },
+                        {
+                            "declared-type": {
+                                "direction": "recv",
+                                "kind": "type",
+                                "type": "chan",
+                                "value": {
+                                    "kind": "type",
+                                    "type": "identifier",
+                                    "value": {
+                                        "kind": "ident",
+                                        "value": "int8"
+                                    }
+                                }
+                            },
+                            "kind": "field",
+                            "names": [
+                                {
+                                    "kind": "ident",
+                                    "value": "fromChan"
+                                }
+                            ],
+                            "tag": null
+                        },
+                        {
+                            "declared-type": {
+                                "direction": "send",
+                                "kind": "type",
+                                "type": "chan",
+                                "value": {
+                                    "kind": "type",
+                                    "type": "identifier",
+                                    "value": {
+                                        "kind": "ident",
+                                        "value": "int64"
+                                    }
+                                }
+                            },
+                            "kind": "field",
+                            "names": [
+                                {
+                                    "kind": "ident",
+                                    "value": "toChan"
+                                }
+                            ],
+                            "tag": null
+                        }
+                    ],
+                    "kind": "type",
+                    "type": "struct"
+                }
+            }
+        ],
+        [
+            {
+                "body": [],
+                "comments": [],
+                "kind": "decl",
+                "name": {
+                    "kind": "ident",
+                    "value": "main"
+                },
+                "params": [],
+                "results": null,
+                "type": "function"
+            }
+        ]
+    ],
+    "imports": [],
+    "kind": "file",
+    "name": {
+        "kind": "ident",
+        "value": "main"
+    }
+}
