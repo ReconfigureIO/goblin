@@ -64,6 +64,10 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		return nil
 	}
 
+	if n, ok := e.(*ast.ParenExpr); ok {
+		return AttemptExprAsType(n.X, fset)
+	}
+
 	if n, ok := e.(*ast.Ident); ok {
 		return map[string]interface{}{
 			"kind":  "type",

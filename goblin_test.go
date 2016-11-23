@@ -109,6 +109,11 @@ func TestExpressionFixtures(t *testing.T) {
 			"fixtures/expressions/chancast/chan.go.txt",
 			"fixtures/expressions/chancast/chan.json",
 		},
+		Fixture{
+			"cast with parenthesized type",
+			"fixtures/expressions/parenintype/paren.go.txt",
+			"fixtures/expressions/parenintype/paren.json",
+		},
 	}
 
 	for _, fix := range fixtures {
