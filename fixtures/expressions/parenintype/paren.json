@@ -1,0 +1,29 @@
+{
+    "coerced-to": {
+        "element": {
+            "kind": "type",
+            "type": "identifier",
+            "value": {
+                "kind": "ident",
+                "value": "int"
+            }
+        },
+        "kind": "type",
+        "length": {
+            "kind": "literal",
+            "type": "INT",
+            "value": "2"
+        },
+        "type": "array"
+    },
+    "kind": "expression",
+    "target": {
+        "kind": "expression",
+        "type": "identifier",
+        "value": {
+            "kind": "ident",
+            "value": "beakman"
+        }
+    },
+    "type": "cast"
+}
