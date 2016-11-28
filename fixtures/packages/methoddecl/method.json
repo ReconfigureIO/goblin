@@ -1,0 +1,209 @@
+{
+  "all-comments": [],
+  "comments": [],
+  "declarations": [
+    [
+      {
+        "comments": [],
+        "kind": "decl",
+        "name": {
+          "kind": "ident",
+          "value": "Thing"
+        },
+        "type": "type-alias",
+        "value": {
+          "fields": [
+            {
+              "declared-type": {
+                "kind": "type",
+                "type": "identifier",
+                "value": {
+                  "kind": "ident",
+                  "value": "int8"
+                }
+              },
+              "kind": "field",
+              "names": [
+                {
+                  "kind": "ident",
+                  "value": "count"
+                }
+              ],
+              "tag": null
+            }
+          ],
+          "kind": "type",
+          "type": "struct"
+        }
+      }
+    ],
+    [
+      {
+        "body": [
+          {
+            "kind": "statement",
+            "left": [
+              {
+                "kind": "expression",
+                "qualifier": {
+                  "kind": "ident",
+                  "value": "t"
+                },
+                "type": "identifier",
+                "value": {
+                  "kind": "ident",
+                  "value": "count"
+                }
+              }
+            ],
+            "operator": "+",
+            "right": [
+              {
+                "kind": "literal",
+                "type": "INT",
+                "value": "1"
+              }
+            ],
+            "type": "assign-operator"
+          }
+        ],
+        "comments": [],
+        "kind": "decl",
+        "name": {
+          "kind": "ident",
+          "value": "Inc"
+        },
+        "params": [],
+        "reciever": {
+          "declared-type": {
+            "kind": "type",
+            "type": "identifier",
+            "value": {
+              "kind": "ident",
+              "value": "Thing"
+            }
+          },
+          "kind": "field",
+          "names": [
+            {
+              "kind": "ident",
+              "value": "t"
+            }
+          ],
+          "tag": null
+        },
+        "results": null,
+        "type": "method"
+      }
+    ],
+    [
+      {
+        "body": [
+          {
+            "kind": "statement",
+            "left": [
+              {
+                "kind": "expression",
+                "type": "identifier",
+                "value": {
+                  "kind": "ident",
+                  "value": "t"
+                }
+              }
+            ],
+            "right": [
+              {
+                "declared": {
+                  "kind": "type",
+                  "type": "identifier",
+                  "value": {
+                    "kind": "ident",
+                    "value": "Thing"
+                  }
+                },
+                "kind": "literal",
+                "type": "composite",
+                "values": [
+                  {
+                    "kind": "literal",
+                    "type": "INT",
+                    "value": "1"
+                  }
+                ]
+              }
+            ],
+            "type": "define"
+          },
+          {
+            "kind": "statement",
+            "type": "expression",
+            "value": {
+              "arguments": [],
+              "ellipsis": false,
+              "function": {
+                "kind": "expression",
+                "qualifier": {
+                  "kind": "ident",
+                  "value": "t"
+                },
+                "type": "identifier",
+                "value": {
+                  "kind": "ident",
+                  "value": "Inc"
+                }
+              },
+              "kind": "expression",
+              "type": "call"
+            }
+          },
+          {
+            "kind": "statement",
+            "type": "expression",
+            "value": {
+              "arguments": [
+                {
+                  "kind": "expression",
+                  "qualifier": {
+                    "kind": "ident",
+                    "value": "t"
+                  },
+                  "type": "identifier",
+                  "value": {
+                    "kind": "ident",
+                    "value": "count"
+                  }
+                }
+              ],
+              "ellipsis": false,
+              "function": {
+                "kind": "expression",
+                "type": "identifier",
+                "value": {
+                  "kind": "ident",
+                  "value": "println"
+                }
+              },
+              "kind": "expression",
+              "type": "call"
+            }
+          }
+        ],
+        "comments": [],
+        "kind": "decl",
+        "name": {
+          "kind": "ident",
+          "value": "main"
+        },
+        "params": [],
+        "results": null,
+        "type": "function"
+      }
+    ]
+  ],
+  "imports": [],
+  "kind": "file",
+  "name": {
+    "kind": "ident",
+    "value": "main"
+  }
+}
