@@ -814,13 +814,30 @@ func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
 	}}
 }
 
+func DumpMethodDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
+	return []interface{}{map[string]interface{}{
+		"kind":     "decl",
+		"type":     "method",
+		"reciever": DumpField(f.Recv.List[0], fset),
+		"name":     DumpIdent(f.Name, fset),
+		"body":     DumpBlock(f.Body, fset),
+		"params":   DumpFields(f.Type.Params, fset),
+		"results":  DumpFields(f.Type.Results, fset),
+		"comments": DumpCommentGroup(f.Doc, fset),
+	}}
+}
+
 func DumpDecl(n ast.Decl, fset *token.FileSet) []interface{} {
 	if decl, ok := n.(*ast.GenDecl); ok {
 		return DumpGenDecl(decl, fset)
 	}
 
 	if decl, ok := n.(*ast.FuncDecl); ok {
-		return DumpFuncDecl(decl, fset)
+		if decl.Recv == nil {
+			return DumpFuncDecl(decl, fset)
+		} else {
+			return DumpMethodDecl(decl, fset)
+		}
 	}
 
 	if decl, ok := n.(*ast.BadDecl); ok {
