@@ -5,12 +5,17 @@ env:
     - PROJECT_NAME=goblin
     - TARGET=x86_64-unknown-linux-gnu
 
+go_import_path: github.com/ReconfigureIO/goblin
+
 go:
   - 1.7.1
 
 script:
   - make test
+  - make coverage
   - make ${PROJECT_NAME}
+
+after_success: bash <(curl -s https://codecov.io/bash)
 
 before_deploy:
   - make ${PROJECT_NAME}-${TRAVIS_TAG}-${TARGET}.tar.gz

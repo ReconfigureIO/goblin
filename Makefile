@@ -21,8 +21,8 @@ test:
 PACKAGES := $(shell find ./* -type d | grep -v vendor)
 
 coverage:
-	@go test -coverprofile=cover.out
-	@-go tool cover -html=cover.out -o cover.html
+	@go test -coverprofile=coverage.txt -covermode=atomic
+	@-go tool cover -html=coverage.txt -o cover.html
 
 benchmark:
 	@echo "Running tests..."
