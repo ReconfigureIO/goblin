@@ -1,0 +1,21 @@
+{
+  "type": "expression",
+  "right": {
+    "value": {
+      "value": "matic",
+      "kind": "ident"
+    },
+    "type": "identifier",
+    "kind": "expression"
+  },
+  "operator": "+",
+  "left": {
+    "value": {
+      "value": "ill",
+      "kind": "ident"
+    },
+    "type": "identifier",
+    "kind": "expression"
+  },
+  "kind": "binary"
+}

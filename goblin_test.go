@@ -119,6 +119,11 @@ func TestExpressionFixtures(t *testing.T) {
 			"fixtures/expressions/parenintype/paren.go.txt",
 			"fixtures/expressions/parenintype/paren.json",
 		},
+		Fixture{
+			"adding two identifiers",
+			"fixtures/expressions/addition/addition.go.txt",
+			"fixtures/expressions/addition/addition.json",
+		},
 	}
 
 	for _, fix := range fixtures {
