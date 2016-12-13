@@ -351,6 +351,7 @@ func DumpExprs(exprs []ast.Expr, fset *token.FileSet) []interface{} {
 
 func DumpBinaryExpr(b *ast.BinaryExpr, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{}{
+		"type":     "expression",
 		"kind":     "binary",
 		"left":     DumpExpr(b.X, fset),
 		"right":    DumpExpr(b.Y, fset),
