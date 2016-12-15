@@ -1,11 +1,13 @@
 package main
 
-import ("encoding/json"
+import (
+	"encoding/json"
 	"flag"
 	"github.com/ReconfigureIO/goblin"
 	"go/parser"
-        "go/token"
-        "os")
+	"go/token"
+	"os"
+)
 
 // Assuming you build with `make`, this variable will be filled in automatically
 // (leaning on -ldflags -X).
@@ -13,15 +15,15 @@ var version string = "unspecified"
 
 func main() {
 	versionFlag := flag.Bool("v", false, "display goblin version")
-	fileFlag    := flag.String("file", "", "file to parse")
-	stmtFlag    := flag.String("stmt", "", "statement to parse")
-	exprFlag    := flag.String("expr", "", "expression to parse")
+	fileFlag := flag.String("file", "", "file to parse")
+	stmtFlag := flag.String("stmt", "", "statement to parse")
+	exprFlag := flag.String("expr", "", "expression to parse")
 
 	flag.Parse()
 	// Create the AST by parsing src.
 	fset := token.NewFileSet() // positions are relative to fset
 
-	if (*versionFlag) {
+	if *versionFlag {
 		println(version)
 		return
 	} else if *fileFlag != "" {

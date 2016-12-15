@@ -9,7 +9,7 @@ func (t Thing) Inc() {
 }
 
 func main() {
-	t := Thing { 1 }
+	t := Thing{1}
 	t.Inc()
 	println(t.count)
 }
