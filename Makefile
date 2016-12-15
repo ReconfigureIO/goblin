@@ -15,7 +15,10 @@ LDFLAGS := -X 'main.version=$(VERSION)' \
            -X 'main.goversion=$(GOVERSION)'
 
 # development tasks
-test:
+fmt:
+	go fmt -x ./...
+
+test: fmt
 	go test -v $$(go list ./... | grep -v /vendor/ | grep -v /cmd/)
 
 PACKAGES := $(shell find ./* -type d | grep -v vendor)
@@ -36,3 +39,5 @@ TARGETS := $(patsubst cmd/%/main.go,%,$(CMD_SOURCES))
 
 %-${TRAVIS_TAG}-${TARGET}.tar.gz: %
 	tar czf $@ $<
+
+.PHONY: fmt
