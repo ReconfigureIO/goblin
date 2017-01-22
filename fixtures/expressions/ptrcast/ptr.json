@@ -1,0 +1,27 @@
+{
+  "type": "star",
+  "target": {
+    "type": "call",
+    "kind": "expression",
+    "function": {
+      "value": {
+        "value": "int8",
+        "kind": "ident"
+      },
+      "type": "identifier",
+      "kind": "expression"
+    },
+    "ellipsis": false,
+    "arguments": [
+      {
+        "value": {
+          "value": "biggie",
+          "kind": "ident"
+        },
+        "type": "identifier",
+        "kind": "expression"
+      }
+    ]
+  },
+  "kind": "expression"
+}
