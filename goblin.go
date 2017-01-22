@@ -519,18 +519,19 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 	prettyToken := ""
 	results := make([]interface{}, len(decl.Specs))
 	switch decl.Tok {
+	case token.TYPE:
+		if len(decl.Specs) != 1 {
+			pos := fset.PositionFor(decl.Pos(), true).String()
+			panic("Unexpected number of tokens (" + string(len(decl.Specs)) + " in type alias at " + pos)
+		}
+		// EARLY RETURN
+		return DumpTypeAlias(decl.Specs[0].(*ast.TypeSpec), fset)
+
 	case token.IMPORT:
 		prettyToken = "import"
 		for i, v := range decl.Specs {
 			results[i] = DumpImport(v.(*ast.ImportSpec), fset)
 		}
-
-	case token.TYPE:
-		prettyToken = "alias"
-		for i, v := range decl.Specs {
-			results[i] = DumpTypeAlias(v.(*ast.TypeSpec), fset)
-		}
-
 	case token.CONST:
 		prettyToken = "const"
 		for i, v := range decl.Specs {
@@ -828,7 +829,7 @@ func DumpMethodDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{}
 	return map[string]interface{}{
 		"kind":     "decl",
 		"type":     "method",
-		"reciever": DumpField(f.Recv.List[0], fset),
+		"receiver": DumpField(f.Recv.List[0], fset),
 		"name":     DumpIdent(f.Name, fset),
 		"body":     DumpBlock(f.Body, fset),
 		"params":   DumpFields(f.Type.Params, fset),
