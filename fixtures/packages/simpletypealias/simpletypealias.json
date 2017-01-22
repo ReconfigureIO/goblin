@@ -1,54 +1,50 @@
 {
-    "all-comments": [],
-    "comments": [],
-    "declarations": [
-	[
-	    {
-		"comments": [],
-		"kind": "decl",
-		"name": {
-		    "kind": "ident",
-		    "value": "MyArray"
-		},
-		"type": "type-alias",
-		"value": {
-		    "element": {
-			"kind": "type",
-			"type": "identifier",
-			"value": {
-			    "kind": "ident",
-			    "value": "int"
-			}
-		    },
-		    "kind": "type",
-		    "length": {
-			"kind": "literal",
-			"type": "INT",
-			"value": "100"
-		    },
-		    "type": "array"
-		}
-	    }
-	],
-	[
-	    {
-		"body": [],
-		"comments": [],
-		"kind": "decl",
-		"name": {
-		    "kind": "ident",
-		    "value": "main"
-		},
-		"params": [],
-		"results": null,
-		"type": "function"
-	    }
-	]
-    ],
-    "imports": [],
-    "kind": "file",
-    "name": {
-	"kind": "ident",
-	"value": "main"
+  "name": {
+    "value": "main",
+    "kind": "ident"
+  },
+  "kind": "file",
+  "imports": [],
+  "declarations": [
+    {
+      "value": {
+        "type": "array",
+        "length": {
+          "value": "100",
+          "type": "INT",
+          "kind": "literal"
+        },
+        "kind": "type",
+        "element": {
+          "value": {
+            "value": "int",
+            "kind": "ident"
+          },
+          "type": "identifier",
+          "kind": "type"
+        }
+      },
+      "type": "type-alias",
+      "name": {
+        "value": "MyArray",
+        "kind": "ident"
+      },
+      "kind": "decl",
+      "comments": []
+    },
+    {
+      "type": "function",
+      "results": null,
+      "params": [],
+      "name": {
+        "value": "main",
+        "kind": "ident"
+      },
+      "kind": "decl",
+      "comments": [],
+      "body": []
     }
+  ],
+  "comments": [],
+  "all-comments": []
 }

@@ -1,0 +1,24 @@
+{
+  "type": "cast",
+  "target": {
+    "value": {
+      "value": "foo",
+      "kind": "ident"
+    },
+    "type": "identifier",
+    "kind": "expression"
+  },
+  "kind": "expression",
+  "coerced-to": {
+    "type": "slice",
+    "kind": "type",
+    "element": {
+      "value": {
+        "value": "int",
+        "kind": "ident"
+      },
+      "type": "identifier",
+      "kind": "type"
+    }
+  }
+}

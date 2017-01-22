@@ -1,49 +1,47 @@
 {
-    "all-comments": [],
-    "comments": [],
-    "declarations": [
-	[
-	    {
-		"body": [],
-		"comments": [],
-		"kind": "decl",
-		"name": {
-		    "kind": "ident",
-		    "value": "doit"
-		},
-		"params": [
-		    {
-			"declared-type": {
-			    "kind": "type",
-			    "qualifier": {
-				"kind": "ident",
-				"value": "foo"
-			    },
-			    "type": "identifier",
-			    "value": {
-				"kind": "ident",
-				"value": "Bar"
-			    }
-			},
-			"kind": "field",
-			"names": [
-			    {
-				"kind": "ident",
-				"value": "a"
-			    }
-			],
-			"tag": null
-		    }
-		],
-		"results": null,
-		"type": "function"
-	    }
-	]
-    ],
-    "imports": [],
-    "kind": "file",
-    "name": {
-	"kind": "ident",
-	"value": "main"
+  "name": {
+    "value": "main",
+    "kind": "ident"
+  },
+  "kind": "file",
+  "imports": [],
+  "declarations": [
+    {
+      "type": "function",
+      "results": null,
+      "params": [
+        {
+          "tag": null,
+          "names": [
+            {
+              "value": "a",
+              "kind": "ident"
+            }
+          ],
+          "kind": "field",
+          "declared-type": {
+            "value": {
+              "value": "Bar",
+              "kind": "ident"
+            },
+            "type": "identifier",
+            "qualifier": {
+              "value": "foo",
+              "kind": "ident"
+            },
+            "kind": "type"
+          }
+        }
+      ],
+      "name": {
+        "value": "doit",
+        "kind": "ident"
+      },
+      "kind": "decl",
+      "comments": [],
+      "body": []
     }
+  ],
+  "comments": [],
+  "all-comments": []
 }

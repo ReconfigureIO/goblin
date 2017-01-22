@@ -515,25 +515,31 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	}
 }
 
-func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) []interface{} {
+func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} {
+	prettyToken := ""
 	results := make([]interface{}, len(decl.Specs))
 	switch decl.Tok {
+	case token.TYPE:
+		if len(decl.Specs) != 1 {
+			pos := fset.PositionFor(decl.Pos(), true).String()
+			panic("Unexpected number of tokens (" + string(len(decl.Specs)) + " in type alias at " + pos)
+		}
+		// EARLY RETURN
+		return DumpTypeAlias(decl.Specs[0].(*ast.TypeSpec), fset)
+
 	case token.IMPORT:
+		prettyToken = "import"
 		for i, v := range decl.Specs {
 			results[i] = DumpImport(v.(*ast.ImportSpec), fset)
 		}
-
-	case token.TYPE:
-		for i, v := range decl.Specs {
-			results[i] = DumpTypeAlias(v.(*ast.TypeSpec), fset)
-		}
-
 	case token.CONST:
+		prettyToken = "const"
 		for i, v := range decl.Specs {
 			results[i] = DumpValue("const", v.(*ast.ValueSpec), fset)
 		}
 
 	case token.VAR:
+		prettyToken = "var"
 		for i, v := range decl.Specs {
 			results[i] = DumpValue("var", v.(*ast.ValueSpec), fset)
 		}
@@ -542,7 +548,11 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) []interface{} {
 		panic("Unrecognized token " + decl.Tok.String() + " in GenDecl at " + pos)
 	}
 
-	return results
+	return map[string]interface{}{
+		"kind":  "decl",
+		"type":  prettyToken,
+		"specs": results,
+	}
 }
 
 func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
@@ -654,7 +664,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 		return map[string]interface{}{
 			"kind":   "statement",
 			"type":   "declaration",
-			"target": DumpDecl(n.Decl, fset)[0],
+			"target": DumpDecl(n.Decl, fset),
 		}
 	}
 
@@ -803,8 +813,8 @@ func DumpBlockAsStmt(b *ast.BlockStmt, fset *token.FileSet) map[string]interface
 	}
 }
 
-func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
-	return []interface{}{map[string]interface{}{
+func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{} {
+	return map[string]interface{}{
 		"kind":     "decl",
 		"type":     "function",
 		"name":     DumpIdent(f.Name, fset),
@@ -812,23 +822,23 @@ func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
 		"params":   DumpFields(f.Type.Params, fset),
 		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
-	}}
+	}
 }
 
-func DumpMethodDecl(f *ast.FuncDecl, fset *token.FileSet) []interface{} {
-	return []interface{}{map[string]interface{}{
+func DumpMethodDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{} {
+	return map[string]interface{}{
 		"kind":     "decl",
 		"type":     "method",
-		"reciever": DumpField(f.Recv.List[0], fset),
+		"receiver": DumpField(f.Recv.List[0], fset),
 		"name":     DumpIdent(f.Name, fset),
 		"body":     DumpBlock(f.Body, fset),
 		"params":   DumpFields(f.Type.Params, fset),
 		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
-	}}
+	}
 }
 
-func DumpDecl(n ast.Decl, fset *token.FileSet) []interface{} {
+func DumpDecl(n ast.Decl, fset *token.FileSet) map[string]interface{} {
 	if decl, ok := n.(*ast.GenDecl); ok {
 		return DumpGenDecl(decl, fset)
 	}
@@ -872,10 +882,9 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 		}
 
 		imports := f.Decls[0:ii]
-		actualDecls := f.Decls[ii:len(f.Decls)]
 
-		decls = make([]interface{}, len(actualDecls))
-		for i, v := range actualDecls {
+		decls = make([]interface{}, len(f.Decls))
+		for i, v := range f.Decls {
 			decls[i] = DumpDecl(v, fset)
 		}
 

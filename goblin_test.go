@@ -95,6 +95,16 @@ func TestPackageFixtures(t *testing.T) {
 func TestExpressionFixtures(t *testing.T) {
 	fixtures := []Fixture{
 		Fixture{
+			"cast to array",
+			"fixtures/expressions/slicecast/slice.go.txt",
+			"fixtures/expressions/slicecast/slice.json",
+		},
+		Fixture{
+			"cast to pointer",
+			"fixtures/expressions/ptrcast/ptr.go.txt",
+			"fixtures/expressions/ptrcast/ptr.json",
+		},
+		Fixture{
 			"map literal",
 			"fixtures/expressions/mapliteral/map.go.txt",
 			"fixtures/expressions/mapliteral/map.json",

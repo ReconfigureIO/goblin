@@ -1,48 +1,46 @@
 {
-  "all-comments": [],
-  "comments": [],
-  "declarations": [
-    [
-      {
-        "body": [
-          {
-            "body": [
-              {
-                "body": [
-                  {
-                    "kind": "statement",
-                    "type": "return",
-                    "values": []
-                  }
-                ],
-                "kind": "statement",
-                "statement": {
-                  "kind": "statement",
-                  "type": "empty"
-                },
-                "type": "select-clause"
-              }
-            ],
-            "kind": "statement",
-            "type": "select"
-          }
-        ],
-        "comments": [],
-        "kind": "decl",
-        "name": {
-          "kind": "ident",
-          "value": "main"
-        },
-        "params": [],
-        "results": null,
-        "type": "function"
-      }
-    ]
-  ],
-  "imports": [],
-  "kind": "file",
   "name": {
-    "kind": "ident",
-    "value": "main"
-  }
+    "value": "main",
+    "kind": "ident"
+  },
+  "kind": "file",
+  "imports": [],
+  "declarations": [
+    {
+      "type": "function",
+      "results": null,
+      "params": [],
+      "name": {
+        "value": "main",
+        "kind": "ident"
+      },
+      "kind": "decl",
+      "comments": [],
+      "body": [
+        {
+          "type": "select",
+          "kind": "statement",
+          "body": [
+            {
+              "type": "select-clause",
+              "statement": {
+                "type": "empty",
+                "kind": "statement"
+              },
+              "kind": "statement",
+              "body": [
+                {
+                  "values": [],
+                  "type": "return",
+                  "kind": "statement"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "comments": [],
+  "all-comments": []
 }
