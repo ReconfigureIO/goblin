@@ -882,10 +882,9 @@ func DumpFile(f *ast.File, fset *token.FileSet) ([]byte, error) {
 		}
 
 		imports := f.Decls[0:ii]
-		actualDecls := f.Decls[ii:len(f.Decls)]
 
-		decls = make([]interface{}, len(actualDecls))
-		for i, v := range actualDecls {
+		decls = make([]interface{}, len(f.Decls))
+		for i, v := range f.Decls {
 			decls[i] = DumpDecl(v, fset)
 		}
 
