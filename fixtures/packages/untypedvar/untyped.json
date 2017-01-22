@@ -1,33 +1,37 @@
 {
-    "all-comments": [],
-    "comments": [],
-    "declarations": [
-	[
-	    {
-		"comments": [],
-		"declared-type": null,
-		"kind": "decl",
-		"names": [
-		    {
-			"kind": "ident",
-			"value": "a"
-		    }
-		],
-		"type": "var",
-		"values": [
-		    {
-			"kind": "literal",
-			"type": "INT",
-			"value": "1"
-		    }
-		]
-	    }
-	]
-    ],
-    "imports": [],
-    "kind": "file",
-    "name": {
-	"kind": "ident",
-	"value": "p"
+  "name": {
+    "value": "p",
+    "kind": "ident"
+  },
+  "kind": "file",
+  "imports": [],
+  "declarations": [
+    {
+      "type": "var",
+      "specs": [
+        {
+          "values": [
+            {
+              "value": "1",
+              "type": "INT",
+              "kind": "literal"
+            }
+          ],
+          "type": "var",
+          "names": [
+            {
+              "value": "a",
+              "kind": "ident"
+            }
+          ],
+          "kind": "decl",
+          "declared-type": null,
+          "comments": []
+        }
+      ],
+      "kind": "decl"
     }
+  ],
+  "comments": [],
+  "all-comments": []
 }

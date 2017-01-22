@@ -1,41 +1,39 @@
 {
-    "all-comments": [],
-    "comments": [],
-    "declarations": [
-	[
-	    {
-		"body": [
-		    {
-			"body": [],
-			"condition": null,
-			"init": {
-			    "kind": "statement",
-			    "type": "empty"
-			},
-			"kind": "statement",
-			"post": {
-			    "kind": "statement",
-			    "type": "empty"
-			},
-			"type": "for"
-		    }
-		],
-		"comments": [],
-		"kind": "decl",
-		"name": {
-		    "kind": "ident",
-		    "value": "main"
-		},
-		"params": [],
-		"results": null,
-		"type": "function"
-	    }
-	]
-    ],
-    "imports": [],
-    "kind": "file",
-    "name": {
-	"kind": "ident",
-	"value": "main"
+  "name": {
+    "value": "main",
+    "kind": "ident"
+  },
+  "kind": "file",
+  "imports": [],
+  "declarations": [
+    {
+      "type": "function",
+      "results": null,
+      "params": [],
+      "name": {
+        "value": "main",
+        "kind": "ident"
+      },
+      "kind": "decl",
+      "comments": [],
+      "body": [
+        {
+          "type": "for",
+          "post": {
+            "type": "empty",
+            "kind": "statement"
+          },
+          "kind": "statement",
+          "init": {
+            "type": "empty",
+            "kind": "statement"
+          },
+          "condition": null,
+          "body": []
+        }
+      ]
     }
+  ],
+  "comments": [],
+  "all-comments": []
 }
