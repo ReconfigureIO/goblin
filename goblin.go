@@ -549,7 +549,7 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 	}
 
 	return map[string]interface{}{
-		"kind":  "gen-decl",
+		"kind":  "decl",
 		"type":  prettyToken,
 		"specs": results,
 	}
