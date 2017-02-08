@@ -114,6 +114,15 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		}
 	}
 
+	if n, ok := e.(*ast.InterfaceType); ok {
+		return map[string]interface{}{
+			"kind":       "type",
+			"type":       "interface",
+			"incomplete": n.Incomplete,
+			"methods":    DumpFields(n.Methods, fset),
+		}
+	}
+
 	if n, ok := e.(*ast.MapType); ok {
 		return map[string]interface{}{
 			"kind":  "type",

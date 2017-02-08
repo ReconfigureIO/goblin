@@ -66,6 +66,11 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/methoddecl/method.go",
 			"fixtures/packages/methoddecl/method.json",
 		},
+		Fixture{
+			"map with interface type",
+			"fixtures/packages/interface_type/interface.go",
+			"fixtures/packages/interface_type/interface.json",
+		},
 	}
 
 	for _, fix := range fixtures {
