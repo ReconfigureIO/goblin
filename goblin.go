@@ -7,6 +7,7 @@ import (
 	"go/token"
 	"reflect"
 	"strings"
+	"os"
 )
 
 /* TODO: add something like this to catch nils:
@@ -19,6 +20,15 @@ func NilNotAllowed(f interface {}) interface {
 and perhaps a corresponding NilAllowed? mumble mumble million-dollar mistake mumble
 
 */
+
+func DumpPosition (p token.Position) map[string]interface{} {
+	return map[string]interface{} {
+		"filename": p.Filename,
+		"line": p.Line,
+		"offset": p.Offset,
+		"column": p.Column,
+	}
+}
 
 func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	if i == nil {
@@ -435,6 +445,7 @@ func DumpTypeAlias(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} 
 		"name":     DumpIdent(t.Name, fset),
 		"value":    DumpExprAsType(t.Type, fset),
 		"comments": DumpCommentGroup(t.Comment, fset),
+		"position": DumpPosition(fset.Position(t.Pos())),
 	}
 }
 
@@ -493,6 +504,7 @@ func DumpImport(spec *ast.ImportSpec, fset *token.FileSet) map[string]interface{
 		"comments": DumpCommentGroup(spec.Comment, fset),
 		"name":     DumpIdent(spec.Name, fset),
 		"path":     strings.Trim(spec.Path.Value, "\""),
+		"position": DumpPosition(fset.Position(spec.Pos())),
 	}
 
 	return res
@@ -515,12 +527,13 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	}
 
 	return map[string]interface{}{
-		"kind":          "decl",
+		"kind":          "spec",
 		"type":          kind,
 		"names":         processedNames,
 		"declared-type": AttemptExprAsType(spec.Type, fset),
 		"values":        processedValues,
 		"comments":      DumpCommentGroup(spec.Comment, fset),
+		"position":      DumpPosition(fset.Position(spec.Pos())),
 	}
 }
 
@@ -561,6 +574,7 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 		"kind":  "decl",
 		"type":  prettyToken,
 		"specs": results,
+		"position": DumpPosition(fset.Position(decl.Pos())),
 	}
 }
 
@@ -831,6 +845,7 @@ func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{} {
 		"params":   DumpFields(f.Type.Params, fset),
 		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
+		"position": DumpPosition(fset.Position(f.Pos())),
 	}
 }
 
@@ -844,6 +859,7 @@ func DumpMethodDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{}
 		"params":   DumpFields(f.Type.Params, fset),
 		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
+		"position": DumpPosition(fset.Position(f.Pos())),
 	}
 }
 
@@ -932,6 +948,20 @@ func TestExpr(s string) map[string]interface{} {
 
 func TestFile(p string) []byte {
 	fset := token.NewFileSet()
+
+	file, err := os.Open(p)
+	if err != nil {
+		return nil
+	}
+	info, err := file.Stat()
+	if err != nil {
+		return nil
+	}
+
+	size := info.Size()
+	file.Close()
+
+	fset.AddFile(p, 0, int(size))
 
 	f, err := parser.ParseFile(fset, p, nil, 0)
 
