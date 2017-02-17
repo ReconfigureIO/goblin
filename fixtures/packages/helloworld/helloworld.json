@@ -1,49 +1,91 @@
 {
-  "name": {
-    "value": "main",
-    "kind": "ident"
-  },
-  "kind": "file",
-  "imports": [],
-  "declarations": [
-    {
-      "type": "function",
-      "results": null,
-      "params": [],
-      "name": {
-        "value": "main",
-        "kind": "ident"
-      },
-      "kind": "decl",
-      "comments": [],
-      "body": [
-        {
-          "value": {
-            "type": "call",
-            "kind": "expression",
-            "function": {
-              "value": {
-                "value": "println",
-                "kind": "ident"
-              },
-              "type": "identifier",
-              "kind": "expression"
+   "declarations" : [
+      {
+         "results" : null,
+         "position" : {
+            "line" : 3,
+            "column" : 1,
+            "filename" : "fixtures/packages/helloworld/helloworld.go",
+            "offset" : 14
+         },
+         "params" : [],
+         "name" : {
+            "value" : "main",
+            "position" : {
+               "offset" : 19,
+               "filename" : "fixtures/packages/helloworld/helloworld.go",
+               "column" : 6,
+               "line" : 3
             },
-            "ellipsis": false,
-            "arguments": [
-              {
-                "value": "\"Hello, world!\"",
-                "type": "STRING",
-                "kind": "literal"
-              }
-            ]
-          },
-          "type": "expression",
-          "kind": "statement"
-        }
-      ]
-    }
-  ],
-  "comments": [],
-  "all-comments": []
+            "kind" : "ident"
+         },
+         "type" : "function",
+         "kind" : "decl",
+         "comments" : [],
+         "body" : [
+            {
+               "type" : "expression",
+               "kind" : "statement",
+               "value" : {
+                  "kind" : "expression",
+                  "type" : "call",
+                  "position" : {
+                     "line" : 4,
+                     "offset" : 29,
+                     "filename" : "fixtures/packages/helloworld/helloworld.go",
+                     "column" : 2
+                  },
+                  "arguments" : [
+                     {
+                        "kind" : "literal",
+                        "type" : "STRING",
+                        "position" : {
+                           "filename" : "fixtures/packages/helloworld/helloworld.go",
+                           "offset" : 37,
+                           "column" : 10,
+                           "line" : 4
+                        },
+                        "value" : "\"Hello, world!\""
+                     }
+                  ],
+                  "function" : {
+                     "position" : {
+                        "line" : 4,
+                        "column" : 2,
+                        "filename" : "fixtures/packages/helloworld/helloworld.go",
+                        "offset" : 29
+                     },
+                     "type" : "identifier",
+                     "kind" : "expression",
+                     "value" : {
+                        "value" : "println",
+                        "kind" : "ident",
+                        "position" : {
+                           "column" : 2,
+                           "filename" : "fixtures/packages/helloworld/helloworld.go",
+                           "offset" : 29,
+                           "line" : 4
+                        }
+                     }
+                  },
+                  "ellipsis" : false
+               }
+            }
+         ]
+      }
+   ],
+   "comments" : [],
+   "all-comments" : [],
+   "imports" : [],
+   "kind" : "file",
+   "name" : {
+      "position" : {
+         "line" : 1,
+         "offset" : 8,
+         "filename" : "fixtures/packages/helloworld/helloworld.go",
+         "column" : 9
+      },
+      "kind" : "ident",
+      "value" : "main"
+   }
 }

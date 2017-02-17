@@ -1,39 +1,57 @@
 {
-  "name": {
-    "value": "main",
-    "kind": "ident"
-  },
-  "kind": "file",
-  "imports": [],
-  "declarations": [
-    {
-      "type": "function",
-      "results": null,
-      "params": [],
-      "name": {
-        "value": "main",
-        "kind": "ident"
-      },
-      "kind": "decl",
-      "comments": [],
-      "body": [
-        {
-          "type": "for",
-          "post": {
-            "type": "empty",
-            "kind": "statement"
-          },
-          "kind": "statement",
-          "init": {
-            "type": "empty",
-            "kind": "statement"
-          },
-          "condition": null,
-          "body": []
-        }
-      ]
-    }
-  ],
-  "comments": [],
-  "all-comments": []
+   "imports" : [],
+   "name" : {
+      "value" : "main",
+      "kind" : "ident",
+      "position" : {
+         "filename" : "fixtures/packages/emptyfor/empty.go",
+         "line" : 1,
+         "offset" : 8,
+         "column" : 9
+      }
+   },
+   "all-comments" : [],
+   "comments" : [],
+   "declarations" : [
+      {
+         "name" : {
+            "kind" : "ident",
+            "position" : {
+               "line" : 3,
+               "filename" : "fixtures/packages/emptyfor/empty.go",
+               "column" : 6,
+               "offset" : 19
+            },
+            "value" : "main"
+         },
+         "results" : null,
+         "type" : "function",
+         "comments" : [],
+         "position" : {
+            "filename" : "fixtures/packages/emptyfor/empty.go",
+            "line" : 3,
+            "offset" : 14,
+            "column" : 1
+         },
+         "kind" : "decl",
+         "body" : [
+            {
+               "position" : {
+                  "column" : 2,
+                  "offset" : 29,
+                  "line" : 4,
+                  "filename" : "fixtures/packages/emptyfor/empty.go"
+               },
+               "post" : null,
+               "body" : [],
+               "type" : "for",
+               "kind" : "statement",
+               "init" : null,
+               "condition" : null
+            }
+         ],
+         "params" : []
+      }
+   ],
+   "kind" : "file"
 }

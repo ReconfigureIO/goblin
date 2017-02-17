@@ -1,24 +1,54 @@
 {
-  "type": "cast",
-  "target": {
-    "value": {
-      "value": "foo",
-      "kind": "ident"
-    },
-    "type": "identifier",
-    "kind": "expression"
-  },
-  "kind": "expression",
   "coerced-to": {
-    "type": "slice",
-    "kind": "type",
     "element": {
-      "value": {
-        "value": "int",
-        "kind": "ident"
+      "kind": "type",
+      "position": {
+        "column": 0,
+        "filename": "",
+        "line": 0,
+        "offset": 0
       },
       "type": "identifier",
-      "kind": "type"
+      "value": {
+        "kind": "ident",
+        "position": {
+          "column": 0,
+          "filename": "",
+          "line": 0,
+          "offset": 0
+        },
+        "value": "int"
+      }
+    },
+    "kind": "type",
+    "type": "slice"
+  },
+  "kind": "expression",
+  "position": {
+    "column": 0,
+    "filename": "",
+    "line": 0,
+    "offset": 0
+  },
+  "target": {
+    "kind": "expression",
+    "position": {
+      "column": 0,
+      "filename": "",
+      "line": 0,
+      "offset": 0
+    },
+    "type": "identifier",
+    "value": {
+      "kind": "ident",
+      "position": {
+        "column": 0,
+        "filename": "",
+        "line": 0,
+        "offset": 0
+      },
+      "value": "foo"
     }
-  }
+  },
+  "type": "cast"
 }

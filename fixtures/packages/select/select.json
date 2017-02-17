@@ -1,46 +1,79 @@
 {
-  "name": {
-    "value": "main",
-    "kind": "ident"
-  },
-  "kind": "file",
-  "imports": [],
-  "declarations": [
-    {
-      "type": "function",
-      "results": null,
-      "params": [],
-      "name": {
-        "value": "main",
-        "kind": "ident"
+   "all-comments" : [],
+   "name" : {
+      "value" : "main",
+      "position" : {
+         "offset" : 8,
+         "filename" : "fixtures/packages/select/select.go",
+         "column" : 9,
+         "line" : 1
       },
-      "kind": "decl",
-      "comments": [],
-      "body": [
-        {
-          "type": "select",
-          "kind": "statement",
-          "body": [
-            {
-              "type": "select-clause",
-              "statement": {
-                "type": "empty",
-                "kind": "statement"
-              },
-              "kind": "statement",
-              "body": [
-                {
-                  "values": [],
-                  "type": "return",
-                  "kind": "statement"
-                }
-              ]
+      "kind" : "ident"
+   },
+   "declarations" : [
+      {
+         "results" : null,
+         "position" : {
+            "column" : 1,
+            "line" : 3,
+            "offset" : 14,
+            "filename" : "fixtures/packages/select/select.go"
+         },
+         "name" : {
+            "value" : "main",
+            "kind" : "ident",
+            "position" : {
+               "line" : 3,
+               "column" : 6,
+               "offset" : 19,
+               "filename" : "fixtures/packages/select/select.go"
             }
-          ]
-        }
-      ]
-    }
-  ],
-  "comments": [],
-  "all-comments": []
+         },
+         "type" : "function",
+         "comments" : [],
+         "params" : [],
+         "kind" : "decl",
+         "body" : [
+            {
+               "body" : [
+                  {
+                     "body" : [
+                        {
+                           "values" : [],
+                           "type" : "return",
+                           "kind" : "statement",
+                           "position" : {
+                              "filename" : "fixtures/packages/select/select.go",
+                              "offset" : 50,
+                              "line" : 6,
+                              "column" : 3
+                           }
+                        }
+                     ],
+                     "type" : "select-clause",
+                     "position" : {
+                        "line" : 5,
+                        "column" : 2,
+                        "filename" : "fixtures/packages/select/select.go",
+                        "offset" : 39
+                     },
+                     "statement" : null,
+                     "kind" : "statement"
+                  }
+               ],
+               "type" : "select",
+               "position" : {
+                  "filename" : "fixtures/packages/select/select.go",
+                  "offset" : 29,
+                  "line" : 4,
+                  "column" : 2
+               },
+               "kind" : "statement"
+            }
+         ]
+      }
+   ],
+   "comments" : [],
+   "kind" : "file",
+   "imports" : []
 }

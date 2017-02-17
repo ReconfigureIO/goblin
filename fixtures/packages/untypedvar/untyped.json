@@ -1,37 +1,67 @@
 {
-  "name": {
-    "value": "p",
-    "kind": "ident"
-  },
-  "kind": "file",
-  "imports": [],
-  "declarations": [
-    {
-      "type": "var",
-      "specs": [
-        {
-          "values": [
+   "all-comments" : [],
+   "imports" : [],
+   "kind" : "file",
+   "declarations" : [
+      {
+         "specs" : [
             {
-              "value": "1",
-              "type": "INT",
-              "kind": "literal"
+               "kind" : "spec",
+               "position" : {
+                  "offset" : 15,
+                  "column" : 5,
+                  "filename" : "fixtures/packages/untypedvar/untyped.go",
+                  "line" : 3
+               },
+               "comments" : [],
+               "values" : [
+                  {
+                     "type" : "INT",
+                     "kind" : "literal",
+                     "value" : "1",
+                     "position" : {
+                        "line" : 3,
+                        "offset" : 19,
+                        "filename" : "fixtures/packages/untypedvar/untyped.go",
+                        "column" : 9
+                     }
+                  }
+               ],
+               "names" : [
+                  {
+                     "value" : "a",
+                     "position" : {
+                        "line" : 3,
+                        "column" : 5,
+                        "filename" : "fixtures/packages/untypedvar/untyped.go",
+                        "offset" : 15
+                     },
+                     "kind" : "ident"
+                  }
+               ],
+               "declared-type" : null,
+               "type" : "var"
             }
-          ],
-          "type": "var",
-          "names": [
-            {
-              "value": "a",
-              "kind": "ident"
-            }
-          ],
-          "kind": "decl",
-          "declared-type": null,
-          "comments": []
-        }
-      ],
-      "kind": "decl"
-    }
-  ],
-  "comments": [],
-  "all-comments": []
+         ],
+         "type" : "var",
+         "position" : {
+            "line" : 3,
+            "filename" : "fixtures/packages/untypedvar/untyped.go",
+            "column" : 1,
+            "offset" : 11
+         },
+         "kind" : "decl"
+      }
+   ],
+   "name" : {
+      "value" : "p",
+      "position" : {
+         "line" : 1,
+         "filename" : "fixtures/packages/untypedvar/untyped.go",
+         "column" : 9,
+         "offset" : 8
+      },
+      "kind" : "ident"
+   },
+   "comments" : []
 }

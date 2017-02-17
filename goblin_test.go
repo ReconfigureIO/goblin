@@ -3,6 +3,7 @@ package goblin
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/juju/testing/checkers"
 	"io/ioutil"
 	"math"
 	"reflect"
@@ -49,7 +50,7 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/untypedvar/untyped.json",
 		},
 		Fixture{"qualified type in function argument",
-			"fixtures/packages/qualifiedtype/qualified.go.txt",
+			"fixtures/packages/qualifiedtype/qualified.go",
 			"fixtures/packages/qualifiedtype/qualified.json",
 		},
 		Fixture{"infinite for-loop",
@@ -154,8 +155,9 @@ func TestExpressionFixtures(t *testing.T) {
 		}
 
 		t.Run(fix.name, func(tt *testing.T) {
-			if !reflect.DeepEqual(gotten, neededJ) {
-				t.Error("equality comparison failed!")
+			res, err := checkers.DeepEqual(gotten, neededJ)
+			if !res {
+				t.Error("equality comparison failed! " + err.Error())
 			}
 		})
 	}

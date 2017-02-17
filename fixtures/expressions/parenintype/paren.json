@@ -1,29 +1,65 @@
 {
-    "coerced-to": {
-        "element": {
-            "kind": "type",
-            "type": "identifier",
-            "value": {
-                "kind": "ident",
-                "value": "int"
-            }
-        },
-        "kind": "type",
-        "length": {
-            "kind": "literal",
-            "type": "INT",
-            "value": "2"
-        },
-        "type": "array"
-    },
-    "kind": "expression",
-    "target": {
-        "kind": "expression",
-        "type": "identifier",
-        "value": {
-            "kind": "ident",
-            "value": "beakman"
-        }
-    },
-    "type": "cast"
+   "coerced-to" : {
+      "length" : {
+         "value" : "2",
+         "type" : "INT",
+         "kind" : "literal",
+         "position" : {
+            "column" : 0,
+            "line" : 0,
+            "filename" : "",
+            "offset" : 0
+         }
+      },
+      "element" : {
+         "position" : {
+            "offset" : 0,
+            "filename" : "",
+            "line" : 0,
+            "column" : 0
+         },
+         "type" : "identifier",
+         "kind" : "type",
+         "value" : {
+            "kind" : "ident",
+            "position" : {
+               "filename" : "",
+               "offset" : 0,
+               "column" : 0,
+               "line" : 0
+            },
+            "value" : "int"
+         }
+      },
+      "type" : "array",
+      "kind" : "type"
+   },
+   "position" : {
+      "filename" : "",
+      "offset" : 0,
+      "column" : 0,
+      "line" : 0
+   },
+   "target" : {
+      "kind" : "expression",
+      "type" : "identifier",
+      "position" : {
+         "offset" : 0,
+         "filename" : "",
+         "line" : 0,
+         "column" : 0
+      },
+      "value" : {
+         "value" : "beakman",
+         "kind" : "ident",
+         "position" : {
+            "offset" : 0,
+            "filename" : "",
+            "line" : 0,
+            "column" : 0
+         }
+      }
+   },
+   "type" : "cast",
+   "kind" : "expression"
 }

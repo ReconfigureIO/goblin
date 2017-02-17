@@ -23,10 +23,12 @@ and perhaps a corresponding NilAllowed? mumble mumble million-dollar mistake mum
 
 func DumpPosition(p token.Position) map[string]interface{} {
 	return map[string]interface{}{
+		// We need these float64 conversions or our test cases will fail.
+		// Believe me, I'm as angry about this as you are.
 		"filename": p.Filename,
-		"line":     p.Line,
-		"offset":   p.Offset,
-		"column":   p.Column,
+		"line":     float64(p.Line),
+		"offset":   float64(p.Offset),
+		"column":   float64(p.Column),
 	}
 }
 
@@ -867,9 +869,9 @@ func DumpBlock(b *ast.BlockStmt, fset *token.FileSet) []interface{} {
 
 func DumpBlockAsStmt(b *ast.BlockStmt, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{}{
-		"kind": "statement",
-		"type": "block",
-		"body": DumpBlock(b, fset),
+		"kind":     "statement",
+		"type":     "block",
+		"body":     DumpBlock(b, fset),
 		"position": DumpPosition(fset.Position(b.Pos())),
 	}
 }
@@ -999,7 +1001,7 @@ func TestFile(p string) []byte {
 	size := info.Size()
 	file.Close()
 
-	fset.AddFile(p, 0, int(size))
+	fset.AddFile(p, -1, int(size))
 
 	f, err := parser.ParseFile(fset, p, nil, 0)
 

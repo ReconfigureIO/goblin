@@ -1,27 +1,57 @@
 {
-  "type": "star",
-  "target": {
-    "type": "call",
-    "kind": "expression",
-    "function": {
-      "value": {
-        "value": "int8",
-        "kind": "ident"
+   "kind" : "expression",
+   "target" : {
+      "position" : {
+         "line" : 0,
+         "offset" : 0,
+         "column" : 0,
+         "filename" : ""
       },
-      "type": "identifier",
-      "kind": "expression"
-    },
-    "ellipsis": false,
-    "arguments": [
-      {
-        "value": {
-          "value": "biggie",
-          "kind": "ident"
-        },
-        "type": "identifier",
-        "kind": "expression"
-      }
-    ]
-  },
-  "kind": "expression"
+      "kind" : "expression",
+      "type" : "call",
+      "arguments" : [
+         {
+            "kind" : "expression",
+            "position" : {
+               "line" : 0,
+               "offset" : 0,
+               "filename" : "",
+               "column" : 0
+            },
+            "value" : {
+               "value" : "biggie",
+               "position" : {
+                  "filename" : "",
+                  "offset" : 0,
+                  "column" : 0,
+                  "line" : 0
+               },
+               "kind" : "ident"
+            },
+            "type" : "identifier"
+         }
+      ],
+      "function" : {
+         "type" : "identifier",
+         "kind" : "expression",
+         "position" : {
+            "offset" : 0,
+            "filename" : "",
+            "column" : 0,
+            "line" : 0
+         },
+         "value" : {
+            "value" : "int8",
+            "kind" : "ident",
+            "position" : {
+               "filename" : "",
+               "offset" : 0,
+               "column" : 0,
+               "line" : 0
+            }
+         }
+      },
+      "ellipsis" : false
+   },
+   "type" : "star"
 }
