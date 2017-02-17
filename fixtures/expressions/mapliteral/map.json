@@ -1,68 +1,134 @@
 {
-    "declared": {
-        "key": {
-            "kind": "type",
-            "type": "identifier",
-            "value": {
-                "kind": "ident",
-                "value": "string"
-            }
-        },
-        "kind": "type",
-        "type": "map",
-        "value": {
-            "kind": "type",
-            "type": "identifier",
-            "value": {
-                "kind": "ident",
-                "value": "int8"
-            }
-        }
-    },
-    "kind": "literal",
-    "type": "composite",
-    "values": [
-        {
-            "key": {
-                "kind": "literal",
-                "type": "STRING",
-                "value": "\"Bleach\""
+   "values" : [
+      {
+         "type" : "key-value",
+         "kind" : "expression",
+         "value" : {
+            "value" : "1989",
+            "position" : {
+               "column" : 0,
+               "offset" : 0,
+               "filename" : "",
+               "line" : 0
             },
-            "kind": "expression",
-            "type": "key-value",
-            "value": {
-                "kind": "literal",
-                "type": "INT",
-                "value": "1989"
-            }
-        },
-        {
-            "key": {
-                "kind": "literal",
-                "type": "STRING",
-                "value": "\"Nevermind\""
+            "kind" : "literal",
+            "type" : "INT"
+         },
+         "key" : {
+            "position" : {
+               "filename" : "",
+               "line" : 0,
+               "offset" : 0,
+               "column" : 0
             },
-            "kind": "expression",
-            "type": "key-value",
-            "value": {
-                "kind": "literal",
-                "type": "INT",
-                "value": "1991"
-            }
-        },
-        {
-            "key": {
-                "kind": "literal",
-                "type": "STRING",
-                "value": "\"In Utero\""
+            "type" : "STRING",
+            "kind" : "literal",
+            "value" : "\"Bleach\""
+         }
+      },
+      {
+         "key" : {
+            "value" : "\"Nevermind\"",
+            "position" : {
+               "column" : 0,
+               "offset" : 0,
+               "line" : 0,
+               "filename" : ""
             },
-            "kind": "expression",
-            "type": "key-value",
-            "value": {
-                "kind": "literal",
-                "type": "INT",
-                "value": "1993"
+            "kind" : "literal",
+            "type" : "STRING"
+         },
+         "value" : {
+            "position" : {
+               "filename" : "",
+               "line" : 0,
+               "offset" : 0,
+               "column" : 0
+            },
+            "kind" : "literal",
+            "type" : "INT",
+            "value" : "1991"
+         },
+         "kind" : "expression",
+         "type" : "key-value"
+      },
+      {
+         "key" : {
+            "value" : "\"In Utero\"",
+            "type" : "STRING",
+            "kind" : "literal",
+            "position" : {
+               "column" : 0,
+               "offset" : 0,
+               "line" : 0,
+               "filename" : ""
             }
-        }
-    ]
+         },
+         "value" : {
+            "value" : "1993",
+            "kind" : "literal",
+            "type" : "INT",
+            "position" : {
+               "column" : 0,
+               "line" : 0,
+               "filename" : "",
+               "offset" : 0
+            }
+         },
+         "type" : "key-value",
+         "kind" : "expression"
+      }
+   ],
+   "position" : {
+      "filename" : "",
+      "line" : 0,
+      "offset" : 0,
+      "column" : 0
+   },
+   "declared" : {
+      "kind" : "type",
+      "type" : "map",
+      "key" : {
+         "type" : "identifier",
+         "kind" : "type",
+         "position" : {
+            "offset" : 0,
+            "line" : 0,
+            "filename" : "",
+            "column" : 0
+         },
+         "value" : {
+            "position" : {
+               "column" : 0,
+               "offset" : 0,
+               "filename" : "",
+               "line" : 0
+            },
+            "kind" : "ident",
+            "value" : "string"
+         }
+      },
+      "value" : {
+         "value" : {
+            "kind" : "ident",
+            "position" : {
+               "offset" : 0,
+               "filename" : "",
+               "line" : 0,
+               "column" : 0
+            },
+            "value" : "int8"
+         },
+         "position" : {
+            "column" : 0,
+            "filename" : "",
+            "line" : 0,
+            "offset" : 0
+         },
+         "type" : "identifier",
+         "kind" : "type"
+      }
+   },
+   "kind" : "literal",
+   "type" : "composite"
 }

@@ -1,47 +1,164 @@
 {
-  "name": {
-    "value": "main",
-    "kind": "ident"
-  },
-  "kind": "file",
-  "imports": [],
-  "declarations": [
-    {
-      "type": "function",
-      "results": null,
-      "params": [
-        {
-          "tag": null,
-          "names": [
+   "kind" : "file",
+   "imports" : [
+      {
+         "type" : "import",
+         "kind" : "decl",
+         "specs" : [
             {
-              "value": "a",
-              "kind": "ident"
+               "comments" : [],
+               "position" : {
+                  "column" : 8,
+                  "line" : 3,
+                  "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+                  "offset" : 21
+               },
+               "name" : null,
+               "doc" : [],
+               "type" : "import",
+               "path" : "go/ast"
             }
-          ],
-          "kind": "field",
-          "declared-type": {
-            "value": {
-              "value": "Bar",
-              "kind": "ident"
-            },
-            "type": "identifier",
-            "qualifier": {
-              "value": "foo",
-              "kind": "ident"
-            },
-            "kind": "type"
-          }
-        }
-      ],
-      "name": {
-        "value": "doit",
-        "kind": "ident"
+         ],
+         "position" : {
+            "offset" : 14,
+            "line" : 3,
+            "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+            "column" : 1
+         }
+      }
+   ],
+   "declarations" : [
+      {
+         "position" : {
+            "column" : 1,
+            "line" : 3,
+            "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+            "offset" : 14
+         },
+         "specs" : [
+            {
+               "type" : "import",
+               "path" : "go/ast",
+               "comments" : [],
+               "doc" : [],
+               "name" : null,
+               "position" : {
+                  "column" : 8,
+                  "line" : 3,
+                  "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+                  "offset" : 21
+               }
+            }
+         ],
+         "kind" : "decl",
+         "type" : "import"
       },
-      "kind": "decl",
-      "comments": [],
-      "body": []
-    }
-  ],
-  "comments": [],
-  "all-comments": []
+      {
+         "name" : {
+            "value" : "doit",
+            "position" : {
+               "line" : 5,
+               "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+               "column" : 6,
+               "offset" : 36
+            },
+            "kind" : "ident"
+         },
+         "position" : {
+            "offset" : 31,
+            "column" : 1,
+            "line" : 5,
+            "filename" : "fixtures/packages/qualifiedtype/qualified.go"
+         },
+         "type" : "function",
+         "results" : null,
+         "kind" : "decl",
+         "comments" : [],
+         "body" : [],
+         "params" : [
+            {
+               "kind" : "field",
+               "names" : [
+                  {
+                     "kind" : "ident",
+                     "position" : {
+                        "offset" : 41,
+                        "column" : 11,
+                        "line" : 5,
+                        "filename" : "fixtures/packages/qualifiedtype/qualified.go"
+                     },
+                     "value" : "a"
+                  }
+               ],
+               "tag" : null,
+               "declared-type" : {
+                  "qualifier" : {
+                     "kind" : "ident",
+                     "value" : "ast",
+                     "position" : {
+                        "offset" : 43,
+                        "line" : 5,
+                        "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+                        "column" : 13
+                     }
+                  },
+                  "value" : {
+                     "kind" : "ident",
+                     "value" : "Node",
+                     "position" : {
+                        "offset" : 47,
+                        "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+                        "line" : 5,
+                        "column" : 17
+                     }
+                  },
+                  "position" : {
+                     "offset" : 43,
+                     "line" : 5,
+                     "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+                     "column" : 13
+                  },
+                  "type" : "identifier",
+                  "kind" : "type"
+               }
+            }
+         ]
+      },
+      {
+         "position" : {
+            "column" : 1,
+            "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+            "line" : 9,
+            "offset" : 59
+         },
+         "name" : {
+            "kind" : "ident",
+            "value" : "main",
+            "position" : {
+               "offset" : 64,
+               "line" : 9,
+               "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+               "column" : 6
+            }
+         },
+         "kind" : "decl",
+         "type" : "function",
+         "results" : null,
+         "comments" : [],
+         "body" : [],
+         "params" : []
+      }
+   ],
+   "comments" : [],
+   "all-comments" : [],
+   "name" : {
+      "kind" : "ident",
+      "position" : {
+         "offset" : 8,
+         "line" : 1,
+         "filename" : "fixtures/packages/qualifiedtype/qualified.go",
+         "column" : 9
+      },
+      "value" : "main"
+   }
 }

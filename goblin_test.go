@@ -49,7 +49,7 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/untypedvar/untyped.json",
 		},
 		Fixture{"qualified type in function argument",
-			"fixtures/packages/qualifiedtype/qualified.go.txt",
+			"fixtures/packages/qualifiedtype/qualified.go",
 			"fixtures/packages/qualifiedtype/qualified.json",
 		},
 		Fixture{"infinite for-loop",

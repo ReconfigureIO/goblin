@@ -1,25 +1,55 @@
 {
-    "type": "cast",
-    "kind": "expression",
-    "coerced-to": {
-        "kind": "type",
-        "type": "chan",
-        "direction": "both",
-        "value": {
-            "kind": "type",
-            "type": "identifier",
-            "value": {
-                "kind": "ident",
-                "value": "int"
-            }
-        }
-    },
-    "target": {
-        "kind": "expression",
-        "type": "identifier",
-        "value": {
-            "kind": "ident",
-            "value": "foo"
-        }
-    }
+   "type" : "cast",
+   "target" : {
+      "kind" : "expression",
+      "position" : {
+         "line" : 0,
+         "offset" : 0,
+         "column" : 0,
+         "filename" : ""
+      },
+      "value" : {
+         "position" : {
+            "filename" : "",
+            "offset" : 0,
+            "column" : 0,
+            "line" : 0
+         },
+         "kind" : "ident",
+         "value" : "foo"
+      },
+      "type" : "identifier"
+   },
+   "position" : {
+      "line" : 0,
+      "filename" : "",
+      "offset" : 0,
+      "column" : 0
+   },
+   "kind" : "expression",
+   "coerced-to" : {
+      "value" : {
+         "type" : "identifier",
+         "value" : {
+            "kind" : "ident",
+            "position" : {
+               "line" : 0,
+               "filename" : "",
+               "offset" : 0,
+               "column" : 0
+            },
+            "value" : "int"
+         },
+         "kind" : "type",
+         "position" : {
+            "line" : 0,
+            "filename" : "",
+            "column" : 0,
+            "offset" : 0
+         }
+      },
+      "direction" : "both",
+      "kind" : "type",
+      "type" : "chan"
+   }
 }

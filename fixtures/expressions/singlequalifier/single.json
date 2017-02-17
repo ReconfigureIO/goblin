@@ -1,12 +1,30 @@
 {
-    "kind": "expression",
-    "type": "identifier",
-    "qualifier": {
-        "kind": "ident",
-        "value": "foo"
-    },
-    "value": {
-        "kind": "ident",
-        "value": "bar"
-    }
+   "position" : {
+      "offset" : 0,
+      "column" : 0,
+      "filename" : "",
+      "line" : 0
+   },
+   "value" : {
+      "value" : "bar",
+      "position" : {
+         "offset" : 0,
+         "filename" : "",
+         "column" : 0,
+         "line" : 0
+      },
+      "kind" : "ident"
+   },
+   "qualifier" : {
+      "kind" : "ident",
+      "value" : "foo",
+      "position" : {
+         "filename" : "",
+         "column" : 0,
+         "line" : 0,
+         "offset" : 0
+      }
+   },
+   "type" : "identifier",
+   "kind" : "expression"
 }

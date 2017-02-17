@@ -5,6 +5,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"os"
 	"reflect"
 	"strings"
 )
@@ -20,14 +21,26 @@ and perhaps a corresponding NilAllowed? mumble mumble million-dollar mistake mum
 
 */
 
+func DumpPosition(p token.Position) map[string]interface{} {
+	return map[string]interface{}{
+		// We need these float64 conversions or our test cases will fail.
+		// Believe me, I'm as angry about this as you are.
+		"filename": p.Filename,
+		"line":     float64(p.Line),
+		"offset":   float64(p.Offset),
+		"column":   float64(p.Column),
+	}
+}
+
 func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	if i == nil {
 		return nil
 	}
 
 	asLiteral := map[string]interface{}{
-		"kind": "literal",
-		"type": "BOOL",
+		"kind":     "literal",
+		"type":     "BOOL",
+		"position": DumpPosition(fset.Position(i.Pos())),
 	}
 
 	switch i.Name {
@@ -46,8 +59,9 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 	}
 
 	return map[string]interface{}{
-		"kind":  "ident",
-		"value": i.Name,
+		"kind":     "ident",
+		"value":    i.Name,
+		"position": DumpPosition(fset.Position(i.Pos())),
 	}
 }
 
@@ -70,9 +84,10 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 
 	if n, ok := e.(*ast.Ident); ok {
 		return map[string]interface{}{
-			"kind":  "type",
-			"type":  "identifier",
-			"value": DumpIdent(n, fset),
+			"kind":     "type",
+			"type":     "identifier",
+			"value":    DumpIdent(n, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -85,6 +100,7 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 				"type":      "identifier",
 				"qualifier": lhs["value"],
 				"value":     DumpIdent(n.Sel, fset),
+				"position":  DumpPosition(fset.Position(e.Pos())),
 			}
 		}
 	}
@@ -207,9 +223,10 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		}
 
 		return map[string]interface{}{
-			"kind":  "expression",
-			"type":  "identifier",
-			"value": val,
+			"kind":     "expression",
+			"type":     "identifier",
+			"value":    val,
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -224,11 +241,12 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	// is this the right place??
 	if n, ok := e.(*ast.FuncLit); ok {
 		return map[string]interface{}{
-			"kind":    "literal",
-			"type":    "function",
-			"params":  DumpFields(n.Type.Params, fset),
-			"results": DumpFields(n.Type.Results, fset),
-			"body":    DumpBlock(n.Body, fset),
+			"kind":     "literal",
+			"type":     "function",
+			"params":   DumpFields(n.Type.Params, fset),
+			"results":  DumpFields(n.Type.Results, fset),
+			"body":     DumpBlock(n.Body, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -242,6 +260,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"type":     "composite",
 			"declared": DumpExprAsType(n.Type, fset),
 			"values":   DumpExprs(n.Elts, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -251,10 +270,11 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 
 	if n, ok := e.(*ast.IndexExpr); ok {
 		return map[string]interface{}{
-			"kind":   "expression",
-			"type":   "index",
-			"target": DumpExpr(n.X, fset),
-			"index":  DumpExpr(n.Index, fset),
+			"kind":     "expression",
+			"type":     "index",
+			"target":   DumpExpr(n.X, fset),
+			"index":    DumpExpr(n.Index, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -273,9 +293,10 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 
 	if n, ok := e.(*ast.ParenExpr); ok {
 		return map[string]interface{}{
-			"kind":   "expression",
-			"type":   "paren",
-			"target": DumpExpr(n.X, fset),
+			"kind":     "expression",
+			"type":     "paren",
+			"target":   DumpExpr(n.X, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -291,14 +312,16 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 				"type":      "identifier",
 				"qualifier": lhs["value"],
 				"value":     DumpIdent(n.Sel, fset),
+				"position":  DumpPosition(fset.Position(e.Pos())),
 			}
 		}
 
 		return map[string]interface{}{
-			"kind":   "expression",
-			"type":   "selector",
-			"target": lhs,
-			"field":  DumpIdent(n.Sel, fset),
+			"kind":     "expression",
+			"type":     "selector",
+			"target":   lhs,
+			"field":    DumpIdent(n.Sel, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -308,6 +331,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"type":     "type-assert",
 			"target":   DumpExpr(n.X, fset),
 			"asserted": DumpExprAsType(n.Type, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -316,18 +340,20 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"kind":     "unary",
 			"target":   DumpExpr(n.X, fset),
 			"operator": n.Op.String(),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := e.(*ast.SliceExpr); ok {
 		return map[string]interface{}{
-			"kind":   "expression",
-			"type":   "slice",
-			"target": DumpExpr(n.X, fset),
-			"low":    DumpExpr(n.Low, fset),
-			"high":   DumpExpr(n.High, fset),
-			"max":    DumpExpr(n.Max, fset),
-			"three":  n.Slice3,
+			"kind":     "expression",
+			"type":     "slice",
+			"target":   DumpExpr(n.X, fset),
+			"low":      DumpExpr(n.Low, fset),
+			"high":     DumpExpr(n.High, fset),
+			"max":      DumpExpr(n.Max, fset),
+			"three":    n.Slice3,
+			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -365,6 +391,7 @@ func DumpBinaryExpr(b *ast.BinaryExpr, fset *token.FileSet) map[string]interface
 		"left":     DumpExpr(b.X, fset),
 		"right":    DumpExpr(b.Y, fset),
 		"operator": b.Op.String(),
+		"position": DumpPosition(fset.Position(b.Pos())),
 	}
 }
 
@@ -374,9 +401,10 @@ func DumpBasicLit(l *ast.BasicLit, fset *token.FileSet) map[string]interface{} {
 	}
 
 	return map[string]interface{}{
-		"kind":  "literal",
-		"type":  l.Kind.String(),
-		"value": l.Value,
+		"kind":     "literal",
+		"type":     l.Kind.String(),
+		"value":    l.Value,
+		"position": DumpPosition(fset.Position(l.Pos())),
 	}
 }
 
@@ -435,6 +463,7 @@ func DumpTypeAlias(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} 
 		"name":     DumpIdent(t.Name, fset),
 		"value":    DumpExprAsType(t.Type, fset),
 		"comments": DumpCommentGroup(t.Comment, fset),
+		"position": DumpPosition(fset.Position(t.Pos())),
 	}
 }
 
@@ -445,6 +474,7 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 				"kind":     "expression",
 				"type":     "new",
 				"argument": DumpExprAsType(c.Args[0], fset),
+				"position": DumpPosition(fset.Position(c.Pos())),
 			}
 		}
 
@@ -454,6 +484,7 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 				"type":     "make",
 				"argument": DumpExprAsType(c.Args[0], fset),
 				"rest":     DumpExprs(c.Args[1:], fset),
+				"position": DumpPosition(fset.Position(c.Pos())),
 			}
 		}
 	}
@@ -472,6 +503,7 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 			"type":       "cast",
 			"target":     DumpExpr(c.Args[0], fset),
 			"coerced-to": callee,
+			"position":   DumpPosition(fset.Position(c.Pos())),
 		}
 	}
 
@@ -483,6 +515,7 @@ func DumpCall(c *ast.CallExpr, fset *token.FileSet) map[string]interface{} {
 		"function":  callee,
 		"arguments": DumpExprs(c.Args, fset),
 		"ellipsis":  c.Ellipsis != token.NoPos,
+		"position":  DumpPosition(fset.Position(c.Pos())),
 	}
 }
 
@@ -493,6 +526,7 @@ func DumpImport(spec *ast.ImportSpec, fset *token.FileSet) map[string]interface{
 		"comments": DumpCommentGroup(spec.Comment, fset),
 		"name":     DumpIdent(spec.Name, fset),
 		"path":     strings.Trim(spec.Path.Value, "\""),
+		"position": DumpPosition(fset.Position(spec.Pos())),
 	}
 
 	return res
@@ -515,12 +549,13 @@ func DumpValue(kind string, spec *ast.ValueSpec, fset *token.FileSet) map[string
 	}
 
 	return map[string]interface{}{
-		"kind":          "decl",
+		"kind":          "spec",
 		"type":          kind,
 		"names":         processedNames,
 		"declared-type": AttemptExprAsType(spec.Type, fset),
 		"values":        processedValues,
 		"comments":      DumpCommentGroup(spec.Comment, fset),
+		"position":      DumpPosition(fset.Position(spec.Pos())),
 	}
 }
 
@@ -558,43 +593,44 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 	}
 
 	return map[string]interface{}{
-		"kind":  "decl",
-		"type":  prettyToken,
-		"specs": results,
+		"kind":     "decl",
+		"type":     prettyToken,
+		"specs":    results,
+		"position": DumpPosition(fset.Position(decl.Pos())),
 	}
 }
 
 func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 	if s == nil {
-		return map[string]interface{}{
-			"kind": "statement",
-			"type": "empty",
-		}
+		return nil
 	}
 
 	if n, ok := s.(*ast.ReturnStmt); ok {
 		return map[string]interface{}{
-			"kind":   "statement",
-			"type":   "return",
-			"values": DumpExprs(n.Results, fset),
+			"kind":     "statement",
+			"type":     "return",
+			"values":   DumpExprs(n.Results, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.AssignStmt); ok {
 		if n.Tok == token.ASSIGN {
 			return map[string]interface{}{
-				"kind":  "statement",
-				"type":  "assign",
-				"left":  DumpExprs(n.Lhs, fset),
-				"right": DumpExprs(n.Rhs, fset),
+				"kind":     "statement",
+				"type":     "assign",
+				"left":     DumpExprs(n.Lhs, fset),
+				"right":    DumpExprs(n.Rhs, fset),
+				"position": DumpPosition(fset.Position(n.Pos())),
 			}
 
 		} else if n.Tok == token.DEFINE {
 			return map[string]interface{}{
-				"kind":  "statement",
-				"type":  "define",
-				"left":  DumpExprs(n.Lhs, fset),
-				"right": DumpExprs(n.Rhs, fset),
+				"kind":     "statement",
+				"type":     "define",
+				"left":     DumpExprs(n.Lhs, fset),
+				"right":    DumpExprs(n.Rhs, fset),
+				"position": DumpPosition(fset.Position(n.Pos())),
 			}
 		} else {
 			tok := n.Tok.String()
@@ -604,15 +640,17 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 				"operator": tok[0 : len(tok)-1],
 				"left":     DumpExprs(n.Lhs, fset),
 				"right":    DumpExprs(n.Rhs, fset),
+				"position": DumpPosition(fset.Position(n.Pos())),
 			}
 		}
 
 	}
 
-	if _, ok := s.(*ast.EmptyStmt); ok {
+	if n, ok := s.(*ast.EmptyStmt); ok {
 		return map[string]interface{}{
-			"kind": "statement",
-			"type": "empty",
+			"kind":     "statement",
+			"type":     "empty",
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -630,12 +668,14 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"type":      "labeled",
 			"label":     DumpIdent(n.Label, fset),
 			"statement": DumpStmt(n.Stmt, fset),
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.BranchStmt); ok {
 		result := map[string]interface{}{
-			"kind": "statement",
+			"kind":     "statement",
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 
 		switch n.Tok {
@@ -667,21 +707,24 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"target":    DumpExpr(n.X, fset),
 			"is-assign": n.Tok == token.DEFINE,
 			"body":      DumpBlock(n.Body, fset),
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 	if n, ok := s.(*ast.DeclStmt); ok {
 		return map[string]interface{}{
-			"kind":   "statement",
-			"type":   "declaration",
-			"target": DumpDecl(n.Decl, fset),
+			"kind":     "statement",
+			"type":     "declaration",
+			"target":   DumpDecl(n.Decl, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.DeferStmt); ok {
 		return map[string]interface{}{
-			"kind":   "statement",
-			"type":   "defer",
-			"target": DumpCall(n.Call, fset),
+			"kind":     "statement",
+			"type":     "defer",
+			"target":   DumpCall(n.Call, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -693,6 +736,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"condition": DumpExpr(n.Cond, fset),
 			"body":      DumpBlock(n.Body, fset),
 			"else":      DumpStmt(n.Else, fset),
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -708,31 +752,35 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"condition": DumpExpr(n.Cond, fset),
 			"post":      DumpStmt(n.Post, fset),
 			"body":      DumpBlock(n.Body, fset),
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.GoStmt); ok {
 		return map[string]interface{}{
-			"kind":   "statement",
-			"type":   "go",
-			"target": DumpCall(n.Call, fset),
+			"kind":     "statement",
+			"type":     "go",
+			"target":   DumpCall(n.Call, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.SendStmt); ok {
 		return map[string]interface{}{
-			"kind":    "statement",
-			"type":    "send",
-			"channel": DumpExpr(n.Chan, fset),
-			"value":   DumpExpr(n.Value, fset),
+			"kind":     "statement",
+			"type":     "send",
+			"channel":  DumpExpr(n.Chan, fset),
+			"value":    DumpExpr(n.Value, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.SelectStmt); ok {
 		return map[string]interface{}{
-			"kind": "statement",
-			"type": "select",
-			"body": DumpBlock(n.Body, fset),
+			"kind":     "statement",
+			"type":     "select",
+			"body":     DumpBlock(n.Body, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -742,6 +790,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"type":      "crement",
 			"target":    DumpExpr(n.X, fset),
 			"operation": n.Tok.String(),
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -752,16 +801,18 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"init":      DumpStmt(n.Init, fset),
 			"condition": DumpExpr(n.Tag, fset),
 			"body":      DumpBlock(n.Body, fset),
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
 	if n, ok := s.(*ast.TypeSwitchStmt); ok {
 		return map[string]interface{}{
-			"kind":   "statement",
-			"type":   "type-switch",
-			"init":   DumpStmt(n.Init, fset),
-			"assign": DumpStmt(n.Assign, fset),
-			"body":   DumpBlock(n.Body, fset),
+			"kind":     "statement",
+			"type":     "type-switch",
+			"init":     DumpStmt(n.Init, fset),
+			"assign":   DumpStmt(n.Assign, fset),
+			"body":     DumpBlock(n.Body, fset),
+			"position": DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -776,6 +827,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"type":      "select-clause",
 			"statement": DumpStmt(n.Comm, fset),
 			"body":      stmts,
+			"position":  DumpPosition(fset.Position(n.Pos())),
 		}
 
 	}
@@ -791,6 +843,7 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 			"type":        "case-clause",
 			"expressions": DumpExprs(n.List, fset),
 			"body":        exprs,
+			"position":    DumpPosition(fset.Position(n.Pos())),
 		}
 	}
 
@@ -816,9 +869,10 @@ func DumpBlock(b *ast.BlockStmt, fset *token.FileSet) []interface{} {
 
 func DumpBlockAsStmt(b *ast.BlockStmt, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{}{
-		"kind": "statement",
-		"type": "block",
-		"body": DumpBlock(b, fset),
+		"kind":     "statement",
+		"type":     "block",
+		"body":     DumpBlock(b, fset),
+		"position": DumpPosition(fset.Position(b.Pos())),
 	}
 }
 
@@ -831,6 +885,7 @@ func DumpFuncDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{} {
 		"params":   DumpFields(f.Type.Params, fset),
 		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
+		"position": DumpPosition(fset.Position(f.Pos())),
 	}
 }
 
@@ -844,6 +899,7 @@ func DumpMethodDecl(f *ast.FuncDecl, fset *token.FileSet) map[string]interface{}
 		"params":   DumpFields(f.Type.Params, fset),
 		"results":  DumpFields(f.Type.Results, fset),
 		"comments": DumpCommentGroup(f.Doc, fset),
+		"position": DumpPosition(fset.Position(f.Pos())),
 	}
 }
 
@@ -932,6 +988,20 @@ func TestExpr(s string) map[string]interface{} {
 
 func TestFile(p string) []byte {
 	fset := token.NewFileSet()
+
+	file, err := os.Open(p)
+	if err != nil {
+		return nil
+	}
+	info, err := file.Stat()
+	if err != nil {
+		return nil
+	}
+
+	size := info.Size()
+	file.Close()
+
+	fset.AddFile(p, -1, int(size))
 
 	f, err := parser.ParseFile(fset, p, nil, 0)
 
