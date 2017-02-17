@@ -3,7 +3,6 @@ package goblin
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/juju/testing/checkers"
 	"io/ioutil"
 	"math"
 	"reflect"
@@ -155,9 +154,8 @@ func TestExpressionFixtures(t *testing.T) {
 		}
 
 		t.Run(fix.name, func(tt *testing.T) {
-			res, err := checkers.DeepEqual(gotten, neededJ)
-			if !res {
-				t.Error("equality comparison failed! " + err.Error())
+			if !reflect.DeepEqual(gotten, neededJ) {
+				t.Error("equality comparison failed!")
 			}
 		})
 	}
