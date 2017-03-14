@@ -1,50 +1,50 @@
 {
-   "kind" : "expression",
-   "field" : {
-      "value" : "baz",
-      "kind" : "ident",
-      "position" : {
-         "filename" : "",
-         "offset" : 0,
-         "line" : 0,
-         "column" : 0
-      }
-   },
-   "type" : "selector",
    "target" : {
       "position" : {
+         "line" : 0,
          "column" : 0,
          "filename" : "",
-         "offset" : 0,
-         "line" : 0
+         "offset" : 0
       },
+      "kind" : "expression",
       "type" : "identifier",
+      "qualifier" : {
+         "position" : {
+            "column" : 0,
+            "filename" : "",
+            "offset" : 0,
+            "line" : 0
+         },
+         "kind" : "ident",
+         "value" : "foo"
+      },
       "value" : {
          "value" : "bar",
          "kind" : "ident",
          "position" : {
             "column" : 0,
             "filename" : "",
-            "line" : 0,
-            "offset" : 0
-         }
-      },
-      "kind" : "expression",
-      "qualifier" : {
-         "position" : {
-            "filename" : "",
             "offset" : 0,
-            "line" : 0,
-            "column" : 0
-         },
-         "value" : "foo",
-         "kind" : "ident"
+            "line" : 0
+         }
       }
    },
+   "type" : "selector",
    "position" : {
+      "column" : 0,
       "offset" : 0,
-      "line" : 0,
       "filename" : "",
-      "column" : 0
-   }
+      "line" : 0
+   },
+   "field" : {
+      "value" : "baz",
+      "position" : {
+         "line" : 0,
+         "column" : 0,
+         "offset" : 0,
+         "filename" : ""
+      },
+      "kind" : "ident"
+   },
+   "kind" : "expression"
 }

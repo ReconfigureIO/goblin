@@ -67,9 +67,9 @@ func DumpIdent(i *ast.Ident, fset *token.FileSet) map[string]interface{} {
 
 func DumpArray(a *ast.ArrayType, fset *token.FileSet) map[string]interface{} {
 	return map[string]interface{}{
-		"kind":    "array",
-		"length":  DumpExpr(a.Len, fset),
-		"element": DumpExprAsType(a.Elt, fset),
+		"kind":     "array",
+		"length":   DumpExpr(a.Len, fset),
+		"element":  DumpExprAsType(a.Elt, fset),
 		"position": DumpPosition(fset.Position(a.Pos())),
 	}
 }
@@ -109,17 +109,17 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	if n, ok := e.(*ast.ArrayType); ok {
 		if n.Len == nil {
 			return map[string]interface{}{
-				"kind":    "type",
-				"type":    "slice",
-				"element": DumpExprAsType(n.Elt, fset),
+				"kind":     "type",
+				"type":     "slice",
+				"element":  DumpExprAsType(n.Elt, fset),
 				"position": DumpPosition(fset.Position(e.Pos())),
 			}
 		} else {
 			return map[string]interface{}{
-				"kind":    "type",
-				"type":    "array",
-				"element": DumpExprAsType(n.Elt, fset),
-				"length":  DumpExpr(n.Len, fset),
+				"kind":     "type",
+				"type":     "array",
+				"element":  DumpExprAsType(n.Elt, fset),
+				"length":   DumpExpr(n.Len, fset),
 				"position": DumpPosition(fset.Position(e.Pos())),
 			}
 		}
@@ -130,7 +130,7 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"kind":      "type",
 			"type":      "pointer",
 			"contained": DumpExprAsType(n.X, fset),
-			"position": DumpPosition(fset.Position(e.Pos())),
+			"position":  DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
@@ -140,16 +140,16 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"type":       "interface",
 			"incomplete": n.Incomplete,
 			"methods":    DumpFields(n.Methods, fset),
-			"position": DumpPosition(fset.Position(e.Pos())),
+			"position":   DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
 	if n, ok := e.(*ast.MapType); ok {
 		return map[string]interface{}{
-			"kind":  "type",
-			"type":  "map",
-			"key":   DumpExprAsType(n.Key, fset),
-			"value": DumpExprAsType(n.Value, fset),
+			"kind":     "type",
+			"type":     "map",
+			"key":      DumpExprAsType(n.Key, fset),
+			"value":    DumpExprAsType(n.Value, fset),
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
@@ -160,25 +160,25 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"type":      "chan",
 			"direction": DumpChanDir(n.Dir),
 			"value":     DumpExprAsType(n.Value, fset),
-			"position": DumpPosition(fset.Position(e.Pos())),
+			"position":  DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
 	if n, ok := e.(*ast.StructType); ok {
 		return map[string]interface{}{
-			"kind":   "type",
-			"type":   "struct",
-			"fields": DumpFields(n.Fields, fset),
+			"kind":     "type",
+			"type":     "struct",
+			"fields":   DumpFields(n.Fields, fset),
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
 
 	if n, ok := e.(*ast.FuncType); ok {
 		return map[string]interface{}{
-			"kind":    "type",
-			"type":    "function",
-			"params":  DumpFields(n.Params, fset),
-			"results": DumpFields(n.Results, fset),
+			"kind":     "type",
+			"type":     "function",
+			"params":   DumpFields(n.Params, fset),
+			"results":  DumpFields(n.Results, fset),
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}

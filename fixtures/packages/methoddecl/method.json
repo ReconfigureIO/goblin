@@ -1,327 +1,325 @@
 {
-   "kind" : "file",
-   "imports" : [],
    "declarations" : [
       {
+         "kind" : "decl",
+         "name" : {
+            "position" : {
+               "line" : 3,
+               "filename" : "fixtures/packages/methoddecl/method.go",
+               "offset" : 19,
+               "column" : 6
+            },
+            "value" : "Thing",
+            "kind" : "ident"
+         },
          "comments" : [],
+         "type" : "type-alias",
          "value" : {
-            "kind" : "type",
             "type" : "struct",
+            "position" : {
+               "column" : 12,
+               "offset" : 25,
+               "filename" : "fixtures/packages/methoddecl/method.go",
+               "line" : 3
+            },
             "fields" : [
                {
                   "names" : [
                      {
                         "kind" : "ident",
-                        "position" : {
-                           "filename" : "fixtures/packages/methoddecl/method.go",
-                           "offset" : 35,
-                           "column" : 2,
-                           "line" : 4
-                        },
-                        "value" : "count"
-                     }
-                  ],
-                  "kind" : "field",
-                  "declared-type" : {
-                     "type" : "identifier",
-                     "kind" : "type",
-                     "position" : {
-                        "filename" : "fixtures/packages/methoddecl/method.go",
-                        "offset" : 41,
-                        "column" : 8,
-                        "line" : 4
-                     },
-                     "value" : {
-                        "kind" : "ident",
-                        "position" : {
-                           "filename" : "fixtures/packages/methoddecl/method.go",
-                           "offset" : 41,
-                           "column" : 8,
-                           "line" : 4
-                        },
-                        "value" : "int8"
-                     }
-                  },
-                  "tag" : null
-               }
-            ]
-         },
-         "position" : {
-            "offset" : 19,
-            "filename" : "fixtures/packages/methoddecl/method.go",
-            "line" : 3,
-            "column" : 6
-         },
-         "type" : "type-alias",
-         "kind" : "decl",
-         "name" : {
-            "position" : {
-               "filename" : "fixtures/packages/methoddecl/method.go",
-               "offset" : 19,
-               "column" : 6,
-               "line" : 3
-            },
-            "value" : "Thing",
-            "kind" : "ident"
-         }
-      },
-      {
-         "kind" : "decl",
-         "body" : [
-            {
-               "kind" : "statement",
-               "type" : "assign-operator",
-               "left" : [
-                  {
-                     "type" : "identifier",
-                     "kind" : "expression",
-                     "value" : {
                         "value" : "count",
                         "position" : {
-                           "line" : 8,
-                           "column" : 4,
-                           "offset" : 75,
+                           "column" : 2,
+                           "offset" : 35,
+                           "line" : 4,
+                           "filename" : "fixtures/packages/methoddecl/method.go"
+                        }
+                     }
+                  ],
+                  "tag" : null,
+                  "kind" : "field",
+                  "declared-type" : {
+                     "kind" : "type",
+                     "type" : "identifier",
+                     "position" : {
+                        "offset" : 41,
+                        "filename" : "fixtures/packages/methoddecl/method.go",
+                        "line" : 4,
+                        "column" : 8
+                     },
+                     "value" : {
+                        "value" : "int8",
+                        "position" : {
+                           "column" : 8,
+                           "offset" : 41,
+                           "line" : 4,
                            "filename" : "fixtures/packages/methoddecl/method.go"
                         },
                         "kind" : "ident"
-                     },
-                     "position" : {
-                        "filename" : "fixtures/packages/methoddecl/method.go",
-                        "offset" : 73,
-                        "column" : 2,
-                        "line" : 8
-                     },
-                     "qualifier" : {
-                        "kind" : "ident",
-                        "position" : {
-                           "filename" : "fixtures/packages/methoddecl/method.go",
-                           "offset" : 73,
-                           "column" : 2,
-                           "line" : 8
-                        },
-                        "value" : "t"
                      }
                   }
-               ],
-               "position" : {
-                  "filename" : "fixtures/packages/methoddecl/method.go",
-                  "offset" : 73,
-                  "column" : 2,
-                  "line" : 8
-               },
-               "right" : [
-                  {
-                     "position" : {
-                        "offset" : 84,
-                        "filename" : "fixtures/packages/methoddecl/method.go",
-                        "line" : 8,
-                        "column" : 13
-                     },
-                     "value" : "1",
-                     "kind" : "literal",
-                     "type" : "INT"
-                  }
-               ],
-               "operator" : "+"
-            }
-         ],
-         "name" : {
-            "kind" : "ident",
-            "value" : "Inc",
-            "position" : {
-               "column" : 16,
-               "line" : 7,
-               "filename" : "fixtures/packages/methoddecl/method.go",
-               "offset" : 64
-            }
-         },
-         "type" : "method",
-         "receiver" : {
-            "names" : [
-               {
-                  "kind" : "ident",
-                  "position" : {
-                     "filename" : "fixtures/packages/methoddecl/method.go",
-                     "offset" : 55,
-                     "column" : 7,
-                     "line" : 7
-                  },
-                  "value" : "t"
                }
             ],
-            "kind" : "field",
-            "tag" : null,
-            "declared-type" : {
-               "type" : "identifier",
-               "kind" : "type",
-               "position" : {
-                  "line" : 7,
-                  "column" : 9,
-                  "offset" : 57,
-                  "filename" : "fixtures/packages/methoddecl/method.go"
-               },
-               "value" : {
-                  "value" : "Thing",
-                  "position" : {
-                     "line" : 7,
-                     "column" : 9,
-                     "offset" : 57,
-                     "filename" : "fixtures/packages/methoddecl/method.go"
-                  },
-                  "kind" : "ident"
-               }
-            }
+            "kind" : "type"
          },
-         "params" : [],
-         "comments" : [],
-         "results" : null,
          "position" : {
-            "line" : 7,
-            "column" : 1,
-            "offset" : 49,
-            "filename" : "fixtures/packages/methoddecl/method.go"
+            "column" : 6,
+            "filename" : "fixtures/packages/methoddecl/method.go",
+            "line" : 3,
+            "offset" : 19
          }
       },
       {
-         "name" : {
-            "value" : "main",
-            "position" : {
-               "offset" : 94,
-               "filename" : "fixtures/packages/methoddecl/method.go",
-               "line" : 11,
-               "column" : 6
-            },
-            "kind" : "ident"
+         "params" : [],
+         "type" : "method",
+         "comments" : [],
+         "position" : {
+            "line" : 7,
+            "filename" : "fixtures/packages/methoddecl/method.go",
+            "offset" : 49,
+            "column" : 1
          },
+         "kind" : "decl",
          "body" : [
             {
+               "operator" : "+",
+               "position" : {
+                  "offset" : 73,
+                  "filename" : "fixtures/packages/methoddecl/method.go",
+                  "line" : 8,
+                  "column" : 2
+               },
+               "type" : "assign-operator",
                "left" : [
                   {
-                     "type" : "identifier",
                      "kind" : "expression",
                      "value" : {
                         "kind" : "ident",
+                        "value" : "count",
+                        "position" : {
+                           "filename" : "fixtures/packages/methoddecl/method.go",
+                           "line" : 8,
+                           "offset" : 75,
+                           "column" : 4
+                        }
+                     },
+                     "qualifier" : {
+                        "kind" : "ident",
                         "value" : "t",
                         "position" : {
-                           "offset" : 104,
+                           "offset" : 73,
+                           "line" : 8,
                            "filename" : "fixtures/packages/methoddecl/method.go",
-                           "line" : 12,
                            "column" : 2
                         }
                      },
                      "position" : {
+                        "offset" : 73,
+                        "line" : 8,
                         "filename" : "fixtures/packages/methoddecl/method.go",
-                        "offset" : 104,
-                        "column" : 2,
-                        "line" : 12
-                     }
+                        "column" : 2
+                     },
+                     "type" : "identifier"
                   }
                ],
-               "position" : {
-                  "filename" : "fixtures/packages/methoddecl/method.go",
-                  "offset" : 104,
-                  "column" : 2,
-                  "line" : 12
-               },
+               "kind" : "statement",
                "right" : [
                   {
-                     "declared" : {
-                        "position" : {
-                           "filename" : "fixtures/packages/methoddecl/method.go",
-                           "offset" : 109,
-                           "column" : 7,
-                           "line" : 12
-                        },
-                        "value" : {
-                           "position" : {
-                              "offset" : 109,
-                              "filename" : "fixtures/packages/methoddecl/method.go",
-                              "line" : 12,
-                              "column" : 7
-                           },
-                           "value" : "Thing",
-                           "kind" : "ident"
-                        },
-                        "kind" : "type",
-                        "type" : "identifier"
-                     },
-                     "values" : [
-                        {
-                           "type" : "INT",
-                           "kind" : "literal",
-                           "value" : "1",
-                           "position" : {
-                              "line" : 12,
-                              "column" : 13,
-                              "offset" : 115,
-                              "filename" : "fixtures/packages/methoddecl/method.go"
-                           }
-                        }
-                     ],
+                     "kind" : "literal",
                      "position" : {
-                        "column" : 7,
-                        "line" : 12,
+                        "column" : 13,
                         "filename" : "fixtures/packages/methoddecl/method.go",
-                        "offset" : 109
+                        "line" : 8,
+                        "offset" : 84
                      },
-                     "type" : "composite",
-                     "kind" : "literal"
+                     "value" : "1",
+                     "type" : "INT"
                   }
-               ],
-               "type" : "define",
-               "kind" : "statement"
-            },
-            {
-               "type" : "expression",
-               "kind" : "statement",
+               ]
+            }
+         ],
+         "receiver" : {
+            "declared-type" : {
+               "kind" : "type",
                "value" : {
                   "position" : {
-                     "column" : 2,
-                     "line" : 13,
                      "filename" : "fixtures/packages/methoddecl/method.go",
-                     "offset" : 119
+                     "line" : 7,
+                     "offset" : 57,
+                     "column" : 9
                   },
-                  "function" : {
-                     "type" : "identifier",
+                  "value" : "Thing",
+                  "kind" : "ident"
+               },
+               "position" : {
+                  "filename" : "fixtures/packages/methoddecl/method.go",
+                  "line" : 7,
+                  "offset" : 57,
+                  "column" : 9
+               },
+               "type" : "identifier"
+            },
+            "kind" : "field",
+            "tag" : null,
+            "names" : [
+               {
+                  "position" : {
+                     "offset" : 55,
+                     "filename" : "fixtures/packages/methoddecl/method.go",
+                     "line" : 7,
+                     "column" : 7
+                  },
+                  "value" : "t",
+                  "kind" : "ident"
+               }
+            ]
+         },
+         "name" : {
+            "kind" : "ident",
+            "value" : "Inc",
+            "position" : {
+               "offset" : 64,
+               "filename" : "fixtures/packages/methoddecl/method.go",
+               "line" : 7,
+               "column" : 16
+            }
+         },
+         "results" : null
+      },
+      {
+         "results" : null,
+         "body" : [
+            {
+               "position" : {
+                  "offset" : 104,
+                  "line" : 12,
+                  "filename" : "fixtures/packages/methoddecl/method.go",
+                  "column" : 2
+               },
+               "type" : "define",
+               "left" : [
+                  {
                      "kind" : "expression",
+                     "type" : "identifier",
                      "value" : {
+                        "value" : "t",
                         "position" : {
-                           "line" : 13,
-                           "column" : 4,
-                           "offset" : 121,
+                           "column" : 2,
+                           "offset" : 104,
+                           "line" : 12,
                            "filename" : "fixtures/packages/methoddecl/method.go"
                         },
-                        "value" : "Inc",
                         "kind" : "ident"
                      },
                      "position" : {
-                        "column" : 2,
+                        "filename" : "fixtures/packages/methoddecl/method.go",
+                        "line" : 12,
+                        "offset" : 104,
+                        "column" : 2
+                     }
+                  }
+               ],
+               "kind" : "statement",
+               "right" : [
+                  {
+                     "kind" : "literal",
+                     "values" : [
+                        {
+                           "position" : {
+                              "filename" : "fixtures/packages/methoddecl/method.go",
+                              "line" : 12,
+                              "offset" : 115,
+                              "column" : 13
+                           },
+                           "value" : "1",
+                           "type" : "INT",
+                           "kind" : "literal"
+                        }
+                     ],
+                     "declared" : {
+                        "value" : {
+                           "kind" : "ident",
+                           "value" : "Thing",
+                           "position" : {
+                              "column" : 7,
+                              "offset" : 109,
+                              "filename" : "fixtures/packages/methoddecl/method.go",
+                              "line" : 12
+                           }
+                        },
+                        "position" : {
+                           "offset" : 109,
+                           "line" : 12,
+                           "filename" : "fixtures/packages/methoddecl/method.go",
+                           "column" : 7
+                        },
+                        "type" : "identifier",
+                        "kind" : "type"
+                     },
+                     "position" : {
+                        "offset" : 109,
+                        "line" : 12,
+                        "filename" : "fixtures/packages/methoddecl/method.go",
+                        "column" : 7
+                     },
+                     "type" : "composite"
+                  }
+               ]
+            },
+            {
+               "kind" : "statement",
+               "value" : {
+                  "kind" : "expression",
+                  "arguments" : [],
+                  "position" : {
+                     "column" : 2,
+                     "offset" : 119,
+                     "line" : 13,
+                     "filename" : "fixtures/packages/methoddecl/method.go"
+                  },
+                  "function" : {
+                     "position" : {
                         "line" : 13,
                         "filename" : "fixtures/packages/methoddecl/method.go",
-                        "offset" : 119
+                        "offset" : 119,
+                        "column" : 2
                      },
                      "qualifier" : {
-                        "kind" : "ident",
                         "position" : {
-                           "line" : 13,
                            "column" : 2,
                            "offset" : 119,
+                           "line" : 13,
                            "filename" : "fixtures/packages/methoddecl/method.go"
                         },
-                        "value" : "t"
-                     }
+                        "value" : "t",
+                        "kind" : "ident"
+                     },
+                     "value" : {
+                        "kind" : "ident",
+                        "value" : "Inc",
+                        "position" : {
+                           "column" : 4,
+                           "offset" : 121,
+                           "filename" : "fixtures/packages/methoddecl/method.go",
+                           "line" : 13
+                        }
+                     },
+                     "type" : "identifier",
+                     "kind" : "expression"
                   },
-                  "ellipsis" : false,
-                  "arguments" : [],
-                  "kind" : "expression",
-                  "type" : "call"
-               }
+                  "type" : "call",
+                  "ellipsis" : false
+               },
+               "type" : "expression"
             },
             {
                "type" : "expression",
-               "kind" : "statement",
                "value" : {
+                  "ellipsis" : false,
+                  "type" : "call",
                   "function" : {
+                     "kind" : "expression",
+                     "type" : "identifier",
                      "position" : {
                         "offset" : 128,
                         "filename" : "fixtures/packages/methoddecl/method.go",
@@ -329,85 +327,93 @@
                         "column" : 2
                      },
                      "value" : {
-                        "kind" : "ident",
                         "value" : "println",
                         "position" : {
                            "offset" : 128,
-                           "filename" : "fixtures/packages/methoddecl/method.go",
                            "line" : 14,
+                           "filename" : "fixtures/packages/methoddecl/method.go",
                            "column" : 2
-                        }
-                     },
-                     "type" : "identifier",
-                     "kind" : "expression"
+                        },
+                        "kind" : "ident"
+                     }
                   },
-                  "ellipsis" : false,
-                  "type" : "call",
-                  "kind" : "expression",
+                  "position" : {
+                     "line" : 14,
+                     "filename" : "fixtures/packages/methoddecl/method.go",
+                     "offset" : 128,
+                     "column" : 2
+                  },
                   "arguments" : [
                      {
-                        "type" : "identifier",
                         "kind" : "expression",
-                        "value" : {
-                           "kind" : "ident",
-                           "position" : {
-                              "column" : 12,
-                              "line" : 14,
-                              "filename" : "fixtures/packages/methoddecl/method.go",
-                              "offset" : 138
-                           },
-                           "value" : "count"
-                        },
+                        "type" : "identifier",
                         "qualifier" : {
                            "position" : {
                               "column" : 10,
+                              "offset" : 136,
                               "line" : 14,
-                              "filename" : "fixtures/packages/methoddecl/method.go",
-                              "offset" : 136
+                              "filename" : "fixtures/packages/methoddecl/method.go"
                            },
                            "value" : "t",
                            "kind" : "ident"
                         },
                         "position" : {
-                           "column" : 10,
                            "line" : 14,
                            "filename" : "fixtures/packages/methoddecl/method.go",
-                           "offset" : 136
+                           "offset" : 136,
+                           "column" : 10
+                        },
+                        "value" : {
+                           "position" : {
+                              "offset" : 138,
+                              "filename" : "fixtures/packages/methoddecl/method.go",
+                              "line" : 14,
+                              "column" : 12
+                           },
+                           "value" : "count",
+                           "kind" : "ident"
                         }
                      }
                   ],
-                  "position" : {
-                     "line" : 14,
-                     "column" : 2,
-                     "offset" : 128,
-                     "filename" : "fixtures/packages/methoddecl/method.go"
-                  }
-               }
+                  "kind" : "expression"
+               },
+               "kind" : "statement"
             }
          ],
+         "name" : {
+            "kind" : "ident",
+            "value" : "main",
+            "position" : {
+               "filename" : "fixtures/packages/methoddecl/method.go",
+               "line" : 11,
+               "offset" : 94,
+               "column" : 6
+            }
+         },
          "kind" : "decl",
-         "type" : "function",
-         "results" : null,
          "position" : {
-            "column" : 1,
             "line" : 11,
             "filename" : "fixtures/packages/methoddecl/method.go",
-            "offset" : 89
+            "offset" : 89,
+            "column" : 1
          },
          "comments" : [],
+         "type" : "function",
          "params" : []
       }
    ],
+   "comments" : [],
+   "imports" : [],
    "name" : {
-      "kind" : "ident",
       "value" : "main",
       "position" : {
          "column" : 9,
+         "offset" : 8,
          "line" : 1,
-         "filename" : "fixtures/packages/methoddecl/method.go",
-         "offset" : 8
-      }
+         "filename" : "fixtures/packages/methoddecl/method.go"
+      },
+      "kind" : "ident"
    },
-   "comments" : [],
+   "kind" : "file",
    "all-comments" : []
 }

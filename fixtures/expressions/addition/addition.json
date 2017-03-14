@@ -1,1 +1,51 @@
-{"kind":"binary","left":{"kind":"expression","position":{"column":0,"filename":"","line":0,"offset":0},"type":"identifier","value":{"kind":"ident","position":{"column":0,"filename":"","line":0,"offset":0},"value":"ill"}},"operator":"+","position":{"column":0,"filename":"","line":0,"offset":0},"right":{"kind":"expression","position":{"column":0,"filename":"","line":0,"offset":0},"type":"identifier","value":{"kind":"ident","position":{"column":0,"filename":"","line":0,"offset":0},"value":"matic"}},"type":"expression"}
+{
+   "left" : {
+      "type" : "identifier",
+      "kind" : "expression",
+      "position" : {
+         "column" : 0,
+         "offset" : 0,
+         "line" : 0,
+         "filename" : ""
+      },
+      "value" : {
+         "kind" : "ident",
+         "position" : {
+            "filename" : "",
+            "offset" : 0,
+            "line" : 0,
+            "column" : 0
+         },
+         "value" : "ill"
+      }
+   },
+   "operator" : "+",
+   "right" : {
+      "value" : {
+         "value" : "matic",
+         "kind" : "ident",
+         "position" : {
+            "filename" : "",
+            "line" : 0,
+            "offset" : 0,
+            "column" : 0
+         }
+      },
+      "kind" : "expression",
+      "position" : {
+         "offset" : 0,
+         "line" : 0,
+         "column" : 0,
+         "filename" : ""
+      },
+      "type" : "identifier"
+   },
+   "position" : {
+      "column" : 0,
+      "line" : 0,
+      "offset" : 0,
+      "filename" : ""
+   },
+   "kind" : "binary",
+   "type" : "expression"
+}

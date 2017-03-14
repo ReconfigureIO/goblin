@@ -1,144 +1,181 @@
 {
+   "name" : {
+      "position" : {
+         "offset" : 8,
+         "line" : 1,
+         "column" : 9,
+         "filename" : "fixtures/packages/interface_type/interface.go"
+      },
+      "value" : "main",
+      "kind" : "ident"
+   },
    "kind" : "file",
-   "comments" : [],
    "declarations" : [
       {
-         "comments" : [],
          "kind" : "decl",
-         "params" : [],
+         "name" : {
+            "value" : "main",
+            "kind" : "ident",
+            "position" : {
+               "filename" : "fixtures/packages/interface_type/interface.go",
+               "column" : 6,
+               "line" : 3,
+               "offset" : 19
+            }
+         },
+         "comments" : [],
+         "results" : null,
+         "type" : "function",
+         "position" : {
+            "filename" : "fixtures/packages/interface_type/interface.go",
+            "column" : 1,
+            "line" : 3,
+            "offset" : 14
+         },
          "body" : [
             {
-               "kind" : "statement",
-               "position" : {
-                  "line" : 4,
-                  "column" : 2,
-                  "offset" : 29,
-                  "filename" : "fixtures/packages/interface_type/interface.go"
-               },
                "type" : "define",
                "right" : [
                   {
                      "values" : [
                         {
+                           "key" : {
+                              "value" : "\"foo\"",
+                              "position" : {
+                                 "column" : 3,
+                                 "line" : 5,
+                                 "offset" : 63,
+                                 "filename" : "fixtures/packages/interface_type/interface.go"
+                              },
+                              "kind" : "literal",
+                              "type" : "STRING"
+                           },
+                           "type" : "key-value",
                            "value" : {
                               "value" : "\"bar\"",
-                              "type" : "STRING",
                               "position" : {
-                                 "filename" : "fixtures/packages/interface_type/interface.go",
-                                 "column" : 10,
                                  "offset" : 70,
-                                 "line" : 5
+                                 "line" : 5,
+                                 "column" : 10,
+                                 "filename" : "fixtures/packages/interface_type/interface.go"
                               },
-                              "kind" : "literal"
-                           },
-                           "type" : "key-value",
-                           "kind" : "expression",
-                           "key" : {
                               "kind" : "literal",
-                              "position" : {
-                                 "filename" : "fixtures/packages/interface_type/interface.go",
-                                 "offset" : 63,
-                                 "column" : 3,
-                                 "line" : 5
-                              },
-                              "type" : "STRING",
-                              "value" : "\"foo\""
-                           }
+                              "type" : "STRING"
+                           },
+                           "kind" : "expression"
                         },
                         {
-                           "key" : {
+                           "kind" : "expression",
+                           "value" : {
+                              "value" : "400",
                               "kind" : "literal",
+                              "position" : {
+                                 "filename" : "fixtures/packages/interface_type/interface.go",
+                                 "offset" : 86,
+                                 "line" : 6,
+                                 "column" : 10
+                              },
+                              "type" : "INT"
+                           },
+                           "type" : "key-value",
+                           "key" : {
                               "type" : "STRING",
                               "value" : "\"baz\"",
-                              "position" : {
-                                 "filename" : "fixtures/packages/interface_type/interface.go",
-                                 "line" : 6,
-                                 "offset" : 79,
-                                 "column" : 3
-                              }
-                           },
-                           "kind" : "expression",
-                           "type" : "key-value",
-                           "value" : {
                               "kind" : "literal",
-                              "value" : "400",
-                              "type" : "INT",
                               "position" : {
-                                 "filename" : "fixtures/packages/interface_type/interface.go",
-                                 "column" : 10,
-                                 "offset" : 86,
-                                 "line" : 6
+                                 "line" : 6,
+                                 "column" : 3,
+                                 "offset" : 79,
+                                 "filename" : "fixtures/packages/interface_type/interface.go"
                               }
                            }
                         }
                      ],
-                     "kind" : "literal",
                      "declared" : {
-                        "kind" : "type",
                         "key" : {
                            "kind" : "type",
-                           "position" : {
-                              "filename" : "fixtures/packages/interface_type/interface.go",
-                              "column" : 14,
-                              "offset" : 41,
-                              "line" : 4
-                           },
-                           "type" : "identifier",
                            "value" : {
+                              "value" : "string",
+                              "kind" : "ident",
                               "position" : {
-                                 "filename" : "fixtures/packages/interface_type/interface.go",
                                  "offset" : 41,
                                  "column" : 14,
-                                 "line" : 4
-                              },
-                              "value" : "string",
-                              "kind" : "ident"
-                           }
+                                 "line" : 4,
+                                 "filename" : "fixtures/packages/interface_type/interface.go"
+                              }
+                           },
+                           "position" : {
+                              "offset" : 41,
+                              "line" : 4,
+                              "column" : 14,
+                              "filename" : "fixtures/packages/interface_type/interface.go"
+                           },
+                           "type" : "identifier"
                         },
-                        "type" : "map",
+                        "position" : {
+                           "offset" : 37,
+                           "column" : 10,
+                           "line" : 4,
+                           "filename" : "fixtures/packages/interface_type/interface.go"
+                        },
                         "value" : {
+                           "position" : {
+                              "filename" : "fixtures/packages/interface_type/interface.go",
+                              "line" : 4,
+                              "column" : 21,
+                              "offset" : 48
+                           },
+                           "kind" : "type",
                            "type" : "interface",
                            "methods" : [],
-                           "incomplete" : false,
-                           "kind" : "type"
-                        }
+                           "incomplete" : false
+                        },
+                        "kind" : "type",
+                        "type" : "map"
                      },
+                     "type" : "composite",
                      "position" : {
                         "column" : 10,
-                        "offset" : 37,
                         "line" : 4,
+                        "offset" : 37,
                         "filename" : "fixtures/packages/interface_type/interface.go"
                      },
-                     "type" : "composite"
+                     "kind" : "literal"
                   }
                ],
+               "kind" : "statement",
+               "position" : {
+                  "offset" : 29,
+                  "column" : 2,
+                  "line" : 4,
+                  "filename" : "fixtures/packages/interface_type/interface.go"
+               },
                "left" : [
                   {
-                     "kind" : "expression",
-                     "position" : {
-                        "line" : 4,
-                        "offset" : 29,
-                        "column" : 2,
-                        "filename" : "fixtures/packages/interface_type/interface.go"
-                     },
+                     "type" : "identifier",
                      "value" : {
+                        "value" : "item",
                         "kind" : "ident",
                         "position" : {
                            "filename" : "fixtures/packages/interface_type/interface.go",
-                           "line" : 4,
+                           "offset" : 29,
                            "column" : 2,
-                           "offset" : 29
-                        },
-                        "value" : "item"
+                           "line" : 4
+                        }
                      },
-                     "type" : "identifier"
+                     "position" : {
+                        "offset" : 29,
+                        "column" : 2,
+                        "line" : 4,
+                        "filename" : "fixtures/packages/interface_type/interface.go"
+                     },
+                     "kind" : "expression"
                   }
                ]
             },
             {
-               "kind" : "statement",
+               "type" : "expression",
                "value" : {
-                  "type" : "call",
                   "position" : {
                      "filename" : "fixtures/packages/interface_type/interface.go",
                      "offset" : 96,
@@ -146,104 +183,79 @@
                      "line" : 9
                   },
                   "kind" : "expression",
-                  "ellipsis" : false,
                   "function" : {
-                     "kind" : "expression",
                      "type" : "identifier",
                      "value" : {
                         "kind" : "ident",
+                        "value" : "println",
                         "position" : {
+                           "offset" : 96,
                            "line" : 9,
                            "column" : 2,
-                           "offset" : 96,
                            "filename" : "fixtures/packages/interface_type/interface.go"
-                        },
-                        "value" : "println"
+                        }
                      },
                      "position" : {
-                        "filename" : "fixtures/packages/interface_type/interface.go",
-                        "column" : 2,
                         "offset" : 96,
-                        "line" : 9
-                     }
+                        "line" : 9,
+                        "column" : 2,
+                        "filename" : "fixtures/packages/interface_type/interface.go"
+                     },
+                     "kind" : "expression"
                   },
                   "arguments" : [
                      {
                         "kind" : "expression",
+                        "position" : {
+                           "column" : 10,
+                           "line" : 9,
+                           "offset" : 104,
+                           "filename" : "fixtures/packages/interface_type/interface.go"
+                        },
+                        "type" : "index",
                         "index" : {
-                           "position" : {
-                              "filename" : "fixtures/packages/interface_type/interface.go",
-                              "column" : 15,
-                              "offset" : 109,
-                              "line" : 9
-                           },
                            "type" : "STRING",
+                           "position" : {
+                              "column" : 15,
+                              "line" : 9,
+                              "offset" : 109,
+                              "filename" : "fixtures/packages/interface_type/interface.go"
+                           },
                            "value" : "\"foo\"",
                            "kind" : "literal"
                         },
-                        "type" : "index",
                         "target" : {
-                           "kind" : "expression",
-                           "type" : "identifier",
                            "value" : {
                               "position" : {
                                  "filename" : "fixtures/packages/interface_type/interface.go",
                                  "column" : 10,
-                                 "offset" : 104,
-                                 "line" : 9
+                                 "line" : 9,
+                                 "offset" : 104
                               },
                               "value" : "item",
                               "kind" : "ident"
                            },
+                           "kind" : "expression",
                            "position" : {
-                              "filename" : "fixtures/packages/interface_type/interface.go",
-                              "column" : 10,
                               "offset" : 104,
-                              "line" : 9
-                           }
-                        },
-                        "position" : {
-                           "line" : 9,
-                           "column" : 10,
-                           "offset" : 104,
-                           "filename" : "fixtures/packages/interface_type/interface.go"
+                              "column" : 10,
+                              "line" : 9,
+                              "filename" : "fixtures/packages/interface_type/interface.go"
+                           },
+                           "type" : "identifier"
                         }
                      }
-                  ]
+                  ],
+                  "type" : "call",
+                  "ellipsis" : false
                },
-               "type" : "expression"
+               "kind" : "statement"
             }
          ],
-         "results" : null,
-         "type" : "function",
-         "name" : {
-            "kind" : "ident",
-            "value" : "main",
-            "position" : {
-               "filename" : "fixtures/packages/interface_type/interface.go",
-               "line" : 3,
-               "offset" : 19,
-               "column" : 6
-            }
-         },
-         "position" : {
-            "filename" : "fixtures/packages/interface_type/interface.go",
-            "offset" : 14,
-            "column" : 1,
-            "line" : 3
-         }
+         "params" : []
       }
    ],
    "all-comments" : [],
-   "name" : {
-      "position" : {
-         "column" : 9,
-         "offset" : 8,
-         "line" : 1,
-         "filename" : "fixtures/packages/interface_type/interface.go"
-      },
-      "value" : "main",
-      "kind" : "ident"
-   },
-   "imports" : []
+   "imports" : [],
+   "comments" : []
 }
