@@ -1,54 +1,60 @@
 {
-  "coerced-to": {
-    "element": {
-      "kind": "type",
-      "position": {
-        "column": 0,
-        "filename": "",
-        "line": 0,
-        "offset": 0
+   "type" : "cast",
+   "target" : {
+      "value" : {
+         "position" : {
+            "filename" : "",
+            "offset" : 0,
+            "column" : 0,
+            "line" : 0
+         },
+         "kind" : "ident",
+         "value" : "foo"
       },
-      "type": "identifier",
-      "value": {
-        "kind": "ident",
-        "position": {
-          "column": 0,
-          "filename": "",
-          "line": 0,
-          "offset": 0
-        },
-        "value": "int"
+      "type" : "identifier",
+      "position" : {
+         "line" : 0,
+         "column" : 0,
+         "offset" : 0,
+         "filename" : ""
+      },
+      "kind" : "expression"
+   },
+   "position" : {
+      "column" : 0,
+      "line" : 0,
+      "filename" : "",
+      "offset" : 0
+   },
+   "kind" : "expression",
+   "coerced-to" : {
+      "element" : {
+         "type" : "identifier",
+         "value" : {
+            "value" : "int",
+            "kind" : "ident",
+            "position" : {
+               "offset" : 0,
+               "filename" : "",
+               "line" : 0,
+               "column" : 0
+            }
+         },
+         "position" : {
+            "offset" : 0,
+            "filename" : "",
+            "line" : 0,
+            "column" : 0
+         },
+         "kind" : "type"
+      },
+      "type" : "slice",
+      "kind" : "type",
+      "position" : {
+         "filename" : "",
+         "offset" : 0,
+         "column" : 0,
+         "line" : 0
       }
-    },
-    "kind": "type",
-    "type": "slice"
-  },
-  "kind": "expression",
-  "position": {
-    "column": 0,
-    "filename": "",
-    "line": 0,
-    "offset": 0
-  },
-  "target": {
-    "kind": "expression",
-    "position": {
-      "column": 0,
-      "filename": "",
-      "line": 0,
-      "offset": 0
-    },
-    "type": "identifier",
-    "value": {
-      "kind": "ident",
-      "position": {
-        "column": 0,
-        "filename": "",
-        "line": 0,
-        "offset": 0
-      },
-      "value": "foo"
-    }
-  },
-  "type": "cast"
+   }
 }

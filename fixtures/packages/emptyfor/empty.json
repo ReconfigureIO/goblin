@@ -1,57 +1,57 @@
 {
-   "imports" : [],
-   "name" : {
-      "value" : "main",
-      "kind" : "ident",
-      "position" : {
-         "filename" : "fixtures/packages/emptyfor/empty.go",
-         "line" : 1,
-         "offset" : 8,
-         "column" : 9
-      }
-   },
    "all-comments" : [],
-   "comments" : [],
    "declarations" : [
       {
+         "kind" : "decl",
          "name" : {
             "kind" : "ident",
             "position" : {
-               "line" : 3,
-               "filename" : "fixtures/packages/emptyfor/empty.go",
                "column" : 6,
-               "offset" : 19
+               "line" : 3,
+               "offset" : 19,
+               "filename" : "fixtures/packages/emptyfor/empty.go"
             },
             "value" : "main"
          },
-         "results" : null,
-         "type" : "function",
-         "comments" : [],
          "position" : {
+            "column" : 1,
             "filename" : "fixtures/packages/emptyfor/empty.go",
-            "line" : 3,
             "offset" : 14,
-            "column" : 1
+            "line" : 3
          },
-         "kind" : "decl",
+         "type" : "function",
+         "params" : [],
+         "comments" : [],
          "body" : [
             {
-               "position" : {
-                  "column" : 2,
-                  "offset" : 29,
-                  "line" : 4,
-                  "filename" : "fixtures/packages/emptyfor/empty.go"
-               },
-               "post" : null,
                "body" : [],
                "type" : "for",
-               "kind" : "statement",
+               "position" : {
+                  "column" : 2,
+                  "filename" : "fixtures/packages/emptyfor/empty.go",
+                  "offset" : 29,
+                  "line" : 4
+               },
                "init" : null,
+               "post" : null,
+               "kind" : "statement",
                "condition" : null
             }
          ],
-         "params" : []
+         "results" : null
       }
    ],
-   "kind" : "file"
+   "name" : {
+      "kind" : "ident",
+      "position" : {
+         "column" : 9,
+         "offset" : 8,
+         "filename" : "fixtures/packages/emptyfor/empty.go",
+         "line" : 1
+      },
+      "value" : "main"
+   },
+   "kind" : "file",
+   "imports" : [],
+   "comments" : []
 }

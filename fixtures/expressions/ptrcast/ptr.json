@@ -1,57 +1,57 @@
 {
-   "kind" : "expression",
    "target" : {
-      "position" : {
-         "line" : 0,
-         "offset" : 0,
-         "column" : 0,
-         "filename" : ""
-      },
-      "kind" : "expression",
       "type" : "call",
-      "arguments" : [
-         {
-            "kind" : "expression",
+      "kind" : "expression",
+      "function" : {
+         "type" : "identifier",
+         "kind" : "expression",
+         "position" : {
+            "line" : 0,
+            "offset" : 0,
+            "filename" : "",
+            "column" : 0
+         },
+         "value" : {
+            "kind" : "ident",
+            "value" : "int8",
             "position" : {
                "line" : 0,
                "offset" : 0,
                "filename" : "",
                "column" : 0
-            },
-            "value" : {
-               "value" : "biggie",
-               "position" : {
-                  "filename" : "",
-                  "offset" : 0,
-                  "column" : 0,
-                  "line" : 0
-               },
-               "kind" : "ident"
-            },
-            "type" : "identifier"
-         }
-      ],
-      "function" : {
-         "type" : "identifier",
-         "kind" : "expression",
-         "position" : {
-            "offset" : 0,
-            "filename" : "",
-            "column" : 0,
-            "line" : 0
-         },
-         "value" : {
-            "value" : "int8",
-            "kind" : "ident",
-            "position" : {
-               "filename" : "",
-               "offset" : 0,
-               "column" : 0,
-               "line" : 0
             }
          }
       },
+      "arguments" : [
+         {
+            "value" : {
+               "kind" : "ident",
+               "position" : {
+                  "filename" : "",
+                  "column" : 0,
+                  "line" : 0,
+                  "offset" : 0
+               },
+               "value" : "biggie"
+            },
+            "position" : {
+               "column" : 0,
+               "filename" : "",
+               "offset" : 0,
+               "line" : 0
+            },
+            "type" : "identifier",
+            "kind" : "expression"
+         }
+      ],
+      "position" : {
+         "filename" : "",
+         "column" : 0,
+         "line" : 0,
+         "offset" : 0
+      },
       "ellipsis" : false
    },
+   "kind" : "expression",
    "type" : "star"
 }

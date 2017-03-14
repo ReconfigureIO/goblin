@@ -1,65 +1,71 @@
 {
-   "coerced-to" : {
-      "length" : {
-         "value" : "2",
-         "type" : "INT",
-         "kind" : "literal",
-         "position" : {
-            "column" : 0,
-            "line" : 0,
-            "filename" : "",
-            "offset" : 0
-         }
-      },
-      "element" : {
-         "position" : {
-            "offset" : 0,
-            "filename" : "",
-            "line" : 0,
-            "column" : 0
-         },
-         "type" : "identifier",
-         "kind" : "type",
-         "value" : {
-            "kind" : "ident",
-            "position" : {
-               "filename" : "",
-               "offset" : 0,
-               "column" : 0,
-               "line" : 0
-            },
-            "value" : "int"
-         }
-      },
-      "type" : "array",
-      "kind" : "type"
-   },
    "position" : {
       "filename" : "",
       "offset" : 0,
       "column" : 0,
       "line" : 0
    },
+   "coerced-to" : {
+      "kind" : "type",
+      "type" : "array",
+      "length" : {
+         "type" : "INT",
+         "kind" : "literal",
+         "value" : "2",
+         "position" : {
+            "column" : 0,
+            "offset" : 0,
+            "filename" : "",
+            "line" : 0
+         }
+      },
+      "position" : {
+         "line" : 0,
+         "offset" : 0,
+         "column" : 0,
+         "filename" : ""
+      },
+      "element" : {
+         "kind" : "type",
+         "type" : "identifier",
+         "position" : {
+            "filename" : "",
+            "offset" : 0,
+            "column" : 0,
+            "line" : 0
+         },
+         "value" : {
+            "position" : {
+               "filename" : "",
+               "column" : 0,
+               "offset" : 0,
+               "line" : 0
+            },
+            "value" : "int",
+            "kind" : "ident"
+         }
+      }
+   },
+   "type" : "cast",
+   "kind" : "expression",
    "target" : {
       "kind" : "expression",
       "type" : "identifier",
       "position" : {
          "offset" : 0,
+         "column" : 0,
          "filename" : "",
-         "line" : 0,
-         "column" : 0
+         "line" : 0
       },
       "value" : {
-         "value" : "beakman",
          "kind" : "ident",
          "position" : {
             "offset" : 0,
+            "column" : 0,
             "filename" : "",
-            "line" : 0,
-            "column" : 0
-         }
+            "line" : 0
+         },
+         "value" : "beakman"
       }
-   },
-   "type" : "cast",
-   "kind" : "expression"
+   }
 }
