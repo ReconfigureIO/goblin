@@ -43,3 +43,9 @@ deploy:
     on:
       branch: master                # release from master branch only
       appveyor_repo_tag: true       # deploy on tag push only
+
+notifications:
+  - provider: Slack
+    channel: #status
+    incoming_webhook:
+      secure: LbTv30cQKAAQHOmq90O6hFm1mjFRvZljYwtx7V00jq/HadB/IWPTwFzWFUOZMR6heHHMBxzGRmN8kRmqK5qw/q230fHqkJ4qZ+wUsiXz7VU=
