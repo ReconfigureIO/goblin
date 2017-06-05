@@ -32,4 +32,4 @@ build_script:
   - go build -o c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe github.com/ReconfigureIO/goblin/cmd/goblin
 
 artifacts:
-  - path: c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe
+  - path: build\goblin.exe
