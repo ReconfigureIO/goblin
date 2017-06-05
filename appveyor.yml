@@ -29,4 +29,7 @@ test_script:
   - go test github.com/ReconfigureIO/goblin
 
 build_script:
-  - go build github.com/ReconfigureIO/goblin/cmd/goblin
+  - go build github.com/ReconfigureIO/goblin/cmd/goblin -O c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe
+
+artifacts:
+  - path: c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe
