@@ -33,3 +33,13 @@ build_script:
 
 artifacts:
   - path: build\goblin.exe
+    name: goblin.exe
+
+deploy:
+  - provider: GitHub
+    artifact: build\goblin.exe
+    draft: false
+    prerelease: false
+    on:
+      branch: master                # release from master branch only
+      appveyor_repo_tag: true       # deploy on tag push only
