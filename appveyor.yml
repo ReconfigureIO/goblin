@@ -30,15 +30,15 @@ test_script:
   - make test
 
 build_script:
-  - go build -ldflags  -o c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe github.com/ReconfigureIO/goblin/cmd/goblin
+  - make goblin
+  - rename goblin goblin.exe
 
 artifacts:
-  - path: build\goblin.exe
-    name: goblin.exe
+  - path: goblin.exe
 
 deploy:
   - provider: GitHub
-    artifact: build\goblin.exe
+    artifact: goblin.exe
     draft: false
     prerelease: false
     on:
