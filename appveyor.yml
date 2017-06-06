@@ -39,8 +39,7 @@ artifacts:
 deploy:
   - provider: GitHub
     artifact: goblin.exe
-    auth-token:
-      secure: wsnHasRa0PG0IY7eHe/2I+a1CnYH8c+srYpFe2/lBieQ37SZT55+ORqd8n+md8vz
+    auth-token: wsnHasRa0PG0IY7eHe/2I+a1CnYH8c+srYpFe2/lBieQ37SZT55+ORqd8n+md8vz
     draft: false
     prerelease: false
     on:
