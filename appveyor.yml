@@ -37,7 +37,7 @@ artifacts:
   - path: goblin.exe
 
 deploy:
-  auth-token:
+  auth_token:
     secure: wsnHasRa0PG0IY7eHe/2I+a1CnYH8c+srYpFe2/lBieQ37SZT55+ORqd8n+md8vz
   provider: GitHub
   artifact: goblin.exe
