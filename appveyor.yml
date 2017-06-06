@@ -24,7 +24,7 @@ install:
   - set Path=c:\go\bin;c:\gopath\bin;C:\Program Files (x86)\Bazaar\
   - go version
   - go env
-  - ps: choco install make
+  - choco install make
 
 test_script:
   - make test
