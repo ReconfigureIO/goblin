@@ -24,12 +24,13 @@ install:
   - set Path=c:\go\bin;c:\gopath\bin;C:\Program Files (x86)\Bazaar\
   - go version
   - go env
+  - ps: choco install make
 
 test_script:
-  - go test github.com/ReconfigureIO/goblin
+  - make test
 
 build_script:
-  - go build -o c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe github.com/ReconfigureIO/goblin/cmd/goblin
+  - go build -ldflags  -o c:\gopath\src\github.com\ReconfigureIO\goblin\build\goblin.exe github.com/ReconfigureIO/goblin/cmd/goblin
 
 artifacts:
   - path: build\goblin.exe
