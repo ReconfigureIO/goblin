@@ -46,6 +46,9 @@ deploy:
       appveyor_repo_tag: true       # deploy on tag push only
 
 notifications:
+  - provider: Email
+    on_build_success: false
+
   - provider: Slack
     channel: #status
     incoming_webhook:
