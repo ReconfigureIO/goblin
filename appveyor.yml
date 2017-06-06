@@ -1,0 +1,55 @@
+version: "{build}"
+
+platform: x64
+
+branches:
+  only:
+    - master
+
+# Source Config
+clone_folder: c:\gopath\src\github.com\ReconfigureIO\goblin
+
+environment:
+  GOPATH: c:\gopath
+  GOVERSION: 1.7.1
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  # Install the specific Go version.
+  - rmdir c:\go /s /q
+  - appveyor DownloadFile https://storage.googleapis.com/golang/go%GOVERSION%.windows-amd64.msi
+  - msiexec /i go%GOVERSION%.windows-amd64.msi /q
+  - set Path=c:\go\bin;c:\gopath\bin;C:\Program Files (x86)\Bazaar\;%PATH%
+  - go version
+  - go env
+  - choco install make
+
+test_script:
+  - make test
+
+build_script:
+  - make goblin
+  - rename goblin goblin.exe
+
+artifacts:
+  - path: goblin.exe
+
+deploy:
+  - provider: GitHub
+    artifact: goblin.exe
+    draft: false
+    prerelease: false
+    on:
+      branch: master                # release from master branch only
+      appveyor_repo_tag: true       # deploy on tag push only
+
+notifications:
+  - provider: Email
+    on_build_success: false
+
+  - provider: Slack
+    channel: #status
+    incoming_webhook:
+      secure: LbTv30cQKAAQHOmq90O6hFm1mjFRvZljYwtx7V00jq/HadB/IWPTwFzWFUOZMR6heHHMBxzGRmN8kRmqK5qw/q230fHqkJ4qZ+wUsiXz7VU=
