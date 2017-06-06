@@ -21,7 +21,7 @@ install:
   - rmdir c:\go /s /q
   - appveyor DownloadFile https://storage.googleapis.com/golang/go%GOVERSION%.windows-amd64.msi
   - msiexec /i go%GOVERSION%.windows-amd64.msi /q
-  - set Path=c:\go\bin;c:\gopath\bin;C:\Program Files (x86)\Bazaar\
+  - set Path=c:\go\bin;c:\gopath\bin;C:\Program Files (x86)\Bazaar\;%PATH%
   - go version
   - go env
   - choco install make
