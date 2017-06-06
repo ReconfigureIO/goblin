@@ -37,14 +37,15 @@ artifacts:
   - path: goblin.exe
 
 deploy:
-  - provider: GitHub
-    artifact: goblin.exe
-    auth-token: wsnHasRa0PG0IY7eHe/2I+a1CnYH8c+srYpFe2/lBieQ37SZT55+ORqd8n+md8vz
-    draft: false
-    prerelease: false
-    on:
-      branch: master                # release from master branch only
-      appveyor_repo_tag: true       # deploy on tag push only
+  auth-token:
+    secure: wsnHasRa0PG0IY7eHe/2I+a1CnYH8c+srYpFe2/lBieQ37SZT55+ORqd8n+md8vz
+  provider: GitHub
+  artifact: goblin.exe
+  draft: false
+  prerelease: false
+  on:
+    branch: master                # release from master branch only
+    appveyor_repo_tag: true       # deploy on tag push only
 
 notifications:
   - provider: Email
