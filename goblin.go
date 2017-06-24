@@ -21,6 +21,23 @@ and perhaps a corresponding NilAllowed? mumble mumble million-dollar mistake mum
 
 */
 
+var EVERYBODY_PANIC bool = false
+
+func perish(pos token.Position, typ string, reason string) {
+	if EVERYBODY_PANIC {
+		panic(pos.String() + ": " + reason)
+	} else {
+		res, _ := json.Marshal(map[string]interface{}{
+			"erroneous": true,
+			"type":      typ,
+			"reason":    reason,
+			"position":  DumpPosition(pos),
+		})
+		println(res)
+		os.Exit(1)
+	}
+}
+
 func DumpPosition(p token.Position) map[string]interface{} {
 	return map[string]interface{}{
 		// We need these float64 conversions or our test cases will fail.
