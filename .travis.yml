@@ -3,7 +3,7 @@ language: go
 env:
   global:
     - PROJECT_NAME=goblin
-    - TARGET=$TRAVIS_OS_NAME
+    - TARGET=${TRAVIS_OS_NAME}
 
 go_import_path: github.com/ReconfigureIO/goblin
 
