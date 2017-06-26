@@ -17,6 +17,7 @@ var version string = "unspecified"
 func main() {
 	versionFlag := flag.Bool("v", false, "display goblin version")
 	builtinDumpFlag := flag.Bool("builtin-dump", false, "use go/ast to dump the file, not JSON")
+	panicFlag := flag.Bool("panic", false, "use panic() rather than JSON on error conditions")
 	fileFlag := flag.String("file", "", "file to parse")
 	stmtFlag := flag.String("stmt", "", "statement to parse")
 	exprFlag := flag.String("expr", "", "expression to parse")
@@ -24,6 +25,10 @@ func main() {
 	flag.Parse()
 	// Create the AST by parsing src.
 	fset := token.NewFileSet() // positions are relative to fset
+
+	if *panicFlag {
+		goblin.ShouldPanic = true
+	}
 
 	if *versionFlag {
 		println(version)
