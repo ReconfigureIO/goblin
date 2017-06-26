@@ -33,10 +33,11 @@ func Perish(pos token.Position, typ string, reason string) {
 		panic(pos.String() + ": " + reason)
 	} else {
 		res, _ := json.Marshal(map[string]interface{}{
-			"erroneous": true,
-			"type":      typ,
-			"info":      reason,
-			"position":  DumpPosition(pos),
+			"error": map[string]interface{}{
+				"type":     typ,
+				"info":     reason,
+				"position": DumpPosition(pos),
+			},
 		})
 		os.Stdout.Write(res)
 	}
