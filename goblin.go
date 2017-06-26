@@ -21,21 +21,26 @@ and perhaps a corresponding NilAllowed? mumble mumble million-dollar mistake mum
 
 */
 
-var EVERYBODY_PANIC bool = false
+var ShouldPanic bool = false
+var TOPLEVEL_POSITION token.Position = token.Position{Filename: "toplevel", Offset: -1, Line: -1, Column: -1}
+var INVALID_POSITION token.Position = token.Position{Filename: "unspecified", Offset: -1, Line: -1, Column: -1}
 
-func perish(pos token.Position, typ string, reason string) {
-	if EVERYBODY_PANIC {
+// Golang has no way to mark a function as noreturn, so if the compiler
+// complains about missing return values, put a panic("unreachable") after it.
+
+func Perish(pos token.Position, typ string, reason string) {
+	if ShouldPanic {
 		panic(pos.String() + ": " + reason)
 	} else {
 		res, _ := json.Marshal(map[string]interface{}{
 			"erroneous": true,
 			"type":      typ,
-			"reason":    reason,
+			"info":      reason,
 			"position":  DumpPosition(pos),
 		})
-		println(res)
-		os.Exit(1)
+		os.Stdout.Write(res)
 	}
+	os.Exit(1)
 }
 
 func DumpPosition(p token.Position) map[string]interface{} {
@@ -212,8 +217,9 @@ func DumpExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 
 	// bail out
 	gotten := reflect.TypeOf(e).String()
-	pos := fset.PositionFor(e.Pos(), true).String()
-	panic("Unrecognized type " + gotten + " in expr-as-type at " + pos)
+	pos := fset.PositionFor(e.Pos(), true)
+	Perish(pos, "unrecognized_type", gotten)
+	panic("unreachable")
 }
 
 func DumpChanDir(d ast.ChanDir) string {
@@ -228,7 +234,8 @@ func DumpChanDir(d ast.ChanDir) string {
 		return "both"
 	}
 
-	panic("Unrecognized ChanDir value " + string(d))
+	Perish(INVALID_POSITION, "internal_error", string(d))
+	panic("unreachable")
 }
 
 func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
@@ -393,12 +400,13 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.BadExpr); ok {
-		pos := fset.PositionFor(n.From, true).String()
-		panic("Encountered BadExpr at " + pos + "; bailing out")
+		pos := fset.PositionFor(n.From, true)
+		Perish(pos, "internal_error", "encountered BadExpr")
 	}
 
 	typ := reflect.TypeOf(e).String()
-	panic("Encountered unexpected " + typ + " node while processing an expression; bailing out")
+	Perish(fset.Position(e.Pos()), "unexpected_node", typ)
+	panic("unreachable")
 }
 
 func DumpExprs(exprs []ast.Expr, fset *token.FileSet) []interface{} {
@@ -591,8 +599,8 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 	switch decl.Tok {
 	case token.TYPE:
 		if len(decl.Specs) != 1 {
-			pos := fset.PositionFor(decl.Pos(), true).String()
-			panic("Unexpected number of tokens (" + string(len(decl.Specs)) + " in type alias at " + pos)
+			pos := fset.PositionFor(decl.Pos(), true)
+			Perish(pos, "syntax_error", "unexpected number of tokens ("+string(len(decl.Specs))+") in type alias (expected 1)")
 		}
 		// EARLY RETURN
 		return DumpTypeAlias(decl.Specs[0].(*ast.TypeSpec), fset)
@@ -614,8 +622,8 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 			results[i] = DumpValue("var", v.(*ast.ValueSpec), fset)
 		}
 	default:
-		pos := fset.PositionFor(decl.Pos(), true).String()
-		panic("Unrecognized token " + decl.Tok.String() + " in GenDecl at " + pos)
+		pos := fset.PositionFor(decl.Pos(), true)
+		Perish(pos, "unrecognized_token", decl.Tok.String())
 	}
 
 	return map[string]interface{}{
@@ -874,14 +882,14 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 	}
 
 	if n, ok := s.(*ast.BadStmt); ok {
-		pos := fset.PositionFor(n.From, true).String()
-		panic("Encountered BadStmt at " + pos + "; bailing out")
+		pos := fset.PositionFor(n.From, true)
+		Perish(pos, "internal_error", "encountered BadStmt")
 	}
 
 	typ := reflect.TypeOf(s).String()
-	pos := fset.PositionFor(s.Pos(), true).String()
-	panic("Encountered unexpected " + typ + " node at " +
-		pos + "while processing an statement; bailing out")
+	pos := fset.PositionFor(s.Pos(), true)
+	Perish(pos, "unexpected_node", typ)
+	panic("unreachable")
 }
 
 func DumpBlock(b *ast.BlockStmt, fset *token.FileSet) []interface{} {
@@ -943,14 +951,14 @@ func DumpDecl(n ast.Decl, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if decl, ok := n.(*ast.BadDecl); ok {
-		pos := fset.PositionFor(decl.From, true).String()
-		panic("Encountered BadDecl at " + pos + "; bailing out")
+		pos := fset.PositionFor(decl.From, true)
+		Perish(pos, "internal_error", "encountered BadDecl")
 	}
 
 	typ := reflect.TypeOf(n).String()
-	pos := fset.PositionFor(n.Pos(), true).String()
-	panic("Encountered unexpected " + typ + " node at " +
-		pos + "while processing an expression; bailing out")
+	pos := fset.PositionFor(n.Pos(), true)
+	Perish(pos, "unexpected_node", typ)
+	panic("unreachable")
 }
 
 func IsImport(d ast.Decl) bool {
