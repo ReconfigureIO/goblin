@@ -7,10 +7,11 @@ env:
 go_import_path: github.com/ReconfigureIO/goblin
 
 matrix:
-  - env: TARGET=x86_64-unknown-linux
-    os: linux
-  - env: TARGET=x86_64-apple-darwin
-    os: osx
+  include:
+    - env: TARGET=x86_64-unknown-linux
+      os: linux
+    - env: TARGET=x86_64-apple-darwin
+      os: osx
 
 go:
   - 1.7.1
