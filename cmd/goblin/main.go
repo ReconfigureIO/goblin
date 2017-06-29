@@ -36,11 +36,11 @@ func main() {
 	} else if *fileFlag != "" {
 		file, err := os.Open(*fileFlag)
 		if err != nil {
-			panic(err)
+			goblin.Perish(goblin.TOPLEVEL_POSITION, "path_error", err.Error())
 		}
 		info, err := file.Stat()
 		if err != nil {
-			panic(err)
+			goblin.Perish(goblin.TOPLEVEL_POSITION, "path_error", err.Error())
 		}
 
 		size := info.Size()
@@ -50,7 +50,7 @@ func main() {
 
 		f, err := parser.ParseFile(fset, *fileFlag, nil, parser.ParseComments)
 		if err != nil {
-			panic(err)
+			goblin.Perish(goblin.INVALID_POSITION, "positionless_syntax_error", err.Error())
 		}
 
 		if *builtinDumpFlag {
