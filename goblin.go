@@ -39,7 +39,7 @@ func Perish(pos token.Position, typ string, reason string) {
 				"position": DumpPosition(pos),
 			},
 		})
-		os.Stdout.Write(res)
+		os.Stderr.Write(res)
 	}
 	os.Exit(1)
 }
