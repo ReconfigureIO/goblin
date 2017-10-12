@@ -289,10 +289,21 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.CompositeLit); ok {
+		// unlike most 'type' nodes, types in CompositeLits can be omitted,
+		// e.g. when you have a composite inside another one, which gives the
+		// inner composites an implicit type:
+		// bool[][] { { false, true }, { true, false }}
+
+		var declared map[string]interface{} = nil
+
+		if n.Type != nil {
+			declared = DumpExprAsType(n.Type, fset)
+		}
+
 		return map[string]interface{}{
 			"kind":     "literal",
 			"type":     "composite",
-			"declared": DumpExprAsType(n.Type, fset),
+			"declared": declared,
 			"values":   DumpExprs(n.Elts, fset),
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
