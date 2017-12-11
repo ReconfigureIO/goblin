@@ -4,7 +4,7 @@ Goblin
 [![Build Status](https://travis-ci.org/ReconfigureIO/goblin.svg?branch=master)](https://travis-ci.org/ReconfigureIO/goblin)
 [![codecov.io](https://codecov.io/github/ReconfigureIO/goblin/branch/master/graph/badge.svg)](https://codecov.io/github/ReconfigureIO/goblin)
 
-`goblin` is an executable that uses Go's `ast`, `parser`, and `token` modules to dump a Go expression, statement, or file to JSON. It is small, fast, self-contained, and incurs no dependencies.
+`goblin` is an executable that uses Go's `ast`, `parser`, and `token` modules to dump a Go expression, statement, or file to JSON. It is small, fast, self-contained, and incurs no dependencies. It requires a version of Go ≥ 1.9.
 
 ## Usage
 

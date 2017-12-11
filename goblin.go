@@ -502,10 +502,14 @@ func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 	return result
 }
 
-func DumpTypeAlias(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
+func DumpTypeDeclaration(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
+	declKind := "type-declaration"
+	if t.Assign != token.NoPos {
+		declKind = "type-alias"
+	}
 	return map[string]interface{}{
 		"kind":     "decl",
-		"type":     "type-alias",
+		"type":     "type-declaration",
 		"name":     DumpIdent(t.Name, fset),
 		"value":    DumpExprAsType(t.Type, fset),
 		"comments": DumpCommentGroup(t.Comment, fset),
@@ -614,8 +618,8 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 			pos := fset.PositionFor(decl.Pos(), true)
 			Perish(pos, "syntax_error", "unexpected number of tokens ("+string(len(decl.Specs))+") in type alias (expected 1)")
 		}
-		// EARLY RETURN
-		return DumpTypeAlias(decl.Specs[0].(*ast.TypeSpec), fset)
+		// EARLY RETURNS
+		return DumpTypeDeclaration(decl.Specs[0].(*ast.TypeSpec), fset)
 
 	case token.IMPORT:
 		prettyToken = "import"
