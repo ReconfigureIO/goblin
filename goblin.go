@@ -503,13 +503,13 @@ func DumpCommentGroup(g *ast.CommentGroup, fset *token.FileSet) []string {
 }
 
 func DumpTypeDeclaration(t *ast.TypeSpec, fset *token.FileSet) map[string]interface{} {
-	declKind := "type-declaration"
+	declType := "type-alias"
 	if t.Assign != token.NoPos {
-		declKind = "type-alias"
+		declType = "type-transparent-name"
 	}
 	return map[string]interface{}{
 		"kind":     "decl",
-		"type":     "type-declaration",
+		"type":     declType,
 		"name":     DumpIdent(t.Name, fset),
 		"value":    DumpExprAsType(t.Type, fset),
 		"comments": DumpCommentGroup(t.Comment, fset),
