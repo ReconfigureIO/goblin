@@ -1,0 +1,66 @@
+{
+   "imports" : [],
+   "kind" : "file",
+   "declarations" : [
+      {
+         "results" : null,
+         "params" : [],
+         "body" : null,
+         "name" : {
+            "kind" : "ident",
+            "value" : "foo",
+            "position" : {
+               "line" : 3,
+               "filename" : "empty.go",
+               "offset" : 19,
+               "column" : 6
+            }
+         },
+         "comments" : [],
+         "position" : {
+            "column" : 1,
+            "offset" : 14,
+            "filename" : "empty.go",
+            "line" : 3
+         },
+         "type" : "function",
+         "kind" : "decl"
+      },
+      {
+         "type" : "function",
+         "kind" : "decl",
+         "params" : [],
+         "body" : [],
+         "name" : {
+            "kind" : "ident",
+            "value" : "main",
+            "position" : {
+               "line" : 5,
+               "filename" : "empty.go",
+               "offset" : 31,
+               "column" : 6
+            }
+         },
+         "comments" : [],
+         "position" : {
+            "line" : 5,
+            "offset" : 26,
+            "column" : 1,
+            "filename" : "empty.go"
+         },
+         "results" : null
+      }
+   ],
+   "comments" : [],
+   "all-comments" : [],
+   "name" : {
+      "value" : "main",
+      "kind" : "ident",
+      "position" : {
+         "line" : 1,
+         "column" : 9,
+         "offset" : 8,
+         "filename" : "empty.go"
+      }
+   }
+}

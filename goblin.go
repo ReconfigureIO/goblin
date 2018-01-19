@@ -905,6 +905,9 @@ func DumpStmt(s ast.Stmt, fset *token.FileSet) interface{} {
 }
 
 func DumpBlock(b *ast.BlockStmt, fset *token.FileSet) []interface{} {
+	if b == nil {
+		return nil
+	}
 	results := make([]interface{}, len(b.List))
 	for i, v := range b.List {
 		results[i] = DumpStmt(v, fset)
