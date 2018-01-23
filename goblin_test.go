@@ -71,6 +71,11 @@ func TestPackageFixtures(t *testing.T) {
 			"fixtures/packages/interface_type/interface.go",
 			"fixtures/packages/interface_type/interface.json",
 		},
+		Fixture{
+			"empty function",
+			"fixtures/packages/emptyfunc/empty.go",
+			"fixtures/packages/emptyfunc/empty.json",
+		},
 	}
 
 	for _, fix := range fixtures {

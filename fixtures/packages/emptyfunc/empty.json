@@ -1,0 +1,66 @@
+{
+   "kind" : "file",
+   "name" : {
+      "position" : {
+         "filename" : "fixtures/packages/emptyfunc/empty.go",
+         "offset" : 8,
+         "line" : 1,
+         "column" : 9
+      },
+      "value" : "main",
+      "kind" : "ident"
+   },
+   "imports" : [],
+   "declarations" : [
+      {
+         "type" : "function",
+         "position" : {
+            "filename" : "fixtures/packages/emptyfunc/empty.go",
+            "column" : 1,
+            "line" : 3,
+            "offset" : 14
+         },
+         "body" : null,
+         "comments" : [],
+         "name" : {
+            "position" : {
+               "column" : 6,
+               "line" : 3,
+               "offset" : 19,
+               "filename" : "fixtures/packages/emptyfunc/empty.go"
+            },
+            "kind" : "ident",
+            "value" : "foo"
+         },
+         "params" : [],
+         "kind" : "decl",
+         "results" : null
+      },
+      {
+         "comments" : [],
+         "params" : [],
+         "kind" : "decl",
+         "name" : {
+            "position" : {
+               "filename" : "fixtures/packages/emptyfunc/empty.go",
+               "offset" : 31,
+               "line" : 5,
+               "column" : 6
+            },
+            "value" : "main",
+            "kind" : "ident"
+         },
+         "results" : null,
+         "type" : "function",
+         "position" : {
+            "filename" : "fixtures/packages/emptyfunc/empty.go",
+            "column" : 1,
+            "line" : 5,
+            "offset" : 26
+         },
+         "body" : []
+      }
+   ],
+   "all-comments" : [],
+   "comments" : []
+}
