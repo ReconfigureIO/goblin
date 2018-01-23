@@ -19,7 +19,7 @@ fmt:
 	go fmt -x ./...
 
 test: fmt
-	go test -v $$(go list ./... | grep -v /vendor/ | grep -v /cmd/)
+	go test -v $$(go list ./... | grep -v /vendor/ | grep -v /cmd/ | grep -v /fixtures/)
 
 PACKAGES := $(shell find ./* -type d | grep -v vendor)
 
