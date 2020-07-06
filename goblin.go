@@ -294,16 +294,10 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		// inner composites an implicit type:
 		// bool[][] { { false, true }, { true, false }}
 
-		var declared map[string]interface{} = nil
-
-		if n.Type != nil {
-			declared = DumpExprAsType(n.Type, fset)
-		}
-
 		return map[string]interface{}{
 			"kind":     "literal",
 			"type":     "composite",
-			"declared": declared,
+			"declared": AttemptExprAsType(n.Type, fset),
 			"values":   DumpExprs(n.Elts, fset),
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
@@ -375,7 +369,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 			"kind":     "expression",
 			"type":     "type-assert",
 			"target":   DumpExpr(n.X, fset),
-			"asserted": DumpExprAsType(n.Type, fset),
+			"asserted": AttemptExprAsType(n.Type, fset),
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
