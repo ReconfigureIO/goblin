@@ -157,6 +157,14 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		}
 	}
 
+	if n, ok := e.(*ast.Ellipsis); ok {
+		return map[string]interface{}{
+			"kind":      "type",
+			"type":      "ellipsis",
+			"element": DumpExprAsType(n.Elt, fset),
+			"position":  DumpPosition(fset.Position(e.Pos())),
+		}
+	}
 	if n, ok := e.(*ast.InterfaceType); ok {
 		return map[string]interface{}{
 			"kind":       "type",
