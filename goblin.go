@@ -157,6 +157,14 @@ func AttemptExprAsType(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 		}
 	}
 
+	if n, ok := e.(*ast.Ellipsis); ok {
+		return map[string]interface{}{
+			"kind":     "type",
+			"type":     "ellipsis",
+			"element":  DumpExprAsType(n.Elt, fset),
+			"position": DumpPosition(fset.Position(e.Pos())),
+		}
+	}
 	if n, ok := e.(*ast.InterfaceType); ok {
 		return map[string]interface{}{
 			"kind":       "type",
@@ -371,11 +379,15 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.TypeAssertExpr); ok {
+		var asserted interface{} = nil
+		if n.Type != nil {
+			asserted = DumpExprAsType(n.Type, fset)
+		}
 		return map[string]interface{}{
 			"kind":     "expression",
 			"type":     "type-assert",
 			"target":   DumpExpr(n.X, fset),
-			"asserted": DumpExprAsType(n.Type, fset),
+			"asserted": asserted,
 			"position": DumpPosition(fset.Position(e.Pos())),
 		}
 	}
@@ -610,13 +622,12 @@ func DumpGenDecl(decl *ast.GenDecl, fset *token.FileSet) map[string]interface{} 
 	results := make([]interface{}, len(decl.Specs))
 	switch decl.Tok {
 	case token.TYPE:
-		if len(decl.Specs) != 1 {
-			pos := fset.PositionFor(decl.Pos(), true)
-			Perish(pos, "syntax_error", "unexpected number of tokens ("+string(len(decl.Specs))+") in type alias (expected 1)")
+		if len(decl.Specs) == 1 {
+			return DumpTypeAlias(decl.Specs[0].(*ast.TypeSpec), fset)
 		}
-		// EARLY RETURN
-		return DumpTypeAlias(decl.Specs[0].(*ast.TypeSpec), fset)
-
+		for i, v := range decl.Specs {
+			results[i] = DumpTypeAlias(v.(*ast.TypeSpec), fset)
+		}
 	case token.IMPORT:
 		prettyToken = "import"
 		for i, v := range decl.Specs {
