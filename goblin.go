@@ -379,6 +379,7 @@ func DumpExpr(e ast.Expr, fset *token.FileSet) map[string]interface{} {
 	}
 
 	if n, ok := e.(*ast.TypeAssertExpr); ok {
+		ast.Print(fset, e)
 		var asserted interface{} = nil
 		if n.Type != nil {
 			asserted = DumpExprAsType(n.Type, fset)
