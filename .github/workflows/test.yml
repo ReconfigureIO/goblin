@@ -1,0 +1,29 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  test:
+    name: Test
+    strategy:
+      matrix:
+       include:
+         - os: ubuntu-latest
+           target: x86_64-unknown-linux
+         - os: macos-latest
+           target: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+
+    - name: Set up Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Test
+      run: |
+        go clean -modcache
+        make test
